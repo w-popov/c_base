@@ -6,14 +6,14 @@
 #include <iostream>
 
 int main() {
-    std::vector<std::vector<double>> coefficients = {
-        {1., 2., 3},
-        {1., -3., 2.},
-        {1., 1., 1.}
+    Kramer::matrix3x3 coefficients = {
+        3., -2., 4.,
+        3., 4., -2.,
+        2., -1., -1.
     };
-    std::vector<double> constants = {7., 5., 3.};
+    Kramer::vector3 constants = {21., 9., 10.};
     
-    Kramer linear{coefficients, constants};
+    Kramer::Kramer linear{coefficients, constants};
     auto solution = linear.solve();
 
     std::cout << "\nSolution: ";
