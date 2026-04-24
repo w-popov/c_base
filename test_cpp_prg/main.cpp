@@ -6,7 +6,8 @@
 #include <locale.h>
 #include <iostream>
 
-int main() {
+int main()
+{
     std::setlocale(LC_ALL, "Russian");
     Kramer::matrix3x3 coefficients = {
         3., -2., 4.,
@@ -19,7 +20,8 @@ int main() {
     auto solution = linear.solve();
 
     std::cout << "\n(Решение) Solution: ";
-    for (const auto& value : solution) {
+    for (const auto& value : solution)
+    {
         std::cout << "\033[32m" << value << " " << "\033[0m";
     }
 
