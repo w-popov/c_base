@@ -2,26 +2,30 @@
 # $< - имя первой зависимости
 # $^ - имена всех зависимостей
 # $* - имя цели без расширения
-# %.o: %.c %.h - правило для компиляции .c в .o
+# %.o: %.cpp %.hpp - правило для компиляции .cpp в .o
 
-CC=gcc
+CC=g++
+STANDARD=-std=c++17
 CFLAGS=-c -Wall
 LDFLAGS=
-OBJECTS=$(SOURCES:.c=.o)
+OBJECTS=$(SOURCES:.cpp=.o)
 EXECUTABLE=main
 RUN=./main
 CLEANOBJ=rm -rf *.o
-SOURCES=main.c add_num.c
+SOURCES=main.cpp
 
 all: $(SOURCES) $(EXECUTABLE)
 	$(RUN) 
 	$(CLEANOBJ)
-	
-$(EXECUTABLE): $(OBJECTS) 
-	$(CC) $(LDFLAGS) $(OBJECTS) -o $@
 
-.c.o:
-	$(CC) $(CFLAGS) $< -o $@
+$(EXECUTABLE): $(OBJECTS) 
+	$(CC) $(STANDARD) $(LDFLAGS) $(OBJECTS) -o $@
+
+.cpp.o:
+	$(CC) $(STANDARD) $(CFLAGS) $< -o $@
+
+run: $(EXECUTABLE)
+	$(RUN)
 
 clean:
 	$(CLEANOBJ) $(EXECUTABLE)
