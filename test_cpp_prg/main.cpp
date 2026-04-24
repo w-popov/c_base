@@ -3,6 +3,7 @@
  */
 
 #include "kramer.hpp"
+#include <locale.h>
 #include <iostream>
 
 int main() {
