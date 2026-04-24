@@ -12,7 +12,7 @@ OBJECTS=$(SOURCES:.cpp=.o)
 EXECUTABLE=main
 RUN=./main
 CLEANOBJ=rm -rf *.o
-SOURCES=main.cpp
+SOURCES=main.cpp kramer.cpp kramer.hpp
 
 all: $(SOURCES) $(EXECUTABLE)
 	$(RUN) 
