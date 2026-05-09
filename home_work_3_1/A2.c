@@ -18,6 +18,6 @@ int main(void)
     printf("   *****\n");
     printf("  *******\n");
     printf("   HHOHH\n");
-    printf("   ZZZZZ");
+    printf("   ZZZZZ\n");
     return 0;
 }
