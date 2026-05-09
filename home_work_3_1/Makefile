@@ -14,7 +14,9 @@ RED=\033[0;31m
 NC=\033[0m 
 
 CC=gcc
-CFLAGS=-Wall
+CFLAGS=-Wall -Wextra -pedantic
+STANDART=-std=c99
+LDFLAGS=-lm
 SOURCES = $(wildcard *.c)
 TARGETS = $(SOURCES:.c=)
 
@@ -22,7 +24,7 @@ all: $(TARGETS)
 
 %: %.c
 	@echo "$(BLUE)Компиляция: $(NC) $(CC) $< -o $@"
-	$(CC) $< -o $@
+	$(CC) $(STANDART) $(CFLAGS) $< $(LDFLAGS) -o $@
 	@echo "$(PURPLE)Добавление прав: $(NC) chmod +x $@"
 	chmod +x $@
 	@ls -l $@
