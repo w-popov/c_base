@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
+#include <math.h>
 #include <locale.h>
 
 #define BLUE "\033[1;34m"
@@ -71,17 +72,18 @@ uint8_t calculate_expression(uint8_t a, uint8_t b, bool_function func)
 void print_implication_identity()
 {
     union TruthTable table;
+    const uint8_t impl_bits[LIMIT_4] = {1, 0, 1, 1}; 
     printf("\n|------------ импликация ------------|\n");
     printf("%s| A | B | A → B |%s| A | B | (!A || B) | %s\n", BLUE, YELLOW, NO);
     printf("%s|---|---|-------|%s|---|---|-----------| %s\n", BLUE, YELLOW, NO);
     
-    for (uint8_t i = 0; i != LIMIT_4; ++i)
+    for (uint8_t i = 0, k = i + 2; i != LIMIT_4; ++i, ++k)
     {
         table.byte = i;
         uint8_t a = table.values.bita;
         uint8_t b = table.values.bitb;
         printf("%s| %d | %d |   %d   |%s| %d | %d |     %d     |%s\n",
-               BLUE, a, b, calculate_expression(a, b, implication),
+               BLUE, a, b, impl_bits[i],
                YELLOW, a, b, calculate_expression(a, b, implication), NO);
     }
 }
@@ -92,6 +94,7 @@ void print_implication_identity()
 void print_equivalence_identity()
 {
     union TruthTable table;
+    const uint8_t equiv_bits[LIMIT_4] = {1, 0, 0, 1}; 
     printf("\n|--------------- эквивалентность ---------------|\n");
     printf("%s| A | B | A ↔ B |%s| A | B | (A && B)||(!A && !B) | %s\n", BLUE, YELLOW, NO);
     printf("%s|---|---|-------|%s|---|---|----------------------| %s\n", BLUE, YELLOW, NO);
@@ -102,7 +105,7 @@ void print_equivalence_identity()
         uint8_t a = table.values.bita;
         uint8_t b = table.values.bitb;
         printf("%s| %d | %d |   %d   |%s| %d | %d |           %d          |%s\n",
-               BLUE, a, b, calculate_expression(a, b, equivalence),
+               BLUE, a, b, equiv_bits[i],
                YELLOW, a, b, calculate_expression(a, b, equivalence), NO);
     }
 }
