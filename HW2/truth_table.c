@@ -1,4 +1,5 @@
 /**
+ * гр.Д01-134 Попов В.Г.
  * Распечатать таблицы истинности задания №4
  */
 
@@ -7,17 +8,27 @@
 #include <stdlib.h>
 #include <locale.h>
 
+#define BLUE "\033[1;34m"
+#define YELLOW "\033[1;33m"
+#define NO "\033[0m"
 
+#define LIMIT_4 4
 
+/**
+ * Структура для хранения двух 
+ * булевых значений в виде битов одного байта.
+ */
 struct BoolValues
 {
-    uint8_t OO : 1;
-    uint8_t OI : 1;
-    uint8_t IO : 1;
-    uint8_t II : 1;
-    uint8_t _ : 4;
+    uint8_t bita : 1;
+    uint8_t bitb : 1;
+    uint8_t _ : 6;
 };
 
+/**
+ * Объединение для заполнения бит BoolValues
+ * путем записи числа в byte.
+ */
 union TruthTable
 {
     struct BoolValues values;
@@ -25,11 +36,17 @@ union TruthTable
 };
 
 /**
+ * Тип для функции, которая принимает два (целых)булевых
+ * аргументаи возвращает булев результат.
+ */
+typedef uint8_t(*bool_function)(uint8_t, uint8_t);
+
+/**
  * Импликация: A → B = !A || B
  */
 uint8_t implication(uint8_t a, uint8_t b)
 {
-    return (uint8_t)(!a || b);
+    return (uint8_t)((!a) || b);
 }
 
 /**
@@ -43,15 +60,59 @@ uint8_t equivalence(uint8_t a, uint8_t b)
 /**
  * Вычислить выражение, используя заданную функцию
  */
-uint8_t calculate_expression(uint8_t a, uint8_t b, uint8_t(*func)(uint8_t, uint8_t))
+uint8_t calculate_expression(uint8_t a, uint8_t b, bool_function func)
 {
     return func(a, b);
+}
+
+/**
+ * Распечатать таблицу истинности для импликации
+ */
+void print_implication_identity()
+{
+    union TruthTable table;
+    printf("\n|------------ импликация ------------|\n");
+    printf("%s| A | B | A → B |%s| A | B | (!A || B) | %s\n", BLUE, YELLOW, NO);
+    printf("%s|---|---|-------|%s|---|---|-----------| %s\n", BLUE, YELLOW, NO);
+    
+    for (uint8_t i = 0; i != LIMIT_4; ++i)
+    {
+        table.byte = i;
+        uint8_t a = table.values.bita;
+        uint8_t b = table.values.bitb;
+        printf("%s| %d | %d |   %d   |%s| %d | %d |     %d     |%s\n",
+               BLUE, a, b, calculate_expression(a, b, implication),
+               YELLOW, a, b, calculate_expression(a, b, implication), NO);
+    }
+}
+
+/**
+ * Распечатать таблицу истинности для эквивалентности
+ */
+void print_equivalence_identity()
+{
+    union TruthTable table;
+    printf("\n|--------------- эквивалентность ---------------|\n");
+    printf("%s| A | B | A ↔ B |%s| A | B | (A && B)||(!A && !B) | %s\n", BLUE, YELLOW, NO);
+    printf("%s|---|---|-------|%s|---|---|----------------------| %s\n", BLUE, YELLOW, NO);
+
+    for (uint8_t i = 0; i != LIMIT_4; ++i)
+    {
+        table.byte = i;
+        uint8_t a = table.values.bita;
+        uint8_t b = table.values.bitb;
+        printf("%s| %d | %d |   %d   |%s| %d | %d |           %d          |%s\n",
+               BLUE, a, b, calculate_expression(a, b, equivalence),
+               YELLOW, a, b, calculate_expression(a, b, equivalence), NO);
+    }
 }
 
 int main(void)
 {
     setlocale(LC_ALL, "en_US.UTF-8");
 
+    print_implication_identity();
+    print_equivalence_identity();
 
     return EXIT_SUCCESS;
 }
