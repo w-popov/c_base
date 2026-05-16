@@ -6,7 +6,6 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
-#include <math.h>
 #include <locale.h>
 
 #define BLUE "\033[1;34m"
