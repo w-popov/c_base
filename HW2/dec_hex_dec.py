@@ -15,7 +15,7 @@ class TermColors(StrEnum):
     CLEAR_SCREEN = '\033[2J'
 
 
-def dec_to_hex(dec: str) -> str:
+def dec_to_hex(dec: str) -> None:
     """Перевод десятичного числа в шестнадцатеричное методом деления на 16."""
    
     print(f"\n{TermColors.YE}Перевод {dec} в шестнадцатеричную систему:{TermColors.NC}")
@@ -37,7 +37,7 @@ def dec_to_hex(dec: str) -> str:
 
 
 
-def hex_to_dec(hex_str: str):
+def hex_to_dec(hex_str: str) -> None:
     """Перевод шестнадцатеричного числа в десятичное схема Горнера."""
     try:
         int(hex_str, 16)
