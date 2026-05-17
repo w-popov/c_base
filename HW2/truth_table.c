@@ -76,7 +76,7 @@ void print_implication_identity()
     printf("%s| A | B | A → B |%s| A | B | (!A || B) | %s\n", BLUE, YELLOW, NO);
     printf("%s|---|---|-------|%s|---|---|-----------| %s\n", BLUE, YELLOW, NO);
     
-    for (uint8_t i = 0, k = i + 2; i != LIMIT_4; ++i, ++k)
+    for (uint8_t i = 0; i != LIMIT_4; ++i)
     {
         table.byte = i;
         uint8_t a = table.values.bita;
