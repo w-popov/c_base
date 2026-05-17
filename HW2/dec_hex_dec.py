@@ -65,9 +65,9 @@ def main() -> None:
     numbers = "12345678", "1000000",
     functions = dec_to_hex, hex_to_dec,
     
-    for funcs in functions:
-        for args in numbers:
-            funcs(args)
+    for func in functions:
+        for arg in numbers:
+            func(arg)
     
 
 if __name__ == "__main__":
