@@ -79,7 +79,7 @@ uint8_t calculate_expression(uint8_t a, uint8_t b, bool_function func)
 /**
  * Распечатать таблицу истинности (база)
  */
-void equivalence_identity(struct IdentityBits identity_bits, bool_function b_func)
+void calculate_identity(struct IdentityBits identity_bits, bool_function b_func)
 {
     union TruthTable table;
     for (uint8_t i = 0; i != LIMIT_4; ++i)
@@ -102,7 +102,7 @@ void print_implication_identity()
     printf("\n|------------------- импликация ----------------|\n");
     printf("%s| A | B | A → B |%s| A | B |       (!A || B)      | %s\n", BLUE, YELLOW, NO);
     printf("%s|---|---|-------|%s|---|---|----------------------| %s\n", BLUE, YELLOW, NO);
-    equivalence_identity(impl_bits, implication);
+    calculate_identity(impl_bits, implication);
 }
 
 /**
@@ -114,7 +114,7 @@ void print_equivalence_identity()
     printf("\n|--------------- эквивалентность ---------------|\n");
     printf("%s| A | B | A ↔ B |%s| A | B | (A && B)||(!A && !B) | %s\n", BLUE, YELLOW, NO);
     printf("%s|---|---|-------|%s|---|---|----------------------| %s\n", BLUE, YELLOW, NO);
-    equivalence_identity(equiv_bits, equivalence);
+    calculate_identity(equiv_bits, equivalence);
 }
 
 
