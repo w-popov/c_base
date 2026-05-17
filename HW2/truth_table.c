@@ -99,9 +99,9 @@ void equivalence_identity(struct IdentityBits identity_bits, bool_function b_fun
 void print_implication_identity()
 {
     struct IdentityBits impl_bits = {.identity_b = {1, 0, 1, 1}};
-    printf("\n|------------ импликация ------------|\n");
-    printf("%s| A | B | A → B |%s| A | B | (!A || B) | %s\n", BLUE, YELLOW, NO);
-    printf("%s|---|---|-------|%s|---|---|-----------| %s\n", BLUE, YELLOW, NO);
+    printf("\n|------------------- импликация ----------------|\n");
+    printf("%s| A | B | A → B |%s| A | B |       (!A || B)      | %s\n", BLUE, YELLOW, NO);
+    printf("%s|---|---|-------|%s|---|---|----------------------| %s\n", BLUE, YELLOW, NO);
     equivalence_identity(impl_bits, implication);
 }
 
