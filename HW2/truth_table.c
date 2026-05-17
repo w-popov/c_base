@@ -19,9 +19,9 @@
  * Для импликации: [1, 0, 1, 1],
  * для эквивалентности: [1, 0, 0, 1] и тд.
  */
-struct IdentityBits
+struct ConstBits
 {
-    const uint8_t identity_b[LIMIT_4];
+    const uint8_t cnst_b[LIMIT_4];
 };
 
 /**
@@ -57,7 +57,7 @@ typedef uint8_t(*bool_function)(uint8_t, uint8_t);
  */
 uint8_t implication(uint8_t a, uint8_t b)
 {
-    return (uint8_t)((!a) || b);
+    return (uint8_t)(!a || b);
 }
 
 /**
@@ -79,7 +79,7 @@ uint8_t calculate_expression(uint8_t a, uint8_t b, bool_function func)
 /**
  * Распечатать таблицу истинности (база)
  */
-void calculate_identity(struct IdentityBits identity_bits, bool_function b_func)
+void calculate_identity(struct ConstBits cnst_bits, bool_function b_func)
 {
     union TruthTable table;
     for (uint8_t i = 0; i != LIMIT_4; ++i)
@@ -88,7 +88,7 @@ void calculate_identity(struct IdentityBits identity_bits, bool_function b_func)
         uint8_t a = table.values.bita;
         uint8_t b = table.values.bitb;
         printf("%s| %d | %d |   %d   |%s| %d | %d |           %d          |%s\n",
-               BLUE, a, b, identity_bits.identity_b[i],
+               BLUE, a, b, cnst_bits.cnst_b[i],
                YELLOW, a, b, calculate_expression(a, b, b_func), NO);
     }
 }
@@ -98,7 +98,7 @@ void calculate_identity(struct IdentityBits identity_bits, bool_function b_func)
  */
 void print_implication_identity()    
 {
-    struct IdentityBits impl_bits = {.identity_b = {1, 0, 1, 1}};
+    struct ConstBits impl_bits = {.cnst_b = {1, 0, 1, 1}};
     printf("\n|------------------- импликация ----------------|\n");
     printf("%s| A | B | A → B |%s| A | B |       (!A || B)      | %s\n", BLUE, YELLOW, NO);
     printf("%s|---|---|-------|%s|---|---|----------------------| %s\n", BLUE, YELLOW, NO);
@@ -110,7 +110,7 @@ void print_implication_identity()
  */
 void print_equivalence_identity()
 {
-    struct IdentityBits equiv_bits = {.identity_b = {1, 0, 0, 1}};
+    struct ConstBits equiv_bits = {.cnst_b = {1, 0, 0, 1}};
     printf("\n|--------------- эквивалентность ---------------|\n");
     printf("%s| A | B | A ↔ B |%s| A | B | (A && B)||(!A && !B) | %s\n", BLUE, YELLOW, NO);
     printf("%s|---|---|-------|%s|---|---|----------------------| %s\n", BLUE, YELLOW, NO);
