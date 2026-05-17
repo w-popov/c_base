@@ -96,7 +96,7 @@ void calculate_identity(struct IdentityBits identity_bits, bool_function b_func)
 /**
  * Распечатать таблицу истинности для импликации
  */
-void print_implication_identity()
+void print_implication_identity()    
 {
     struct IdentityBits impl_bits = {.identity_b = {1, 0, 1, 1}};
     printf("\n|------------------- импликация ----------------|\n");
