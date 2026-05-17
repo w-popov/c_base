@@ -5,18 +5,20 @@
 Задачи №1 и №2.
 Перевод чисел из десятичной системы в шестнадцатеричную и обратно.
 """
+from enum import StrEnum
 
-# первое число
-NUMBER_1 = "12345678"
-
-# второе число
-NUMBER_2 = "1000000"
+class TermColors(StrEnum):
+    YE = '\033[1;33m'
+    GR = '\033[1;32m'
+    BL = '\033[1;36m'
+    NC = '\033[0m'
+    CLEAR_SCREEN = '\033[2J'
 
 
 def dec_to_hex(dec: str) -> str:
     """Перевод десятичного числа в шестнадцатеричное методом деления на 16."""
    
-    print(f"\n\033[1;33mПеревод {dec} в шестнадцатеричную систему:\033[0m")
+    print(f"\n{TermColors.YE}Перевод {dec} в шестнадцатеричную систему:{TermColors.NC}")
     try:
         dec = int(dec)
     except ValueError:
@@ -30,22 +32,22 @@ def dec_to_hex(dec: str) -> str:
         remaiders = [dec % 16] + remaiders
         str_solution += f"{dec} / 16 = {dec // 16} | Остаток: {dec % 16}\n"
         dec //= 16
-    print(str_solution)
-    return "".join(format(x, "X") for x in remaiders)
+    reply = "".join(format(x, "X") for x in remaiders)
+    print(str_solution, f"{TermColors.BL}--> Ответ: {reply}{TermColors.NC}\n")
 
 
 
-def hex_to_dec(hex: str) -> int:
+def hex_to_dec(hex_str: str):
     """Перевод шестнадцатеричного числа в десятичное схема Горнера."""
     try:
-        int(hex, 16)
+        int(hex_str, 16)
     except ValueError:
         raise ValueError(f"Некорректное шестнадцатеричное число: {hex_str}")
 
-    print(f"\033[1;32mПеревод {hex} в десятичную систему:\033[0m")
+    print(f"{TermColors.GR}Перевод {hex_str} в десятичную систему:{TermColors.NC}")
     result = 0
     str_solution = ""
-    for i, hex_digit in enumerate(hex):
+    for i, hex_digit in enumerate(hex_str):
         digit_value = int(hex_digit, 16)
         if not i:
             result = digit_value
@@ -53,18 +55,19 @@ def hex_to_dec(hex: str) -> int:
             prev_res_ = result
             result = result * 16 + digit_value
             str_solution += f"{prev_res_} * 16 + {digit_value} = {result}\n"    
-    print(str_solution)
-    return result
+    print(str_solution, f"{TermColors.BL}--> Ответ: {result}{TermColors.NC}\n")
+    
 
 
 def main() -> None:
-    print("\033[2J") # очистить весь экран
+    print(TermColors.CLEAR_SCREEN)
 
-    print(f"\033[1;36m--> Ответ: {dec_to_hex(NUMBER_1)}\033[0m\n")
-    print(f"\033[1;36m--> Ответ: {dec_to_hex(NUMBER_2)}\033[0m\n")
-    print("- " * 25, "\n")
-    print(f"\033[1;36m--> Ответ: {hex_to_dec(NUMBER_1)}\033[0m\n")
-    print(f"\033[1;36m--> Ответ: {hex_to_dec(NUMBER_2)}\033[0m\n")
+    numbers = "12345678", "1000000",
+    functions = dec_to_hex, hex_to_dec,
+    
+    for funcs in functions:
+        for args in numbers:
+            funcs(args)
     
 
 if __name__ == "__main__":
