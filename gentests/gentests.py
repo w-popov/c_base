@@ -234,7 +234,8 @@ class Startup:
                 self.__copy_catch2(dest_path)
         self.__create_test_files()
 
-def main():
+
+def main() -> None:
     startup = Startup(sys.argv)
     startup.init()
 
