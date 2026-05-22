@@ -53,10 +53,10 @@ TEST_CASE( "vectors can be sized and resized", "[vector]" )
         REQUIRE( v.capacity() >= 5 );
     }
 }
-
 """
 
 TEMPLATE_MAKEFILE = """
+
 # -MMD   Генерирует файл зависимостей (.d файл) во время компиляции
 #        Отслеживает только пользовательские заголовки (не системные)
 #        Файл .d содержит список всех заголовочных файлов, от которых зависит .cpp файл
@@ -75,29 +75,42 @@ TEMPLATE_MAKEFILE = """
 
 
 # цвета
-GREEN=\\033[0;32m
-PURPLE=\\033[0;35m
-BLUE=\\033[0;34m
-RED=\\033[0;31m
-NC=\\033[0m 
+GREEN=\033[0;32m
+PURPLE=\033[0;35m
+BLUE=\033[0;34m
+RED=\033[0;31m
+NC=\033[0m 
 
+CC=gcc
 CXX=g++
 CXXFLAGS=-Wall -Wextra -Wpedantic
+CFLAGS=-Wall -Wextra -Wpedantic
 CXXSTANDARD=-std=c++20
+CSTANDARD=-std=c99
 LDFLAGS=-lm
 SOURCES = $(wildcard *.cpp)
 OBJECTS = $(SOURCES:.cpp=.o)
 TARGETS = $(SOURCES:.cpp=)
+C_SRC=..
+C_FILES=$(wildcard $(C_SRC)/*.c)
+C_OBJS=$(notdir $(C_FILES:.c=.o))
+
+# Макроопределение TEST_DEF_HW экранирует main в исходниках си для тестов
+TEST_DEF = -DTEST_DEF_HW
 
 # Отключить встроенные правила
 .SUFFIXES:
 
 all: $(TARGETS)
 
+$(C_OBJS): %.o: $(C_SRC)/%.c
+	@echo "$(BLUE)Компиляция C: $< -> $@$(NC)"
+	$(CC) $(CSTANDARD) $(TEST_DEF) $(CFLAGS)  -c $< -o $@
+
 # Правило для создания исполняемого файла из объектного
-%: %.o
+%: %.o $(C_OBJS)
 	@echo "$(PURPLE)Линковка $@:$(NC)"
-	$(CXX) $(CXXFLAGS) $< $(LDFLAGS) -o $@
+	$(CXX) $(CXXFLAGS) $^ $(LDFLAGS) -o $@
 	@echo "$(PURPLE)Добавление прав: $(NC)"
 	chmod +x $@
 	@ls -l $@
@@ -114,7 +127,7 @@ all: $(TARGETS)
 # Правило для включения зависимостей (файлов .d, созданных с помощью -MMD)
 -include $(OBJECTS:.o=.d)
 
-run: all
+tests: all
 	@for exe in $(TARGETS); do \\
 		if [ -x $$exe ]; then \\
 			echo "$(GREEN)---> Запуск тестов $$exe:$(NC)"; \\
@@ -127,9 +140,10 @@ run: all
 	done
 
 clean:
-	rm -f $(TARGETS) $(OBJECTS) *.d
+	rm -f $(TARGETS) *.d *.o
 
-.PHONY: all run clean
+.PHONY: all tests clean
+
 """
 
 class TermColors(StrEnum):
@@ -148,7 +162,8 @@ class Startup:
     def __init__(self, args: list[str]) -> None:
         print(f"""\n{TermColors.CS}{TermColors.YE}Генерация шаблонов для тестов домашних заданий.{TermColors.NC}""")
         try:
-            self.args = self.__check_args(*args)
+            self.args = tuple(os.path.splitext(arg)[0] for arg in self.__check_args(*args))
+            print(self.args)
         except ValueError as e:
             print(e)
             sys.exit(1)
@@ -210,7 +225,7 @@ class Startup:
 
     def __create_test_files(self) -> None:
         for file in self.__name_files:
-            path = os.path.join(os.getcwd(), self.__name_hw, "tests", f"{file}.cpp")
+            path = os.path.join(os.getcwd(), self.__name_hw, "tests", f"test_{file}.cpp")
             with open(path, 'w') as f:
                 f.write(TEMPLATE_CPP)
         makefile_path = os.path.join(os.getcwd(), self.__name_hw, "tests", "Makefile")
