@@ -8,6 +8,7 @@ extern "C"
     int max_from_5_numbers(int, int, int, int, int);
     int sum_min_max_from_5_numbers(int, int, int, int, int);
     unsigned max_digit_from_number(unsigned);
+    unsigned season(unsigned month);
     struct EquationLine { float k; float b; };
     struct EquationLine equation_line(int, int, int, int);
 }
@@ -101,6 +102,26 @@ TEST_CASE( "TEST A15: Determine the equation of a line given the coordinates of 
         eq = equation_line(1, 2, 3, 4);
         REQUIRE_THAT(floor(eq.k * 1000) / 1000, Catch::Matchers::WithinAbs(1.00, 0.01f));  
         REQUIRE_THAT(floor(eq.b * 1000) / 1000, Catch::Matchers::WithinAbs(1.00, 0.01f));  
+
+    }
+}
+TEST_CASE( "TEST A17: season by the entered month number " )
+{ 
+    SECTION( "TEST A17: handles equal values correctly" )
+    {
+        REQUIRE( season(12) == 0 );
+        REQUIRE( season(1) == 0 );
+        REQUIRE( season(2) == 0 );
+        REQUIRE( season(3) == 1 );
+        REQUIRE( season(4) == 1 );
+        REQUIRE( season(5) == 1 );
+        REQUIRE( season(6) == 2 );
+        REQUIRE( season(7) == 2 );
+        REQUIRE( season(8) == 2 );
+        REQUIRE( season(9) == 3 );
+        REQUIRE( season(10) == 3 );
+        REQUIRE( season(11) == 3 );
+        
 
     }
 }
