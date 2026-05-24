@@ -49,6 +49,7 @@ all: $(TARGETS)
 $(C_OBJS): %.o: $(C_SRC)/%.c
 	@echo "$(BLUE)Компиляция C: $< -> $@$(NC)"
 	$(CC) $(CSTANDARD) $(TEST_DEF) $(CFLAGS)  -c $< -o $@
+	
 
 # Правило для создания исполняемого файла из объектного
 %: %.o $(C_OBJS)
@@ -61,8 +62,6 @@ $(C_OBJS): %.o: $(C_SRC)/%.c
 
 # Правило для компиляции .cpp в .o
 %.o: %.cpp
-	@clear
-	@pwd
 	@echo ""
 	@echo "$(BLUE)Компиляция $< в $@:$(NC)"
 	$(CXX) $(CXXSTANDARD) $(CXXFLAGS) -MMD -MP -c $< -o $@
