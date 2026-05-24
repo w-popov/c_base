@@ -30,7 +30,7 @@ void compare_nums
                 )
 {
     if (!target)
-        exit(1);
+        exit(EXIT_FAILURE);
     if (compare_func(b, *target)) *target = b;
     if (compare_func(c, *target)) *target = c;
     if (compare_func(d, *target)) *target = d;
