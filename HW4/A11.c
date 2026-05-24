@@ -5,6 +5,38 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
+
+typedef _Bool(*compare)(int, int);
+
+_Bool x_great_then_y(int x, int y)
+{
+    return x > y;
+}
+
+_Bool x_less_then_y(int x, int y)
+{
+    return x < y;
+}
+
+void compare_nums
+                (
+                    int b, 
+                    int c, 
+                    int d, 
+                    int e, 
+                    int* target, 
+                    compare compare_func
+                )
+{
+    if (!target)
+        exit(1);
+    if (compare_func(b, *target)) *target = b;
+    if (compare_func(c, *target)) *target = c;
+    if (compare_func(d, *target)) *target = d;
+    if (compare_func(e, *target)) *target = e;
+
+}
 
 /**
  * Вернуть сумму максимума и минимума из 5 чисел.
@@ -12,16 +44,9 @@
 int sum_min_max_from_5_numbers(int a, int b, int c, int d, int e)
 {
     int max = a, min = a;
-    if (b > max) max = b;
-    if (c > max) max = c;
-    if (d > max) max = d;
-    if (e > max) max = e;
-    
-    if (b < min) min = b;
-    if (c < min) min = c;
-    if (d < min) min = d;
-    if (e < min) min = e;
-    
+    compare_nums(b, c, d, e, &max, x_great_then_y);
+    compare_nums(b, c, d, e, &min, x_less_then_y);
+        
     return min + max;
 }
 
