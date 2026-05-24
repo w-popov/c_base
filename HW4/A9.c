@@ -23,8 +23,7 @@ int max_from_5_numbers(int a, int b, int c, int d, int e)
 
 /**
  * TEST_DEF_HW определяется в Makefile для компиляции тестов в ./tests. 
- * Если он определён, то main в исходниках си не будет компилироваться, 
- * и тесты смогут использовать функции из этих исходников.
+ * Компиляция без main()
  */
 #ifndef TEST_DEF_HW
 int main(void)

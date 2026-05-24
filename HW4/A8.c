@@ -15,8 +15,8 @@ int find_max(int a, int b, int c)
 }
 
 /**
- * TEST_DEF_HW определяется в ./tests/Makefile для компиляции тестов. 
- * Если он определён, то тесты смогут использовать функции из этого файла.
+ * TEST_DEF_HW определяется в Makefile для компиляции тестов в ./tests. 
+ * Компиляция без main()
  */
 #ifndef TEST_DEF_HW
 int main(void)
