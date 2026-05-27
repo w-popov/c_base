@@ -2,15 +2,14 @@
 
 extern "C"
 {
-    int uadd(unsigned, unsigned);
+    
 }
 
-TEST_CASE( "TEST BX: " )
+TEST_CASE( "TEST B1: " )
 {    
-    SECTION( "test BX" )
+    SECTION( "B1 Section 1" )
     {
-        REQUIRE( uadd(5, 4) == 9 );
-        REQUIRE( uadd(6, 4) == 9 );
+        REQUIRE( 1 == 9 );
         
     }
 }
