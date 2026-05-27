@@ -20,26 +20,28 @@ set(TESTS_SRC ${CMAKE_SOURCE_DIR}/tests)
 add_executable(B1 ${C_SRC_PATH}/B1.c)
 target_compile_options(B1 PRIVATE -g -Wall -Wextra -Wpedantic)
 
-# add_executable(B2 PRIVATE ${C_SRC_PATH}/B2.c)
-# add_executable(B3 PRIVATE ${C_SRC_PATH}/B3.c)
-# add_executable(B4 PRIVATE ${C_SRC_PATH}/B4.c)
-# add_executable(B5 PRIVATE ${C_SRC_PATH}/B5.c)
-# add_executable(B6 PRIVATE ${C_SRC_PATH}/B6.c)
-# add_executable(B7 PRIVATE ${C_SRC_PATH}/B7.c)
-# add_executable(B8 PRIVATE ${C_SRC_PATH}/B8.c)
-# add_executable(B9 PRIVATE ${C_SRC_PATH}/B9.c)
-# add_executable(B10 PRIVATE ${C_SRC_PATH}/B10.c)
-# add_executable(B11 PRIVATE ${C_SRC_PATH}/B11.c)
-# add_executable(B12 PRIVATE ${C_SRC_PATH}/B12.c)
-# add_executable(B13 PRIVATE ${C_SRC_PATH}/B13.c)
-# add_executable(B14 PRIVATE ${C_SRC_PATH}/B14.c)
-# add_executable(B15 PRIVATE ${C_SRC_PATH}/B15.c)
-# add_executable(B16 PRIVATE ${C_SRC_PATH}/B16.c)
-# add_executable(B17 PRIVATE ${C_SRC_PATH}/B17.c)
-# add_executable(B18 PRIVATE ${C_SRC_PATH}/B18.c)
-# add_executable(B19 PRIVATE ${C_SRC_PATH}/B19.c)
-# add_executable(B20 PRIVATE ${C_SRC_PATH}/B20.c)
-# add_executable(B21 PRIVATE ${C_SRC_PATH}/B21.c)
+add_executable(B2 ${C_SRC_PATH}/B2.c)
+target_compile_options(B2 PRIVATE -g -Wall -Wextra -Wpedantic)
+
+# add_executable(B3 ${C_SRC_PATH}/B3.c)
+# add_executable(B4 ${C_SRC_PATH}/B4.c)
+# add_executable(B5 ${C_SRC_PATH}/B5.c)
+# add_executable(B6 ${C_SRC_PATH}/B6.c)
+# add_executable(B7 ${C_SRC_PATH}/B7.c)
+# add_executable(B8 ${C_SRC_PATH}/B8.c)
+# add_executable(B9 ${C_SRC_PATH}/B9.c)
+# add_executable(B10 ${C_SRC_PATH}/B10.c)
+# add_executable(B11 ${C_SRC_PATH}/B11.c)
+# add_executable(B12 ${C_SRC_PATH}/B12.c)
+# add_executable(B13 ${C_SRC_PATH}/B13.c)
+# add_executable(B14 ${C_SRC_PATH}/B14.c)
+# add_executable(B15 ${C_SRC_PATH}/B15.c)
+# add_executable(B16 ${C_SRC_PATH}/B16.c)
+# add_executable(B17 ${C_SRC_PATH}/B17.c)
+# add_executable(B18 ${C_SRC_PATH}/B18.c)
+# add_executable(B19 ${C_SRC_PATH}/B19.c)
+# add_executable(B20 ${C_SRC_PATH}/B20.c)
+# add_executable(B21 ${C_SRC_PATH}/B21.c)
 
 
 # Создать библиотеку из catch.hpp
@@ -51,7 +53,7 @@ target_include_directories(catchlib PUBLIC tests/includes/)
 # main() в исходниках обрезана препроцессором
 add_library(test_hw STATIC 
             ${C_SRC_PATH}/B1.c
-            # ${C_SRC_PATH}/B2.c
+            ${C_SRC_PATH}/B2.c
             # ${C_SRC_PATH}/B3.c
             # ${C_SRC_PATH}/B4.c
             # ${C_SRC_PATH}/B5.c
