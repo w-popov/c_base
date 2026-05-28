@@ -8,6 +8,12 @@ extern "C"
     const char* is_it_number_have_3_digit(unsigned number); // B4
     unsigned summ_digits_of_number(unsigned number);        // B5
     const char* is_both_equal_digits_in_number(int number); // B6
+    const char* is_equal_digits_in_number(int number);      // B7
+    const char* is_nine_digit_in_number(int number);        // B8
+    const char* is_even_all_digits_in_number(int number);   // B9
+    const char* is_in_ascending_order(int number);          // B10
+    unsigned reverse_number(unsigned number);               // B11
+
 }
 
 
@@ -97,5 +103,101 @@ TEST_CASE( "TEST B6: верно ли, что в записи числа есть
         REQUIRE( match(0) == N );
         REQUIRE( match(11) == Y );
         REQUIRE( match(11111) == Y );
+    }
+}
+
+TEST_CASE( "TEST B7: верно ли, что в записи числа есть две одинаковые цифры, НЕ обязательно стоящие рядом" )
+{
+    std::string Y = "YES", N = "NO";
+    auto match = [](int num)->std::string {
+        return static_cast<std::string>(is_equal_digits_in_number(num));
+    };
+    SECTION("B7 Секция #1")
+    {
+        REQUIRE( match(100) == Y );
+        REQUIRE( match(1223) == Y );
+        REQUIRE( match(10) == N );
+        REQUIRE( match(1) == N );
+        REQUIRE( match(1000) == Y );
+        REQUIRE( match(199811) == Y );
+        REQUIRE( match(0) == N );
+        REQUIRE( match(11) == Y );
+        REQUIRE( match(11111) == Y );
+        REQUIRE( match(11511) == Y );
+        REQUIRE( match(200002) == Y );
+        REQUIRE( match(1494) == Y );
+    }
+}
+
+TEST_CASE( "TEST B8: верно ли, что в записи числа ровно одна цифра «9»" )
+{
+    std::string Y = "YES", N = "NO";
+    auto match = [](int num)->std::string {
+        return static_cast<std::string>(is_nine_digit_in_number(num));
+    };
+    SECTION("B8 Секция #1")
+    {
+        REQUIRE( match(100) == N );
+        REQUIRE( match(9) == Y );
+        REQUIRE( match(1234) == N );
+        REQUIRE( match(1009) == Y );
+        REQUIRE( match(10099) == N );
+        REQUIRE( match(9009) == N );
+        REQUIRE( match(19999) == N );
+        REQUIRE( match(99999) == N );
+    }
+}
+
+TEST_CASE( "TEST B9: верно ли, что в записи числа все его цифры четные" )
+{
+    std::string Y = "YES", N = "NO";
+    auto match = [](int num)->std::string {
+        return static_cast<std::string>(is_even_all_digits_in_number(num));
+    };
+    SECTION("B9 Секция #1")
+    {
+        REQUIRE( match(100) == N );
+        REQUIRE( match(9) == N );
+        REQUIRE( match(1234) == N );
+        REQUIRE( match(1009) == N );
+        REQUIRE( match(0) == Y );
+        REQUIRE( match(2468) == Y );
+        REQUIRE( match(228645) == N );
+        REQUIRE( match(6) == Y );        
+    }
+}
+
+TEST_CASE( "TEST B10: верно ли, что все цифры числа расположены в порядке возрастания" )
+{
+    std::string Y = "YES", N = "NO";
+    auto match = [](int num)->std::string {
+        return static_cast<std::string>(is_in_ascending_order(num));
+    };
+    SECTION("B10 Секция #1")
+    {
+        REQUIRE( match(100) == N );
+        REQUIRE( match(9) == Y );
+        REQUIRE( match(1234) == Y );
+        REQUIRE( match(1009) == N );
+        REQUIRE( match(0) == Y );
+        REQUIRE( match(2468) == Y );
+        REQUIRE( match(228645) == N );
+        REQUIRE( match(68) == Y );
+        REQUIRE( match(11) == N );        
+
+    }
+}
+
+TEST_CASE( "TEST B11: Реверс цифр числа" )
+{
+    SECTION("B11 Секция #1")
+    {
+        REQUIRE( reverse_number(1234) == 4321 );
+        REQUIRE( reverse_number(782) == 287 );
+        REQUIRE( reverse_number(5) == 5 );
+        REQUIRE( reverse_number(468756) == 657864 );
+        REQUIRE( reverse_number(23569) == 96532 );
+        REQUIRE( reverse_number(1000) == 1 );
+        REQUIRE( reverse_number(11111) == 11111 );        
     }
 }
