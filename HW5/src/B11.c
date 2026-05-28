@@ -14,10 +14,9 @@ unsigned reverse_number(unsigned number)
         return number;
         
     unsigned reversed_number = 0;
-    unsigned scale = DEC;
     while (number)
     {
-        reversed_number = (reversed_number * scale) + (number % DEC);
+        reversed_number = (reversed_number * DEC) + (number % DEC);
         number /= DEC;
     }
 
