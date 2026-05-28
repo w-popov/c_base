@@ -23,10 +23,18 @@ target_compile_options(B1 PRIVATE -g -Wall -Wextra -Wpedantic)
 add_executable(B2 ${C_SRC_PATH}/B2.c)
 target_compile_options(B2 PRIVATE -g -Wall -Wextra -Wpedantic)
 
-# add_executable(B3 ${C_SRC_PATH}/B3.c)
-# add_executable(B4 ${C_SRC_PATH}/B4.c)
-# add_executable(B5 ${C_SRC_PATH}/B5.c)
-# add_executable(B6 ${C_SRC_PATH}/B6.c)
+add_executable(B3 ${C_SRC_PATH}/B3.c)
+target_compile_options(B3 PRIVATE -g -Wall -Wextra -Wpedantic)
+
+add_executable(B4 ${C_SRC_PATH}/B4.c)
+target_compile_options(B4 PRIVATE -g -Wall -Wextra -Wpedantic)
+
+add_executable(B5 ${C_SRC_PATH}/B5.c)
+target_compile_options(B5 PRIVATE -g -Wall -Wextra -Wpedantic)
+
+add_executable(B6 ${C_SRC_PATH}/B6.c)
+target_compile_options(B6 PRIVATE -g -Wall -Wextra -Wpedantic)
+
 # add_executable(B7 ${C_SRC_PATH}/B7.c)
 # add_executable(B8 ${C_SRC_PATH}/B8.c)
 # add_executable(B9 ${C_SRC_PATH}/B9.c)
@@ -54,10 +62,10 @@ target_include_directories(catchlib PUBLIC tests/includes/)
 add_library(test_hw STATIC 
             ${C_SRC_PATH}/B1.c
             ${C_SRC_PATH}/B2.c
-            # ${C_SRC_PATH}/B3.c
-            # ${C_SRC_PATH}/B4.c
-            # ${C_SRC_PATH}/B5.c
-            # ${C_SRC_PATH}/B6.c
+            ${C_SRC_PATH}/B3.c
+            ${C_SRC_PATH}/B4.c
+            ${C_SRC_PATH}/B5.c
+            ${C_SRC_PATH}/B6.c
             # ${C_SRC_PATH}/B7.c
             # ${C_SRC_PATH}/B8.c
             # ${C_SRC_PATH}/B9.c
