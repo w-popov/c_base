@@ -13,6 +13,10 @@ extern "C"
     const char* is_even_all_digits_in_number(int number);   // B9
     const char* is_in_ascending_order(int number);          // B10
     unsigned reverse_number(unsigned number);               // B11
+    int calculate_min_max_digits_number(unsigned* min, 
+                                        unsigned* max, 
+                                        unsigned _number);  // B12
+
 
 }
 
@@ -201,3 +205,79 @@ TEST_CASE( "TEST B11: Реверс цифр числа" )
         REQUIRE( reverse_number(11111) == 11111 );        
     }
 }
+
+SCENARIO("TEST B12: минимальную и максимальную цифры числа number ")
+{
+    WHEN("#12-1: number=2457")
+    {
+        unsigned number = 2457, min = UINT32_MAX, max = 0;
+        THEN("#12-1: min=2, max=7")
+        {
+            REQUIRE( calculate_min_max_digits_number(&min, &max, number) == 0 );
+            REQUIRE( min == 2 );
+            REQUIRE( max == 7 );
+        }
+    }
+    WHEN("#12-2: number=0")
+    {
+        unsigned number = 0, min = UINT32_MAX, max = 0;
+        THEN("#12-2: min=0, max=0")
+        {
+            REQUIRE( calculate_min_max_digits_number(&min, &max, number) == 0 );
+            REQUIRE( min == 0 );
+            REQUIRE( max == 0 );
+        }
+    }
+    WHEN("#12-3: number=10")
+    {
+        unsigned number = 10, min = UINT32_MAX, max = 0;
+        THEN("#12-3: min=0, max=1")
+        {
+            REQUIRE( calculate_min_max_digits_number(&min, &max, number) == 0 );
+            REQUIRE( min == 0 );
+            REQUIRE( max == 1 );
+        }
+    }
+    WHEN("#12-3: number=92037")
+    {
+        unsigned number = 92037, min = UINT32_MAX, max = 0;
+        THEN("#12-3: min=0, max=9")
+        {
+            REQUIRE( calculate_min_max_digits_number(&min, &max, number) == 0 );
+            REQUIRE( min == 0 );
+            REQUIRE( max == 9 );
+        }
+    }
+    GIVEN("#12 Нулевой указатель(и)")
+    {
+        WHEN("#12-1: number=123, max=NULL")
+        {
+            unsigned number = 123, min = UINT32_MAX, *max = NULL;
+            THEN("#12-1: min=UINT32_MAX, max=NULL")
+            {
+                REQUIRE( calculate_min_max_digits_number(&min, max, number) == 1 );
+                REQUIRE( min == UINT32_MAX );
+            }
+        }
+        WHEN("#12-2: number=123, min=NULL")
+        {
+            unsigned number = 123, *min = NULL, max = 0;
+            THEN("#12-2: min=NULL, max=0")
+            {
+                REQUIRE( calculate_min_max_digits_number(min, &max, number) == 1 );
+                REQUIRE( max == 0 );
+            }
+        }
+        WHEN("#12-3: number=123, max=NULL, min=NULL")
+        {
+            unsigned number = 123, *min = NULL, *max = NULL;
+            THEN("#12-3: min=NULL, max=0")
+            {
+                REQUIRE( calculate_min_max_digits_number(min, max, number) == 1 );
+            }
+        }
+    }
+}
+
+
+
