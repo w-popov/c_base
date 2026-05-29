@@ -17,6 +17,12 @@ extern "C"
                                         unsigned* max, 
                                         unsigned _number);  // B12
 
+    int calculate_even_odd_digits_number(unsigned* even, 
+                                        unsigned* odd, 
+                                        unsigned _number);  // B13
+
+    
+
 
 }
 
@@ -274,6 +280,99 @@ SCENARIO("TEST B12: минимальную и максимальную цифр�
             THEN("#12-3: min=NULL, max=0")
             {
                 REQUIRE( calculate_min_max_digits_number(min, max, number) == 1 );
+            }
+        }
+    }
+}
+
+SCENARIO("TEST B13: Посчитать количество четных и нечетных цифр числа ")
+{
+    WHEN("#13-1: number=1234")
+    {
+        unsigned number = 1234, even = 0, odd = 0;
+        THEN("#12-1: even=2, odd=2")
+        {
+            REQUIRE( calculate_even_odd_digits_number(&even, &odd, number) == 0 );
+            REQUIRE( even == 2 );
+            REQUIRE( odd == 2 );
+        }
+    }
+    WHEN("#13-2: number=0")
+    {
+        unsigned number = 0, even = 0, odd = 0;
+        THEN("#12-2: even=1, odd=0")
+        {
+            REQUIRE( calculate_even_odd_digits_number(&even, &odd, number) == 0 );
+            REQUIRE( even == 1 );
+            REQUIRE( odd == 0 );
+        }
+    }
+    WHEN("#13-3: number=1")
+    {
+        unsigned number = 1, even = 0, odd = 0;
+        THEN("#12-3: even=0, odd=1")
+        {
+            REQUIRE( calculate_even_odd_digits_number(&even, &odd, number) == 0 );
+            REQUIRE( even == 0 );
+            REQUIRE( odd == 1 );
+        }
+    }
+    WHEN("#13-4: number=92037165")
+    {
+        unsigned number = 92037165, even = 0, odd = 0;
+        THEN("#12-3: even=3, odd=5")
+        {
+            REQUIRE( calculate_even_odd_digits_number(&even, &odd, number) == 0 );
+            REQUIRE( even == 3 );
+            REQUIRE( odd == 5 );
+        }
+    }
+     WHEN("#13-5: number=11")
+    {
+        unsigned number = 11, even = 0, odd = 0;
+        THEN("#12-5: even=0, odd=2")
+        {
+            REQUIRE( calculate_even_odd_digits_number(&even, &odd, number) == 0 );
+            REQUIRE( even == 0 );
+            REQUIRE( odd == 2 );
+        }
+    }
+     WHEN("#13-6: number=82")
+    {
+        unsigned number = 82, even = 0, odd = 0;
+        THEN("#13-6: even=2, odd=0")
+        {
+            REQUIRE( calculate_even_odd_digits_number(&even, &odd, number) == 0 );
+            REQUIRE( even == 2 );
+            REQUIRE( odd == 0 );
+        }
+    }
+    GIVEN("#13 Нулевой указатель(и)") // *************
+    {
+        WHEN("#13-1: odd=NULL")
+        {
+            unsigned number = 123, even = 0, *odd = NULL;
+            THEN("#13-1: even=0 ")
+            {
+                REQUIRE( calculate_even_odd_digits_number(&even, odd, number) == 1 );
+                REQUIRE( even == 0 );
+            }
+        }
+        WHEN("#13-2: even=NULL")
+        {
+            unsigned number = 123, *even = NULL, odd = 0;
+            THEN("#13-2: odd=0")
+            {
+                REQUIRE( calculate_even_odd_digits_number(even, &odd, number) == 1 );
+                REQUIRE( odd == 0 );
+            }
+        }
+        WHEN("#13-3: number=123, even=NULL, odd=NULL")
+        {
+            unsigned number = 123, *even = NULL, *odd = NULL;
+            THEN("#13-3: return error")
+            {
+                REQUIRE( calculate_even_odd_digits_number(even, odd, number) == 1 );
             }
         }
     }
