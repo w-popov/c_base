@@ -2,7 +2,7 @@
     ДЗ-5. Си базовый уровень. гр.Д01-134 Попов. В.Г
 ]]
 
-cmake_minimum_required(VERSION 3.2)
+cmake_minimum_required(VERSION 3.28)
 
 project(HW5 LANGUAGES C CXX)
 
@@ -62,13 +62,23 @@ target_compile_options(B14 PRIVATE -g -Wall -Wextra -Wpedantic)
 add_executable(B15 ${C_SRC_PATH}/B15.c)
 target_compile_options(B15 PRIVATE -g -Wall -Wextra -Wpedantic)
 
-# add_executable(B16 ${C_SRC_PATH}/B16.c)
-# add_executable(B17 ${C_SRC_PATH}/B17.c)
-# add_executable(B18 ${C_SRC_PATH}/B18.c)
-# add_executable(B19 ${C_SRC_PATH}/B19.c)
-# add_executable(B20 ${C_SRC_PATH}/B20.c)
-# add_executable(B21 ${C_SRC_PATH}/B21.c)
+add_executable(B16 ${C_SRC_PATH}/B16.c)
+target_compile_options(B16 PRIVATE -g -Wall -Wextra -Wpedantic)
 
+add_executable(B17 ${C_SRC_PATH}/B17.c)
+target_compile_options(B17 PRIVATE -g -Wall -Wextra -Wpedantic)
+
+add_executable(B18 ${C_SRC_PATH}/B18.c)
+target_compile_options(B18 PRIVATE -g -Wall -Wextra -Wpedantic)
+
+add_executable(B19 ${C_SRC_PATH}/B19.c)
+target_compile_options(B19 PRIVATE -g -Wall -Wextra -Wpedantic)
+
+add_executable(B20 ${C_SRC_PATH}/B20.c)
+target_compile_options(B20 PRIVATE -g -Wall -Wextra -Wpedantic)
+
+add_executable(B21 ${C_SRC_PATH}/B21.c)
+target_compile_options(B21 PRIVATE -g -Wall -Wextra -Wpedantic)
 
 # Создать библиотеку из catch.hpp
 add_library(catchlib STATIC tests/catch_include.cpp)
@@ -93,12 +103,12 @@ add_library(test_hw STATIC
             ${C_SRC_PATH}/B13.c
             ${C_SRC_PATH}/B14.c
             ${C_SRC_PATH}/B15.c
-            # ${C_SRC_PATH}/B16.c
-            # ${C_SRC_PATH}/B17.c
-            # ${C_SRC_PATH}/B18.c
-            # ${C_SRC_PATH}/B19.c
-            # ${C_SRC_PATH}/B20.c
-            # ${C_SRC_PATH}/B21.c
+            ${C_SRC_PATH}/B16.c
+            ${C_SRC_PATH}/B17.c
+            ${C_SRC_PATH}/B18.c
+            ${C_SRC_PATH}/B19.c
+            ${C_SRC_PATH}/B20.c
+            ${C_SRC_PATH}/B21.c
             )
 
 # Обрезать main() в исходниках Си

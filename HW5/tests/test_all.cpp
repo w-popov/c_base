@@ -22,7 +22,13 @@ extern "C"
                                         unsigned _number);  // B13
 
     unsigned number_of_even_numbers (char*, const int);     // B15
+    
+    struct UniquePtr_u { unsigned* u_ptr; };
+    void auto_free(struct UniquePtr_u*);
+    #define UNIQE_PTR_U __attribute__((cleanup(auto_free))) struct UniquePtr_u
+    struct UniquePtr_u happy_numbers (unsigned);            // B17
 
+    const char* to_lowercase (char* text, char* lower);     // B21
 }
 
 
@@ -395,6 +401,56 @@ TEST_CASE( "TEST B15: Посчитать количество четных чи�
         REQUIRE( number_of_even_numbers(s4, size) == 2 );
         REQUIRE( number_of_even_numbers(s5, size) == 3 );
         REQUIRE( number_of_even_numbers(s6, size) == 0 );
+    }
+}
+
+TEST_CASE( "TEST B17: все числа от 10 до введенного числа - у которых сумма цифр равна произведению цифр " )
+{    
+    unsigned number = 0;
+    std::vector<unsigned> x;
+    
+    SECTION( "B17 Секция #1:" )
+    {
+        number = 200;
+        std::vector<unsigned> v {22, 123, 132};
+        x.reserve(v.size());
+        UNIQE_PTR_U uptr = happy_numbers(number);
+        for (uint i = 0; i < v.size(); ++i) {
+            if (uptr.u_ptr)
+                x.push_back(uptr.u_ptr[i]);
+        }
+        REQUIRE_THAT( x, Catch::Matchers::Equals(v) );   
+    }
+    SECTION( "B17 Секция #2:" )
+    {
+        x.clear();
+        number = 1000;
+        std::vector<unsigned> v {22, 123, 132, 213, 231, 312, 321};
+        x.reserve(v.size());
+        UNIQE_PTR_U uptr = happy_numbers(number);
+        for (uint i = 0; i < v.size(); ++i) {
+            if (uptr.u_ptr)
+                x.push_back(uptr.u_ptr[i]);
+        } 
+        REQUIRE_THAT( x, Catch::Matchers::Equals(v) );
+    }
+}
+
+TEST_CASE( "TEST B21: Перевести все заглавные английские буквы в строчные" )
+{
+    constexpr int size = 512;
+    char u1[size] = "HELlo WoRlD";
+    char u2[size] = "  AGd * dO-R+W  ";
+    char u3[size] = "small letters";
+    char l1[size];
+    char l2[size];
+    char l3[size];
+    
+    SECTION("B21 Секция #1")
+    {
+        REQUIRE( std::string(to_lowercase(u1, l1)) ==  std::string("hello world"));
+        REQUIRE( std::string(to_lowercase(u2, l2)) ==  std::string("  agd * do-r+w  "));
+        REQUIRE( std::string(to_lowercase(u3, l3)) ==  std::string("small letters"));
     }
 }
 
