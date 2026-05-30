@@ -16,7 +16,7 @@ typedef unsigned uint;
  */
 int calculate_even_odd_digits_number(uint* even, uint* odd, uint _number)
 {
-    enum {ZERO, ONE, TWO, TEN=10 };
+    enum { ZERO, ONE, TWO, TEN=10 };
 
     if ( !(even && odd) )
         return EXIT_FAILURE;

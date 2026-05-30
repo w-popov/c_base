@@ -21,8 +21,7 @@ extern "C"
                                         unsigned* odd, 
                                         unsigned _number);  // B13
 
-    
-
+    unsigned number_of_even_numbers (char*, const int);     // B15
 
 }
 
@@ -378,5 +377,24 @@ SCENARIO("TEST B13: Посчитать количество четных и не
     }
 }
 
+TEST_CASE( "TEST B15: Посчитать количество четных чисел" )
+{
+    constexpr int size = 128;
+    char s1[size] = {"0\n"};
+    char s2[size] = {"1 0\n"};
+    char s3[size] = {" 2 0\n"};
+    char s4[size] = {"1 2 3 4 0\n"};
+    char s5[size] = {"2 4 6 5 0\n"};
+    char s6[size] = {"1  1 1 1  9 0 \n"};
 
+    SECTION("B15 Секция #1")
+    {
+        REQUIRE( number_of_even_numbers(s1, size) == 0 );
+        REQUIRE( number_of_even_numbers(s2, size) == 0 );
+        REQUIRE( number_of_even_numbers(s3, size) == 1 );
+        REQUIRE( number_of_even_numbers(s4, size) == 2 );
+        REQUIRE( number_of_even_numbers(s5, size) == 3 );
+        REQUIRE( number_of_even_numbers(s6, size) == 0 );
+    }
+}
 

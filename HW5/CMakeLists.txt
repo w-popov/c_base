@@ -56,8 +56,12 @@ target_compile_options(B12 PRIVATE -g -Wall -Wextra -Wpedantic)
 add_executable(B13 ${C_SRC_PATH}/B13.c)
 target_compile_options(B13 PRIVATE -g -Wall -Wextra -Wpedantic)
 
-# add_executable(B14 ${C_SRC_PATH}/B14.c)
-# add_executable(B15 ${C_SRC_PATH}/B15.c)
+add_executable(B14 ${C_SRC_PATH}/B14.c)
+target_compile_options(B14 PRIVATE -g -Wall -Wextra -Wpedantic)
+
+add_executable(B15 ${C_SRC_PATH}/B15.c)
+target_compile_options(B15 PRIVATE -g -Wall -Wextra -Wpedantic)
+
 # add_executable(B16 ${C_SRC_PATH}/B16.c)
 # add_executable(B17 ${C_SRC_PATH}/B17.c)
 # add_executable(B18 ${C_SRC_PATH}/B18.c)
@@ -87,8 +91,8 @@ add_library(test_hw STATIC
             ${C_SRC_PATH}/B11.c
             ${C_SRC_PATH}/B12.c
             ${C_SRC_PATH}/B13.c
-            # ${C_SRC_PATH}/B14.c
-            # ${C_SRC_PATH}/B15.c
+            ${C_SRC_PATH}/B14.c
+            ${C_SRC_PATH}/B15.c
             # ${C_SRC_PATH}/B16.c
             # ${C_SRC_PATH}/B17.c
             # ${C_SRC_PATH}/B18.c
