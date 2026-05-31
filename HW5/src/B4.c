@@ -1,13 +1,13 @@
 /**
  * ДЗ-5. Си базовый уровень. гр.Д01-134 Попов. В.Г
  * B4: Ввести целое signed число и определить, 
- * верно ли, что в нём ровно 3 цифры
+ *     верно ли, что в нём ровно 3 цифры
  */
 
 #include <stdio.h>
 #include <stdlib.h>
 
-const char* is_it_number_have_3_digit(unsigned number)
+const char* is_it_number_have_3_digit (unsigned number)
 {
     unsigned counter_digit = 0;
     enum { III=3 };
@@ -21,7 +21,7 @@ const char* is_it_number_have_3_digit(unsigned number)
 }
 
 #ifndef TEST_DEF_HW5
-int main(void)
+int main (void)
 {
     unsigned number = 0;
     scanf("%u", &number);

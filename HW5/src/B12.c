@@ -16,7 +16,7 @@ typedef unsigned uint;
  * Результаты передаются по указателям *min, *max через 
  * параметры в место вызова функции.
  */
-int calculate_min_max_digits_number(uint* min, uint* max, uint _number)
+int calculate_min_max_digits_number (uint* min, uint* max, uint _number)
 {
     enum { TEN=10 };
 
@@ -43,7 +43,7 @@ int calculate_min_max_digits_number(uint* min, uint* max, uint _number)
 
 
 #ifndef TEST_DEF_HW5
-int main(void)
+int main (void)
 {
     uint number = 0;
     uint min_digit = UINT32_MAX, max_digit = 0;

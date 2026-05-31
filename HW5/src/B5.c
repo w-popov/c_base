@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-unsigned summ_digits_of_number(unsigned number)
+unsigned summ_digits_of_number (unsigned number)
 {
     unsigned summ_digits = 0;
     while (number)
@@ -18,7 +18,7 @@ unsigned summ_digits_of_number(unsigned number)
 }
 
 #ifndef TEST_DEF_HW5
-int main(void)
+int main (void)
 {
     unsigned number = 0;
     scanf("%u", &number);

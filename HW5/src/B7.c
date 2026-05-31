@@ -1,26 +1,26 @@
 /**
  * ДЗ-5. Си базовый уровень. гр.Д01-134 Попов. В.Г
  * B7: Ввести целое число и определить, верно ли, что в его 
- * записи есть  две одинаковые цифры, НЕ обязательно стоящие рядом
+ *     записи есть  две одинаковые цифры, НЕ обязательно стоящие рядом
  */
 
 #include <stdio.h>
 #include <stdlib.h>
 
-const char* is_equal_digits_in_number(int number)
+const char* is_equal_digits_in_number (int number)
 {
     if (number < 10)
         return "NO";
-    enum { size = 16 };
-    char str_array_number[size] = {'\0'};
-    int int_array_number[size] = {0};
-    snprintf(str_array_number, size, "%d", number);
+    enum { SIZE = 16 };
+    char str_array_number[SIZE] = {'\0'};
+    int int_array_number[SIZE] = {0};
+    snprintf(str_array_number, SIZE, "%d", number);
 
-    for(int i = 0; i < size; ++i)
+    for(int i = 0; i < SIZE; ++i)
     {
         int_array_number[ (str_array_number[i] - '0') ] += 1; 
     }
-    for (int i = 0; i < size; ++i)
+    for (int i = 0; i < SIZE; ++i)
     {
         if (int_array_number[i] > 1 )
             return "YES";
@@ -30,7 +30,7 @@ const char* is_equal_digits_in_number(int number)
 }
 
 #ifndef TEST_DEF_HW5
-int main(void)
+int main (void)
 {
     int number = 0;
     scanf("%d", &number);

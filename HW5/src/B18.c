@@ -7,7 +7,7 @@
 #include <stdlib.h>
 
 #ifndef TEST_DEF_HW5
-int main(void)
+int main (void)
 {
     unsigned number = 0;
     unsigned prev_a = 0, prev_b = 1, it_number = 1;

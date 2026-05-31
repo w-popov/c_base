@@ -14,7 +14,7 @@ typedef unsigned uint;
  * Результаты передаются по указателям *even, *odd через 
  * параметры в место вызова функции.
  */
-int calculate_even_odd_digits_number(uint* even, uint* odd, uint _number)
+int calculate_even_odd_digits_number (uint* even, uint* odd, uint _number)
 {
     enum { ZERO, ONE, TWO, TEN=10 };
 
@@ -47,7 +47,7 @@ int calculate_even_odd_digits_number(uint* even, uint* odd, uint _number)
 
 
 #ifndef TEST_DEF_HW5
-int main(void)
+int main (void)
 {
     uint number = 0;
     uint even = 0, odd = 0;

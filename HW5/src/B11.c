@@ -7,17 +7,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-unsigned reverse_number(unsigned number)
+unsigned reverse_number (unsigned number)
 {
-    enum { DEC = 10 };
-    if (number < DEC)
+    enum { TEN = 10 };
+    if (number < TEN)
         return number;
         
     unsigned reversed_number = 0;
     while (number)
     {
-        reversed_number = (reversed_number * DEC) + (number % DEC);
-        number /= DEC;
+        reversed_number = (reversed_number * TEN) + (number % TEN);
+        number /= TEN;
     }
 
     return reversed_number;
@@ -25,7 +25,7 @@ unsigned reverse_number(unsigned number)
 
 
 #ifndef TEST_DEF_HW5
-int main(void)
+int main (void)
 {
     unsigned number = 0;
     scanf("%u", &number);

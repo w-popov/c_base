@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-const char* is_prime_number(int number)
+const char* is_prime_number (int number)
 {
     if (number < 2)
         return "NO";
@@ -18,7 +18,7 @@ const char* is_prime_number(int number)
 }
 
 #ifndef TEST_DEF_HW5
-int main(void)
+int main (void)
 {
     int number = 0;
     scanf("%d", &number);

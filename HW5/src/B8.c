@@ -1,19 +1,19 @@
 /**
  * ДЗ-5. Си базовый уровень. гр.Д01-134 Попов. В.Г
  * B8: Ввести целое число и определить, верно ли, 
- * что в нём ровно одна цифра «9»
+ *     что в нём ровно одна цифра «9»
  */
 
 #include <stdio.h>
 #include <stdlib.h>
 
-const char* is_nine_digit_in_number(int number)
+const char* is_nine_digit_in_number (int number)
 {
-    enum { size = 16 };
-    char str_array_number[size] = {'\0'};
-    snprintf(str_array_number, size, "%d", number);
+    enum { SIZE = 16 };
+    char str_array_number[SIZE] = {'\0'};
+    snprintf(str_array_number, SIZE, "%d", number);
     int nine_counter = 0;
-    for (int i = 0; i < size; ++i)
+    for (int i = 0; i < SIZE; ++i)
     {
         nine_counter += ( (str_array_number[i] - '0') == 9 ) ? 1 : 0;
     }
@@ -21,7 +21,7 @@ const char* is_nine_digit_in_number(int number)
 }
 
 #ifndef TEST_DEF_HW5
-int main(void)
+int main (void)
 {
     int number = 0;
     scanf("%d", &number);

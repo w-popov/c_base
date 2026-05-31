@@ -6,12 +6,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-const char* is_even_all_digits_in_number(int number)
+const char* is_even_all_digits_in_number (int number)
 {
-    enum { size = 16 };
-    char str_array_number[size] = {'\0'};
-    snprintf(str_array_number, size, "%d", number);
-    for (int i = 0; i < size; ++i)
+    enum { SIZE = 16 };
+    char str_array_number[SIZE] = {'\0'};
+    snprintf(str_array_number, SIZE, "%d", number);
+    for (int i = 0; i < SIZE; ++i)
     {
         if ( (str_array_number[i] - '0') % 2 != 0 )
             return "NO";
@@ -20,7 +20,7 @@ const char* is_even_all_digits_in_number(int number)
 }
 
 #ifndef TEST_DEF_HW5
-int main(void)
+int main (void)
 {
     int number = 0;
     scanf("%d", &number);

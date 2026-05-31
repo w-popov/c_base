@@ -10,14 +10,13 @@
 #include <string.h>
 #include <stdint.h>
 
-enum Sizies { UPPER_SHIFT=5, STR_SIZE=512 };
-
-const char* to_lowercase (char* text, char* lower)
+const char* to_lowercase (char* text, char* lower, const int str_size)
 {
-    memset(lower, '\0', STR_SIZE);
+    memset(lower, '\0', str_size);
+    enum { UPPER_SHIFT = 5 };
     
     uint8_t mask = 1 << UPPER_SHIFT;
-    for (int i = 0; i < STR_SIZE; ++i)
+    for (int i = 0; i < str_size; ++i)
     {
         if (!text[i])
             break;
@@ -32,12 +31,13 @@ const char* to_lowercase (char* text, char* lower)
 }
 
 #ifndef TEST_DEF_HW5
-int main(void)
+int main (void)
 {
+    enum { STR_SIZE = 512 };
     char string[STR_SIZE] = {'\0'};
     char lower[STR_SIZE];
     scanf(" %[^.]", string);
-    printf("%s\n", to_lowercase(string, lower));
+    printf("%s\n", to_lowercase(string, lower, STR_SIZE));
 
     return EXIT_SUCCESS;
 }

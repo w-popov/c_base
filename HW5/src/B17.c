@@ -12,7 +12,7 @@ typedef unsigned uint;
 
 struct UniquePtr_u { uint* u_ptr; };
 
-void auto_free(struct UniquePtr_u* this)
+void auto_free (struct UniquePtr_u* this)
 {
     if (this->u_ptr) 
         free(this->u_ptr);
@@ -27,7 +27,7 @@ struct UniquePtr_u happy_numbers (uint number)
     struct UniquePtr_u happy_arrays = { .u_ptr = (uint*)calloc( number + 1, sizeof(uint) ) };
     if (!happy_arrays.u_ptr)
     {
-        printf("\033[33m Ошибка выделения памяти! \033[0m \n");
+        printf("\033[33m Ошибка выделения памяти!(Allocation error.) \033[0m \n");
         exit(EXIT_FAILURE);
     }
     for (uint i = 0, index = 0, target = 10; i <= number; ++i, ++target)

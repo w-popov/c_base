@@ -6,10 +6,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int square_power(int number) { return number * number; }
+int square_power (int number) { return number * number; }
 
 #ifndef TEST_DEF_HW5
-int main(void)
+int main (void)
 {
     int numberA = 0, numberB = 0;
     scanf("%d %d", &numberA, &numberB);

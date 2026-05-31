@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-const char* is_summ_digits_ten(int number)
+const char* is_summ_digits_ten (int number)
 {
     enum { TEN = 10 };
     int sum = 0;
@@ -26,7 +26,7 @@ const char* is_summ_digits_ten(int number)
 }
 
 #ifndef TEST_DEF_HW5
-int main(void)
+int main (void)
 {
     int number = 0;
     scanf("%d", &number);

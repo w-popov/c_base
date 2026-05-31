@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-const char* is_both_equal_digits_in_number(int number)
+const char* is_both_equal_digits_in_number (int number)
 {
     int prev_digits = 0;
     if (number < 10)
@@ -26,7 +26,7 @@ const char* is_both_equal_digits_in_number(int number)
 }
 
 #ifndef TEST_DEF_HW5
-int main(void)
+int main (void)
 {
     int number = 0;
     scanf("%d", &number);

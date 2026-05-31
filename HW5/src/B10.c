@@ -7,11 +7,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-const char* is_in_ascending_order(int number)
+const char* is_in_ascending_order (int number)
 {
-    // 123
     if (number < 10)
         return "YES";
+    
     int prev_number = number % 10;
     do
     {
@@ -26,7 +26,7 @@ const char* is_in_ascending_order(int number)
 
 
 #ifndef TEST_DEF_HW5
-int main(void)
+int main (void)
 {
     int number = 0;
     scanf("%d", &number);

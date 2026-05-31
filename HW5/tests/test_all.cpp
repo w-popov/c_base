@@ -28,7 +28,9 @@ extern "C"
     #define UNIQE_PTR_U __attribute__((cleanup(auto_free))) struct UniquePtr_u
     struct UniquePtr_u happy_numbers (unsigned);            // B17
 
-    const char* to_lowercase (char* text, char* lower);     // B21
+    const char* to_lowercase (char* text, 
+                              char* lower, 
+                              const int size);              // B21
 }
 
 
@@ -448,9 +450,9 @@ TEST_CASE( "TEST B21: Перевести все заглавные англий�
     
     SECTION("B21 Секция #1")
     {
-        REQUIRE( std::string(to_lowercase(u1, l1)) ==  std::string("hello world"));
-        REQUIRE( std::string(to_lowercase(u2, l2)) ==  std::string("  agd * do-r+w  "));
-        REQUIRE( std::string(to_lowercase(u3, l3)) ==  std::string("small letters"));
+        REQUIRE( std::string(to_lowercase(u1, l1, size)) ==  std::string("hello world"));
+        REQUIRE( std::string(to_lowercase(u2, l2, size)) ==  std::string("  agd * do-r+w  "));
+        REQUIRE( std::string(to_lowercase(u3, l3, size)) ==  std::string("small letters"));
     }
 }
 
