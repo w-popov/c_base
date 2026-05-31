@@ -385,7 +385,7 @@ TEST_CASE( "TEST B17: все числа от 10 до введенного чис
         std::vector<unsigned> v {22, 123, 132};
         x.reserve(v.size());
         UNIQE_PTR_U uptr = happy_numbers(number);
-        for (uint i = 0; i < v.size(); ++i) {
+        for (unsigned i = 0; i < v.size(); ++i) {
             if (uptr.u_ptr)
                 x.push_back(uptr.u_ptr[i]);
         }
@@ -398,7 +398,7 @@ TEST_CASE( "TEST B17: все числа от 10 до введенного чис
         std::vector<unsigned> v {22, 123, 132, 213, 231, 312, 321};
         x.reserve(v.size());
         UNIQE_PTR_U uptr = happy_numbers(number);
-        for (uint i = 0; i < v.size(); ++i) {
+        for (unsigned i = 0; i < v.size(); ++i) {
             if (uptr.u_ptr)
                 x.push_back(uptr.u_ptr[i]);
         } 
