@@ -11,6 +11,13 @@ include_directories(${C_SRC_PATH}/includes)
 # CMAKE_RUNTIME_OUTPUT_DIRECTORY - переменная CMake
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 
+# Настройки для Windows/MinGW
+if(WIN32)
+    if(MINGW)
+        set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static")
+    endif()
+endif()
+
 # Создать директорию bin если её нет
 file(MAKE_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 

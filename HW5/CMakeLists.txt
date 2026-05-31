@@ -11,6 +11,13 @@ set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# Для MinGW - статическая линковка
+if(MINGW AND WIN32)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static-libstdc++ -static-libgcc")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -static-libgcc")
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static")
+endif()
+
 # Включить тесты
 enable_testing()
 
@@ -72,14 +79,12 @@ set_target_properties(hwtests PROPERTIES
 # Прилинковать к исполняемому файлу тестов собранную мной библиотеку catch
 target_link_libraries(hwtests PRIVATE catchlib test_hw)
 
-# Копировать необходимые DLL если не статическая линковка
-if(MINGW AND NOT CMAKE_EXE_LINKER_FLAGS MATCHES "-static")
-    add_custom_command(TARGET hwtests POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            "$<TARGET_RUNTIME_DLLS:hwtests>"
-            "$<TARGET_FILE_DIR:hwtests>"
-        COMMAND_EXPAND_LISTS
-    )
+# Правильное имя исполняемого файла для разных ОС
+if(WIN32)
+    set(TEST_EXECUTABLE ${CMAKE_SOURCE_DIR}/runtests/hwtests.exe)
+else()
+    set(TEST_EXECUTABLE ${CMAKE_SOURCE_DIR}/runtests/hwtests)
 endif()
 
-add_test(NAME AllHWTests COMMAND $<TARGET_FILE:hwtests>)
+# Добавить тест
+add_test(NAME AllHWTests COMMAND ${TEST_EXECUTABLE})
