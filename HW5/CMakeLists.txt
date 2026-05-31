@@ -11,11 +11,19 @@ set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Для MinGW - статическая линковка
-if(MINGW AND WIN32)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static-libstdc++ -static-libgcc")
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -static-libgcc")
-    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static")
+# Линковка исполняемых файлов с библиотеками для переносимости.
+# РАЗМЕР СГЕНЕРИРОВАННЫХ ИСПОЛНЯЕМЫХ ФАЙЛОВ УВЕЛИЧИТСЯ! 
+if(WIN32)
+    # Проверка, что компилятор — GCC или Clang (а не MSVC)
+    if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+        # Флаги, специфичные для GCC-подобных в Windows (MinGW/Clang)
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static-libstdc++ -static-libgcc")
+        set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -static-libgcc")
+        set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static")
+    else()
+        # Блок для MSVC (cl.exe) в Ninja
+        set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+    endif()
 endif()
 
 # Включить тесты
