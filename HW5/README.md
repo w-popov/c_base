@@ -14,6 +14,22 @@ git checkout
 ##### Задать разные компиляторы и разные сборщики:
 Для windows с [Ninja](https://github.com/ninja-build/ninja/releases):
 ```Bash
+# В корне каталога:
+cmake -G "Ninja" -B build
+
+cmake --build build
+
+# Путь к MinGW должен быть в PATH. Для последующего запуска
+# исполняемых файлов убедись что с ними слинкованы библиотеки:
+# if(MINGW AND WIN32)
+#     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static-libstdc++ -static-libgcc")
+#     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -static-libgcc")
+#     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static")
+# endif()
+
+```
+Либо с указанием компиляторов:
+```Bash
 # Из корня проекта
 cmake -B build \
     -G "Ninja" \
@@ -21,17 +37,15 @@ cmake -B build \
     -DCMAKE_CXX_COMPILER=D:/Qt/Tools/mingw1310_64/bin/g++.exe
    
     # Путь к исходникам — текущая директория (.)
-    # C:/mingw64/bin/gcc.exe -- может быть другой путь к gcc и g++
+    # C:/mingw64/bin/gcc.exe — может быть другой путь к gcc и g++
 ```
 Для Linux с "Ninja" (по умолчанию "Unix Makefiles" и gcc):
 ```Bash
 # Установить, если его нет
 sudo apt-get update && sudo apt-get install -y cmake ninja-build build-essential
 # Сборка из корня проекта
-cmake -B build \
-    -G "Ninja" \
-    -DCMAKE_C_COMPILER=gcc \
-    -DCMAKE_CXX_COMPILER=g++
+cmake -G "Ninja" -B build
+cmake --build build
 ```
 ##### Сборка домашних заданий:
 * Перейти в корневой каталог с CMakeLists.txt
