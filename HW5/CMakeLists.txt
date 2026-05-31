@@ -72,4 +72,14 @@ set_target_properties(hwtests PROPERTIES
 # Прилинковать к исполняемому файлу тестов собранную мной библиотеку catch
 target_link_libraries(hwtests PRIVATE catchlib test_hw)
 
-add_test(NAME AllHWTests COMMAND hwtests)
+# Копировать необходимые DLL если не статическая линковка
+if(MINGW AND NOT CMAKE_EXE_LINKER_FLAGS MATCHES "-static")
+    add_custom_command(TARGET hwtests POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            "$<TARGET_RUNTIME_DLLS:hwtests>"
+            "$<TARGET_FILE_DIR:hwtests>"
+        COMMAND_EXPAND_LISTS
+    )
+endif()
+
+add_test(NAME AllHWTests COMMAND $<TARGET_FILE:hwtests>)
