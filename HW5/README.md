@@ -1,11 +1,24 @@
+##### Склонировать каталог с ДЗ (windows)
+* Создать где-то каталог, зайти в него, открыть в нем терминал.
+* Ввести в терминале: 
+```Bash
+git clone --no-checkout https://github.com/w-popov/c_base.git
+```
+* Далее:
+```Bash
+cd РЕПОЗИТОРИЙ
+git sparse-checkout set ИМЯ_ПАПКИ
+git checkout
+```
+
 ##### Задать разные компиляторы и разные сборщики:
 Для windows с [Ninja](https://github.com/ninja-build/ninja/releases):
 ```Bash
 # Из корня проекта
 cmake -B build \
     -G "Ninja" \
-    -DCMAKE_C_COMPILER=C:/mingw64/bin/gcc.exe \
-    -DCMAKE_CXX_COMPILER=C:/mingw64/bin/g++.exe
+    -DCMAKE_C_COMPILER=D:/Qt/Tools/mingw1310_64/bin/gcc.exe \
+    -DCMAKE_CXX_COMPILER=D:/Qt/Tools/mingw1310_64/bin/g++.exe
    
     # Путь к исходникам — текущая директория (.)
     # C:/mingw64/bin/gcc.exe -- может быть другой путь к gcc и g++
