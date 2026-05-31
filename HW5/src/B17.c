@@ -4,22 +4,43 @@
  *      от 10 до введенного числа - у которых сумма цифр 
  *      равна произведению цифр
  */
-
 #include <stdio.h>
 #include <stdlib.h>
+#include "HW5.h"
 
 typedef unsigned uint;
 
-struct UniquePtr_u { uint* u_ptr; };
+#ifndef TEST_DEF_HW5
+int main(void)
+{
+    uint number = 0;
+    scanf("%u", &number);
+    UNIQE_PTR_U ptr_happy = happy_numbers(number);
+    for (uint i = 0; i <= number; ++i)
+    {
+        if (ptr_happy.u_ptr[i])
+        printf("%u ", ptr_happy.u_ptr[i]);
+        else 
+        {
+            printf("\n");
+            break;
+        }
+    }
 
+    return EXIT_SUCCESS;
+}
+#endif
+
+
+/**
+ * Автоматическое освобождение аллоц. памяти
+ * #define UNIQE_PTR_U __attribute__((cleanup(auto_free))) struct UniquePtr_u 
+ */
 void auto_free (struct UniquePtr_u* this)
 {
     if (this->u_ptr) 
         free(this->u_ptr);
 }
-
-// Автоматическое освобождение памяти
-#define UNIQE_PTR_U __attribute__((cleanup(auto_free))) struct UniquePtr_u
 
 struct UniquePtr_u happy_numbers (uint number)
 {
@@ -45,25 +66,3 @@ struct UniquePtr_u happy_numbers (uint number)
     }
     return happy_arrays;
 }
-
-
-#ifndef TEST_DEF_HW5
-int main(void)
-{
-    uint number = 0;
-    scanf("%u", &number);
-    UNIQE_PTR_U ptr_happy = happy_numbers(number);
-    for (uint i = 0; i <= number; ++i)
-    {
-        if (ptr_happy.u_ptr[i])
-            printf("%u ", ptr_happy.u_ptr[i]);
-        else 
-        {
-            printf("\n");
-            break;
-        }
-    }
-
-    return EXIT_SUCCESS;
-}
-#endif

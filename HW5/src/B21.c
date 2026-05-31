@@ -4,11 +4,25 @@
  *      заканчивается символом «.» 
  *      Перевести все заглавные английские буквы в строчные
  */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
+#include "HW5.h"
+
+#ifndef TEST_DEF_HW5
+int main (void)
+{
+    enum { STR_SIZE = 512 };
+    char string[STR_SIZE] = {'\0'};
+    char lower[STR_SIZE];
+    scanf(" %[^.]", string);
+    printf("%s\n", to_lowercase(string, lower, STR_SIZE));
+    
+    return EXIT_SUCCESS;
+}
+#endif
+
 
 const char* to_lowercase (char* text, char* lower, const int str_size)
 {
@@ -29,16 +43,3 @@ const char* to_lowercase (char* text, char* lower, const int str_size)
     }
     return (const char*)lower;
 }
-
-#ifndef TEST_DEF_HW5
-int main (void)
-{
-    enum { STR_SIZE = 512 };
-    char string[STR_SIZE] = {'\0'};
-    char lower[STR_SIZE];
-    scanf(" %[^.]", string);
-    printf("%s\n", to_lowercase(string, lower, STR_SIZE));
-
-    return EXIT_SUCCESS;
-}
-#endif

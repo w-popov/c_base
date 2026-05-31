@@ -3,9 +3,21 @@
  * B11: Ввести целое число и «перевернуть» его, так 
  *      чтобы первая цифра стала последней и т.д
  */
-
 #include <stdio.h>
 #include <stdlib.h>
+#include "HW5.h"
+
+#ifndef TEST_DEF_HW5
+int main (void)
+{
+    unsigned number = 0;
+    scanf("%u", &number);
+    printf("%u\n", reverse_number(number));
+    
+    return EXIT_SUCCESS;
+}
+#endif
+
 
 unsigned reverse_number (unsigned number)
 {
@@ -22,15 +34,3 @@ unsigned reverse_number (unsigned number)
 
     return reversed_number;
 }
-
-
-#ifndef TEST_DEF_HW5
-int main (void)
-{
-    unsigned number = 0;
-    scanf("%u", &number);
-    printf("%u\n", reverse_number(number));
-
-    return EXIT_SUCCESS;
-}
-#endif

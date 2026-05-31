@@ -2,9 +2,21 @@
  * ДЗ-5. Си базовый уровень. гр.Д01-134 Попов. В.Г
  * B9: Ввести целое число и определить, верно ли, что все его цифры четные
  */
-
 #include <stdio.h>
 #include <stdlib.h>
+#include "HW5.h"
+
+#ifndef TEST_DEF_HW5
+int main (void)
+{
+    int number = 0;
+    scanf("%d", &number);
+    printf("%s\n", is_even_all_digits_in_number(number));
+    
+    return EXIT_SUCCESS;
+}
+#endif
+
 
 const char* is_even_all_digits_in_number (int number)
 {
@@ -18,14 +30,3 @@ const char* is_even_all_digits_in_number (int number)
     }
     return "YES";
 }
-
-#ifndef TEST_DEF_HW5
-int main (void)
-{
-    int number = 0;
-    scanf("%d", &number);
-    printf("%s\n", is_even_all_digits_in_number(number));
-
-    return EXIT_SUCCESS;
-}
-#endif

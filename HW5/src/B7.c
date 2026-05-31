@@ -3,9 +3,21 @@
  * B7: Ввести целое число и определить, верно ли, что в его 
  *     записи есть  две одинаковые цифры, НЕ обязательно стоящие рядом
  */
-
 #include <stdio.h>
 #include <stdlib.h>
+#include "HW5.h"
+
+#ifndef TEST_DEF_HW5
+int main (void)
+{
+    int number = 0;
+    scanf("%d", &number);
+    printf("%s\n", is_equal_digits_in_number(number));
+    
+    return EXIT_SUCCESS;
+}
+#endif
+
 
 const char* is_equal_digits_in_number (int number)
 {
@@ -28,14 +40,3 @@ const char* is_equal_digits_in_number (int number)
 
     return "NO";
 }
-
-#ifndef TEST_DEF_HW5
-int main (void)
-{
-    int number = 0;
-    scanf("%d", &number);
-    printf("%s\n", is_equal_digits_in_number(number));
-
-    return EXIT_SUCCESS;
-}
-#endif

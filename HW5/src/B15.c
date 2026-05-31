@@ -3,12 +3,27 @@
  * B15: Дана последовательность ненулевых целых чисел, в конце 
  *      последовательности число 0. Посчитать количество четных чисел 
  */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include "HW5.h"
 
 typedef unsigned uint;
+
+#ifndef TEST_DEF_HW5
+int main (void)
+{
+    enum { SIZE_ARRAY = INT16_MAX };
+    char input[SIZE_ARRAY] = { '\0' };
+    
+    // Читать все символы пока не встретится \n
+    scanf(" %[^\n]", input);
+    printf("%u\n", number_of_even_numbers(input, SIZE_ARRAY) );
+    
+    return EXIT_SUCCESS;
+}
+#endif
+
 
 /**
  * Вернуть количество четных чисел
@@ -31,17 +46,3 @@ uint number_of_even_numbers (char* input_numbers, const int size)
 
     return counter_even;
 }
-
-#ifndef TEST_DEF_HW5
-int main (void)
-{
-    enum { SIZE_ARRAY = INT16_MAX };
-    char input[SIZE_ARRAY] = { '\0' };
-
-    // Читать все символы пока не встретится \n
-    scanf(" %[^\n]", input);
-    printf("%u\n", number_of_even_numbers(input, SIZE_ARRAY) );
-
-    return EXIT_SUCCESS;
-}
-#endif

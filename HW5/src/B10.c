@@ -3,9 +3,21 @@
  * B10: Ввести целое число и определить, верно ли, 
  *      что все его цифры расположены в порядке возрастания
  */
-
 #include <stdio.h>
 #include <stdlib.h>
+#include "HW5.h"
+
+#ifndef TEST_DEF_HW5
+int main (void)
+{
+    int number = 0;
+    scanf("%d", &number);
+    printf("%s\n", is_in_ascending_order(number));
+    
+    return EXIT_SUCCESS;
+}
+#endif
+
 
 const char* is_in_ascending_order (int number)
 {
@@ -23,15 +35,3 @@ const char* is_in_ascending_order (int number)
 
     return "YES";
 }
-
-
-#ifndef TEST_DEF_HW5
-int main (void)
-{
-    int number = 0;
-    scanf("%d", &number);
-    printf("%s\n", is_in_ascending_order(number));
-
-    return EXIT_SUCCESS;
-}
-#endif

@@ -6,8 +6,26 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include "HW5.h"
 
 typedef unsigned uint;
+
+#ifndef TEST_DEF_HW5
+int main (void)
+{
+    uint number = 0;
+    uint even = 0, odd = 0;
+    scanf("%u", &number);
+    
+    if ( calculate_even_odd_digits_number(&even, &odd, number) )
+    return EXIT_FAILURE;
+    
+    printf("%u %u\n", even, odd);
+    
+    return EXIT_SUCCESS;
+}
+#endif
+
 
 /**
  * Посчитать количество четных и нечетных цифр числа.
@@ -33,7 +51,6 @@ int calculate_even_odd_digits_number (uint* even, uint* odd, uint _number)
         }
         return EXIT_SUCCESS;
     }
-
     for (uint number = _number; number; number /= TEN)
     {
         uint remainder = number % TEN;
@@ -44,20 +61,3 @@ int calculate_even_odd_digits_number (uint* even, uint* odd, uint _number)
     }
     return EXIT_SUCCESS;
 }
-
-
-#ifndef TEST_DEF_HW5
-int main (void)
-{
-    uint number = 0;
-    uint even = 0, odd = 0;
-    scanf("%u", &number);
-
-    if ( calculate_even_odd_digits_number(&even, &odd, number) )
-        return EXIT_FAILURE;
-
-    printf("%u %u\n", even, odd);
-    
-    return EXIT_SUCCESS;
-}
-#endif
