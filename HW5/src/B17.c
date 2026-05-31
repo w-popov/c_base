@@ -19,7 +19,7 @@ int main(void)
     for (uint i = 0; i <= number; ++i)
     {
         if (ptr_happy.u_ptr[i])
-        printf("%u ", ptr_happy.u_ptr[i]);
+            printf("%u ", ptr_happy.u_ptr[i]);
         else 
         {
             printf("\n");
