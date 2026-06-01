@@ -1,0 +1,4 @@
+Diagnostics:
+  # Полностью отключает все предупреждения, ошибки и статический анализ
+  Suppress: "*" 
+  UnusedIncludes: None
