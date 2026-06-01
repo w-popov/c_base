@@ -13,11 +13,10 @@ int main (void)
     int a = 0, b = 0;
     scanf("%d %d", &a, &b);
     printf("%d\n", summ_squares_range(a, b));
-    
+
     return EXIT_SUCCESS;
 }
 #endif
-
 
 int summ_squares_range (int a, int b)
 {

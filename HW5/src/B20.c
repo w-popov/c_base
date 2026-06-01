@@ -5,13 +5,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-const char* is_prime_number (int number)
+const char *is_prime_number (int number)
 {
     if (number < 2)
+    {
         return "NO";
-    for (int counter = 2; (counter * counter) <= number; ++counter) {
-        if ( !(number % counter) ) 
+    }
+    for (int counter = 2; (counter * counter) <= number; ++counter)
+    {
+        if (!(number % counter))
+        {
             return "NO";
+        }
     }
     return "YES";
 }

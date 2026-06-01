@@ -17,7 +17,7 @@ int main (void)
         printf("%u\n", number);
         return EXIT_SUCCESS;
     }
-    
+
     for (unsigned i = 1; i <= number; ++i)
     {
         printf("%u ", it_number);

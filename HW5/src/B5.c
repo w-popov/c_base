@@ -12,11 +12,10 @@ int main (void)
     unsigned number = 0;
     scanf("%u", &number);
     printf("%u\n", summ_digits_of_number(number));
-    
+
     return EXIT_SUCCESS;
 }
 #endif
-
 
 unsigned summ_digits_of_number (unsigned number)
 {
