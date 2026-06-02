@@ -4,7 +4,7 @@
 extern "C" {
 #endif
 
-
+int middle (int, int);
 
 
 #ifdef __cplusplus

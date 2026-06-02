@@ -19,4 +19,7 @@ int main (void)
 }
 #endif
 
-int middle (int number1, int number2) { return (number1 + number2) / 2; }
+int middle (int number1, int number2)
+{
+    return (number1 + number2) / 2;
+}

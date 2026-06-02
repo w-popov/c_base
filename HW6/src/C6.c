@@ -8,7 +8,7 @@
 #ifndef TEST_DEF_HW6
 int main (void)
 {
-    
+
     return EXIT_SUCCESS;
 }
 #endif
