@@ -59,9 +59,7 @@ cmake --build build
 * Создать каталог build (можно не создавать — сгенерируется автоматически) ```mkdir build```
 1. Запуск конфигурации CMake: ```cmake -B build```
 2. Запуск сборки:             ```cmake --build build``` (сборка в каталог build)
-* Для запуска тестов перейти в build ```cd build``` и запустить тесты: ввести ```ctest --rerun-failed --output-on-failure``` enter, 
-  либо так (находясь в корневом каталоге): ```./runtests/hwtests ```
 * Для запуска отдельных файлов ДЗ перейти в в bin ```cd bin``` и запустить например ```./C1```
-* Очистить build (обычно нужно полная чистка build после серьезных изменений в CMakeLists.txt) находясь в каталоге HW6:
+* Очистить build (обычно нужно полная чистка build после серьезных изменений в CMakeLists.txt):
     1. ```rm -rf build/*  ``` либо
     2. ```cmake --build build --target clean``` 

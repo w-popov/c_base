@@ -9,9 +9,8 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include <inttypes.h>
-
-typedef int (*function)(int);
 
 /**
  * f(x)= x*x при -2 ≤ x < 2
@@ -32,7 +31,7 @@ int square_solver_function (int arg)
 /**
  * f(x) = 4 при x < -2
  */
-int get_four_function (int arg)
+int get_four_function ()
 {
     enum { FOUR = 4 };
     return FOUR;
@@ -43,24 +42,19 @@ int get_four_function (int arg)
  */
 int calculate_argument (int arg)
 {
-    function func = NULL;
     if (arg < -2)
     {
-        func = get_four_function;
+        return get_four_function();
     }
     else if ((arg >= -2) && (arg < 2))
     {
-        func = square_function;
+        return square_function(arg);
     }
     else
     {
-        func = square_solver_function;
+        return square_solver_function(arg);
     }
 
-    if (func != NULL)
-    {
-        return func(arg);
-    }
     return INT32_MAX;
 }
 
@@ -73,7 +67,11 @@ int main (void)
     while (accumulate && scanf("%d", &accumulate))
     {
         int calculate = calculate_argument(accumulate);
-        max = calculate > max ? calculate : max; 
+        if (calculate == INT32_MAX)
+        {
+            return EXIT_FAILURE;
+        }
+        max = calculate > max ? calculate : max;
     }
     printf("%d\n", max);
     return EXIT_SUCCESS;
