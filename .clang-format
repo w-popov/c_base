@@ -33,6 +33,8 @@ SpaceBeforeParensOptions:
 AllowShortBlocksOnASingleLine: false
 AllowShortIfStatementsOnASingleLine: false
 AllowShortLoopsOnASingleLine: false
+# запретить функции в одну строку
+AllowShortFunctionsOnASingleLine: None
 
 # Разрешение для коротких enum в одну строку
 AllowShortEnumsOnASingleLine: true
