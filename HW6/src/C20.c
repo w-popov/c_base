@@ -5,12 +5,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+// ())(  (())()
 const char *is_valid_brackets (const char *text, size_t size)
 {
+    enum { ZERO };
     const char open = '(';
     const char closed = ')';
-    int valid_brackets = 0;
-    for (size_t i = 0; i < size; ++i)
+    int valid_brackets = ZERO;
+    for (size_t i = ZERO; i < size; ++i)
     {
         if (!i && text[i] == closed)
         {
@@ -27,6 +29,10 @@ const char *is_valid_brackets (const char *text, size_t size)
         else if (text[i] == closed)
         {
             --valid_brackets;
+            if (valid_brackets < ZERO)
+            {
+                return "NO";
+            }
         }
         else
         {
