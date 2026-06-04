@@ -19,22 +19,6 @@ cd HW6/
 cmake -G "Ninja" -B build
 
 cmake --build build
-
-# Путь к MinGW должен быть в PATH. Для последующего запуска
-# исполняемых файлов убедись что с ними слинкованы библиотеки:
-# if(WIN32)
-        # Проверка, что компилятор — GCC или Clang (а не MSVC)
-#     if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
-#           # Флаги, специфичные для GCC-подобных в Windows (MinGW/Clang)
-#         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static-libstdc++ -static-libgcc")
-#         set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -static-libgcc")
-#         set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static")
-#     else()
-#           # Блок для MSVC (cl.exe) в Ninja
-#         set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
-#     endif()
-# endif()
-
 ```
 Либо с указанием компиляторов:
 ```Bash

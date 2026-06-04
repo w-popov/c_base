@@ -24,7 +24,7 @@ void print_simple (int n)
             n /= i;
         }
     }
-    n > 2 ? printf("%d\n", n) : printf("\n");
+    n > TWO ? printf("%d\n", n) : printf("\n");
 }
 
 #ifndef TEST_DEF_HW6
