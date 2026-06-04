@@ -19,6 +19,9 @@ cd HW6/
 cmake -G "Ninja" -B build
 
 cmake --build build
+
+# --build build --verbose или 
+# --build build -v вывод подробной информации в процессе сборки
 ```
 Либо с указанием компиляторов:
 ```Bash
