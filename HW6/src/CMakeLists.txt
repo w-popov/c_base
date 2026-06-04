@@ -2,9 +2,7 @@
     Основной CMakeLists.txt выше.
 ]]
 
-SET(C_SRC_PATH ${CMAKE_CURRENT_SOURCE_DIR})
-
-# Задать директорию для исполняемых файлов в корневой bin/
+# Задать директорию для исполняемых файлов  HW6/bin/
 # CMAKE_RUNTIME_OUTPUT_DIRECTORY - переменная CMake
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 
