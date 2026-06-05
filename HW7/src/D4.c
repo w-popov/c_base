@@ -7,7 +7,6 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
-// #include "HW7.h"
 
 void print_num (int num)
 {

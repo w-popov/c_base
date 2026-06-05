@@ -4,7 +4,6 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
-#include "HW7.h"
 
 #ifndef TEST_DEF_HW7
 int main (void)

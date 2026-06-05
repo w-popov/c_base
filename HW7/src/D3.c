@@ -6,13 +6,12 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
-// #include "HW7.h"
 
 void print_digits_reverce_rec (int number)
 {
     printf("%d ", number % 10);
 
-    if (number / 10 != 0)
+    if (number / 10)
     {
         print_digits_reverce_rec(number / 10);
     }

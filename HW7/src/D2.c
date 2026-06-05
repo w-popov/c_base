@@ -5,7 +5,6 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
-// #include "HW7.h"
 
 int sum_range_numbers_rec (int number)
 {
@@ -22,7 +21,7 @@ int main (void)
 {
     int input_number = 0;
     scanf("%d", &input_number);
-    printf("%u\n", sum_range_numbers_rec(input_number));
+    printf("%d\n", sum_range_numbers_rec(input_number));
     return EXIT_SUCCESS;
 }
 #endif

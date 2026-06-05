@@ -4,7 +4,6 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
-//  #include "HW7.h"
 
 void print_range_rec (int number)
 {

@@ -5,7 +5,6 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
-// #include "HW7.h"
 
 unsigned dec_to_bin_rec (unsigned num)
 {
