@@ -1,8 +1,24 @@
 #include <cstdio>
 #include <fstream>
 #include <string>
+#include <chrono>
+#include <stdexcept>
 #include "catch.hpp"
 #include "HW7.h"
+
+#ifdef _WIN32
+#include <io.h>
+#define TEST_DUP _dup
+#define TEST_DUP2 _dup2
+#define TEST_FILENO _fileno
+#define TEST_CLOSE _close
+#else
+#include <unistd.h>
+#define TEST_DUP dup
+#define TEST_DUP2 dup2
+#define TEST_FILENO fileno
+#define TEST_CLOSE close
+#endif
 
 /**
  * Класс для тестирования си функций вызывающих scanf();
@@ -29,25 +45,29 @@
 class TestScanf
 {
   private:
-    FILE *_stdin = nullptr;
+    int _stdin_backup_fd = -1;
     std::string _temp_fname = "";
     std::string _check_text = "";
 
   public:
     ~TestScanf()
     {
-        if (stdin && stdin != _stdin)
+        if (_stdin_backup_fd != -1)
         {
-            fclose(stdin);
+            TEST_DUP2(_stdin_backup_fd, TEST_FILENO(stdin));
+            TEST_CLOSE(_stdin_backup_fd);
         }
-        std::remove(_temp_fname.c_str());
+        if (!_temp_fname.empty())
+        {
+            std::remove(_temp_fname.c_str());
+        }
     }
 
     TestScanf() = delete;
     TestScanf(const TestScanf &) = delete;
     TestScanf(TestScanf &&) noexcept = delete;
     TestScanf &operator=(const TestScanf &) = delete;
-    TestScanf operator=(TestScanf &&) noexcept = delete;
+    TestScanf &operator=(TestScanf &&) noexcept = delete;
 
     explicit TestScanf(std::string text) : _check_text{std::move(text)}
     {
@@ -60,21 +80,27 @@ class TestScanf
         }
         test_scanf_file << _check_text;
         test_scanf_file.close();
-        _stdin = stdin;
+
+        _stdin_backup_fd = TEST_DUP(TEST_FILENO(stdin));
+        if (_stdin_backup_fd == -1)
+        {
+            throw std::runtime_error("Ошибка сохранения stdin");
+        }
         if (!freopen(_temp_fname.c_str(), "r", stdin))
         {
-            throw std::runtime_error("Ошибка перенаправления потока stdin\n");
+            TEST_CLOSE(_stdin_backup_fd);
+            _stdin_backup_fd = -1;
+            throw std::runtime_error("Ошибка перенаправления stdin");
         }
     }
 
   private:
-    std::string _gen_temp_fname ()
+    std::string _gen_temp_fname () const
     {
-        return "test_scanf_" +
-               std::to_string(std::chrono::steady_clock::now()
-                                  .time_since_epoch()
-                                  .count()) +
-               "_" + std::to_string(rand()) + ".txt";
+        static unsigned counter = 0;
+        auto now = std::chrono::steady_clock::now().time_since_epoch().count();
+        return "test_scanf_" + std::to_string(now) + "_"
+               + std::to_string(counter++) + ".txt";
     }
 };
 
@@ -176,7 +202,8 @@ TEST_CASE("TEST D19: считывает данную строку со стан�
     }
 }
 
-TEST_CASE("TEST D20: рекурсивно определяет возведения целого числа n в степень p")
+TEST_CASE(
+    "TEST D20: рекурсивно определяет возведения целого числа n в степень p")
 {
     SECTION("Секция #1")
     {
