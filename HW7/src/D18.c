@@ -10,7 +10,7 @@ int main (void)
 {
     int input_number = 0;
     scanf("%d", &input_number);
-    printf("%u\n", input_number);
+    printf("%d\n", input_number);
     return EXIT_SUCCESS;
 }
 #endif

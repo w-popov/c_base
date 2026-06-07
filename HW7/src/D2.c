@@ -12,7 +12,7 @@ int sum_range_numbers_rec (int number)
     {
         return 0;
     }
-    
+
     return number + sum_range_numbers_rec(number - 1);
 }
 
