@@ -1,23 +1,37 @@
 /**
  * ДЗ-8. Си базовый уровень. гр.Д01-134 Попов. В.Г
- * E: 
+ * E1: Ввести c клавиатуры массив из 5 элементов,
+ *     найти среднее арифметическое всех элементов массива.
  */
 #include <stdio.h>
 #include <stdlib.h>
 
-int test_sum(void)
+float* fill_array (float *array, const int size_array)
 {
-    int a = 0, b = 0;
-    scanf("%d %d", &a, &b);
-    return a + b;
+    for (int i = 0; i < size_array; ++i)
+    {
+        scanf("%f", &array[i]);
+    }
+    return array;
+}
+
+float average_array (float *array, const int size_array)
+{
+    float average = 0.0f;
+    for (int i = 0; i < size_array; ++i)
+    {
+        average += array[i];
+    }
+    return average / size_array;
 }
 
 #ifndef TEST_DEF_HW8
 int main (void)
 {
-    int input_number = 0;
-    scanf("%d\n", &input_number);
-    
+    enum { SIZE_ARR = 5 };
+    float array[SIZE_ARR] = {0.0};
+    printf("%.3f\n", average_array(fill_array(array, SIZE_ARR), SIZE_ARR));
+
     return EXIT_SUCCESS;
 }
 #endif

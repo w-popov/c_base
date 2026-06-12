@@ -9,7 +9,7 @@
 int main (void)
 {
     int input_number = 0;
-    scanf("%d\n", &input_number);
+    scanf("%d", &input_number);
     
     return EXIT_SUCCESS;
 }
