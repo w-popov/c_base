@@ -143,3 +143,43 @@ TEST_CASE("TEST E13: массив из 10 элементов, вторая с к
         array.fill(0);
     }
 }
+
+TEST_CASE("TEST E16: Определить, какое число в массиве встречается чаще всего")
+{
+    constexpr int size = 10;
+    std::array<int, size> array{0};
+    SECTION("Секция #1")
+    {
+        TestScanf ts("4  1  2  1  11  2  34  11  0  11");
+        int often = more_often (fill_array(array), size);
+        REQUIRE(often == 11);
+        array.fill(0);
+    }
+    SECTION("Секция #1")
+    {
+        TestScanf ts("1  1  1  1  1  1  1  1  1  1");
+        int often = more_often (fill_array(array), size);
+        REQUIRE(often == 1);
+        array.fill(0);
+    }
+}
+
+TEST_CASE("TEST E20: Переставить цифры в числе так, что бы получилось максимальное число")
+{
+    SECTION("Секция #1")
+    {
+        REQUIRE(the_greatest_number(1229) == 9221);
+    }
+    SECTION("Секция #2")
+    {
+        REQUIRE(the_greatest_number(1) == 1);
+    }
+    SECTION("Секция #3")
+    {
+        REQUIRE(the_greatest_number(0) == 0);
+    }
+    SECTION("Секция #4")
+    {
+        REQUIRE(the_greatest_number(123456) == 654321);
+    }
+}
