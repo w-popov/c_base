@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 
-int *fill_array (int *array, const int size_array)
+static int *fill_array (int *array, const int size_array)
 {
     for (int i = 0; i < size_array; ++i)
     {
@@ -30,7 +30,7 @@ int *round_number_array (int *array, int *result_aray, const int size_array)
     return result_aray;
 }
 
-void print_array (int *array, const int size_array)
+static void print_array (int *array, const int size_array)
 {
     for (int i = 0; i < size_array; ++i)
     {

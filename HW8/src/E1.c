@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-float* fill_array (float *array, const int size_array)
+static float* fill_array (float *array, const int size_array)
 {
     for (int i = 0; i < size_array; ++i)
     {

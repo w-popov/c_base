@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int *fill_array (int *array, const int size_array)
+static int *fill_array (int *array, const int size_array)
 {
     for (int i = 0; i < size_array; ++i)
     {
@@ -30,7 +30,7 @@ int compare_desc (int a, int b)
 /**
  * Сортировка массива int[] вставками
  */
-int *sort_X_array (int *array, const int size_array, Compare cmp)
+static int *sort_X_array (int *array, const int size_array, Compare cmp)
 {
     for (int i = 1; i < size_array; ++i)
     {
@@ -57,7 +57,7 @@ int *sort_array (int *array, const int size_array)
     return array;
 }
 
-void print_array (int *array, const int size_array)
+static void print_array (int *array, const int size_array)
 {
     for (int i = 0; i < size_array; ++i)
     {

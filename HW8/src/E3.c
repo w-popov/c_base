@@ -17,7 +17,7 @@ struct MinMax
     int min;
 };
 
-int* fill_array (int *array, const int size_array)
+static int* fill_array (int *array, const int size_array)
 {
     for (int i = 0; i < size_array; ++i)
     {

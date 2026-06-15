@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int *fill_array (int *array, const int size_array)
+static int *fill_array (int *array, const int size_array)
 {
     for (int i = 0; i < size_array; ++i)
     {
@@ -37,7 +37,7 @@ int *third_reverse_array (int *array, const int size_array)
     return array;
 }
 
-void print_array (int *array, const int size_array)
+static void print_array (int *array, const int size_array)
 {
     for (int i = 0; i < size_array; ++i)
     {

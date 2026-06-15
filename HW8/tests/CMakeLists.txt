@@ -25,7 +25,9 @@ target_include_directories(c_lib_test PUBLIC ${C_SRC_PATH}/includes)
     Создать библиотеку tools_lib_test
 ]]
 set(TOOLS_PATH ${CMAKE_CURRENT_SOURCE_DIR}/test_tools)
-add_library(tools_lib_test STATIC ${TOOLS_PATH}/TestScanf.cpp)
+add_library(tools_lib_test STATIC ${TOOLS_PATH}/TestScanf.cpp
+                                  ${TOOLS_PATH}/func_tools.cpp              
+                                )
 
 target_include_directories(tools_lib_test PUBLIC ${TOOLS_PATH}/includes)
 
