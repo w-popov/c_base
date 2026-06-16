@@ -18,7 +18,8 @@ if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release CACHE STRING "Build type" FORCE)
 endif()
 
-# Линковка исполняемых файлов с библиотеками для переносимости
+#[[
+# Падает из-за -flto
 if(WIN32)
     if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
         # Статическая линковка
@@ -29,6 +30,27 @@ if(WIN32)
         set(CMAKE_CXX_FLAGS_RELEASE "-O2 -flto -s")
         set(CMAKE_C_FLAGS_RELEASE "-O2 -flto -s")
         set(CMAKE_EXE_LINKER_FLAGS_RELEASE "-s")
+    else()
+        # MSVC (cl.exe)
+        set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+        set(CMAKE_CXX_FLAGS_RELEASE "/O2 /GL /GS- /Gy")
+        set(CMAKE_EXE_LINKER_FLAGS_RELEASE "/LTCG /OPT:REF /OPT:ICF")
+    endif()
+endif()
+]]
+
+# Линковка исполняемых файлов с библиотеками для переносимости
+if(WIN32)
+    if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+        # Статическая линковка
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static-libstdc++ -static-libgcc")
+        set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -static-libgcc")
+        set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static")
+        # Оптимизация размера
+        set(CMAKE_C_FLAGS_RELEASE "-O2 -s")
+		set(CMAKE_CXX_FLAGS_RELEASE "-O2 -s")
+		# Флаг -flto только при линковке EXE:
+		set(CMAKE_EXE_LINKER_FLAGS_RELEASE "-flto -s")
     else()
         # MSVC (cl.exe)
         set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
