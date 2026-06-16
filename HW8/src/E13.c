@@ -12,7 +12,11 @@ static int *fill_array (int *array, const int size_array)
 {
     for (int i = 0; i < size_array; ++i)
     {
-        scanf("%d", &array[i]);
+        if (scanf("%d", &array[i]) != 1)
+        {
+            printf("Error scanf\n");
+            exit(EXIT_FAILURE);
+        }
     }
     return array;
 }

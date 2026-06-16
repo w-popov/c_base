@@ -13,18 +13,27 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-# Линковка исполняемых файлов с библиотеками для переносимости.
-# РАЗМЕР СГЕНЕРИРОВАННЫХ ИСПОЛНЯЕМЫХ ФАЙЛОВ УВЕЛИЧИТСЯ! 
+# Принудительный Release (если не указан явно)
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE Release CACHE STRING "Build type" FORCE)
+endif()
+
+# Линковка исполняемых файлов с библиотеками для переносимости
 if(WIN32)
-    # Проверка, что компилятор — GCC или Clang (а не MSVC)
     if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
-        # Флаги, специфичные для GCC-подобных в Windows (MinGW/Clang)
+        # Статическая линковка
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static-libstdc++ -static-libgcc")
         set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -static-libgcc")
         set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static")
+        # Оптимизация размера
+        set(CMAKE_CXX_FLAGS_RELEASE "-O2 -flto -s")
+        set(CMAKE_C_FLAGS_RELEASE "-O2 -flto -s")
+        set(CMAKE_EXE_LINKER_FLAGS_RELEASE "-s")
     else()
-        # Блок для MSVC (cl.exe) в Ninja
+        # MSVC (cl.exe)
         set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+        set(CMAKE_CXX_FLAGS_RELEASE "/O2 /GL /GS- /Gy")
+        set(CMAKE_EXE_LINKER_FLAGS_RELEASE "/LTCG /OPT:REF /OPT:ICF")
     endif()
 endif()
 

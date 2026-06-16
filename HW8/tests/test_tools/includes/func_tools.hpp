@@ -4,7 +4,11 @@ template <typename T>
 int* fill_array (T& array)
 {
     for (auto &item : array) {
-        scanf("%d", &item);
+        if (scanf("%d", &item) != 1)
+        {
+            printf("Error scanf in fill_array()\n");
+            exit(EXIT_FAILURE);
+        }
     }
     return array.data();
 }

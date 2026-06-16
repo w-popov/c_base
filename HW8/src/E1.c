@@ -10,7 +10,11 @@ static float* fill_array (float *array, const int size_array)
 {
     for (int i = 0; i < size_array; ++i)
     {
-        scanf("%f", &array[i]);
+        if (scanf("%f", &array[i]) != 1)
+        {
+            printf("Error scanf\n");
+            exit(EXIT_FAILURE);
+        }
     }
     return array;
 }

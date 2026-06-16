@@ -20,7 +20,11 @@ void numbers_asc_order (int num)
 int main (void)
 {
     int input_number = 0;
-    scanf("%d", &input_number);
+    if (scanf("%d", &input_number) != 1)
+    {
+        printf("Error scanf\n");
+        exit(EXIT_FAILURE);
+    }
     numbers_asc_order(input_number);
     printf("\n");
     return EXIT_SUCCESS;

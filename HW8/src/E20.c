@@ -75,7 +75,11 @@ int the_greatest_number (int number)
 int main (void)
 {
     int input_number = 0;
-    scanf("%d", &input_number);
+    if (scanf("%d", &input_number) != 1)
+    {
+        printf("Error scanf\n");
+        exit(EXIT_FAILURE);
+    }
     printf("%d\n", the_greatest_number(input_number));
     return EXIT_SUCCESS;
 }
