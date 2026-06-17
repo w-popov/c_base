@@ -53,7 +53,7 @@ std::vector<int> &MyWindow::parse_input(const char *input)
     int number{0};
     while (ss >> number)
     {
-        array.emplace_back(std::move(number));
+        array.push_back(number);
     }
     return array;
 }

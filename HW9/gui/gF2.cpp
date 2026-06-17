@@ -4,7 +4,6 @@
 #include <FL/Fl_Input.H>
 #include <FL/Fl_Grid.H>
 #include <FL/Fl_Box.H>
-#include <FL/Fl_Multiline_Output.H>
 #include <FL/Fl.H>
 #include <string>
 #include <vector>
@@ -12,7 +11,6 @@
 #include "HW9.h"
 
 #ifdef _WIN32
-#define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <FL/x.H>
 #endif

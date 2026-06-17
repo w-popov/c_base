@@ -34,6 +34,6 @@ class WindowF2 : public Fl_Double_Window
     void print_output (const std::vector<int> &array);
 
   public:
-    WindowF2(int w, int h, const char *title = "ДЗ-9: F1");
+    WindowF2(int w, int h, const char *title = "ДЗ-9: F2");
     void sort_eodd (int *array, int size);
 };
