@@ -65,3 +65,4 @@ gentests/
 bin/
 runtests/
 *cache/*
+*test_scanf_*
