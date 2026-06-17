@@ -91,7 +91,7 @@ set(SOURCES_C ${C_SRC_PATH}/F1.c
               )
 
 set(SOURCES_GUI ${GUI_SRC_PATH}/gF1.cpp
-                # ${GUI_SRC_PATH}/gF2.cpp
+                ${GUI_SRC_PATH}/gF2.cpp
                 # ${GUI_SRC_PATH}/gF3.cpp
                 # ${GUI_SRC_PATH}/gF4.cpp
                 # ${GUI_SRC_PATH}/gF5.cpp
