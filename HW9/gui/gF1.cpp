@@ -9,6 +9,12 @@
 #include <sstream>
 #include "HW9.h"
 
+#ifdef _WIN32
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+#include <FL/x.H>
+#endif
+
 MyWindow::MyWindow(int w, int h, const char *title)
     : Fl_Double_Window(w, h, title)
 {
@@ -24,11 +30,11 @@ MyWindow::MyWindow(int w, int h, const char *title)
     in = new Fl_Input(50, 80, 450, 30);
     in->value("");
     in->textsize(14);
-    
+
     out = new Fl_Output(50, 120, 450, 30);
     out->textsize(14);
     out->color(FL_LIGHT1);
-    
+
     btn = new Fl_Button(50, 170, 150, 40, "Сортировать");
     btn->labelsize(14);
     btn->callback(btn_cb, this);
@@ -57,7 +63,7 @@ void MyWindow::sort_arr(int *array, int size)
     sort_array(size, array);
 }
 
-void MyWindow::btn_cb(Fl_Widget*, void *data)
+void MyWindow::btn_cb(Fl_Widget *, void *data)
 {
     MyWindow *win = static_cast<MyWindow *>(data);
     std::vector<int> parsed_array = win->parse_input(win->in->value());
@@ -82,5 +88,19 @@ int main ()
     win.size_range(580, 300);
     Fl::scheme("gtk+");
     win.show();
+
+#ifdef _WIN32
+    HWND hwnd = fl_xid(&win);
+    if (hwnd)
+    {
+        HICON hIcon = LoadIcon(GetModuleHandle(NULL), "MAINICON");
+        if (hIcon)
+        {
+            SendMessage(hwnd, WM_SETICON, ICON_BIG, (LPARAM)hIcon);
+            SendMessage(hwnd, WM_SETICON, ICON_SMALL, (LPARAM)hIcon);
+        }
+    }
+#endif
+
     return Fl::run();
 }
