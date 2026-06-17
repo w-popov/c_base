@@ -116,7 +116,7 @@ int main(int argc, char **argv)
     Fl::check(); 
 
     #ifdef _WIN32
-    HWND hwnd = fl_xid(*win);
+    HWND hwnd = fl_xid(win);
     if (hwnd)
     {
         HICON hIcon = LoadIcon(GetModuleHandle(NULL), "MAINICON");
