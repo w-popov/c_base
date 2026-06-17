@@ -56,4 +56,6 @@ cmake --build build
 ##### GUI (FLTK 1.4.5 с++):
 Начиная с этого ДЗ я дополнительно собираю некоторые задачи с gui библиотекой ```HW9/gui``` исполняемые файлы: ```HW9/bin/gui```. Все собирается вместе.
 
-![gui](../res/hwgui.jpg)
+<p align="center">
+  <img src="../res/hwgui.jpg" width="800" alt="gui">
+</p>
