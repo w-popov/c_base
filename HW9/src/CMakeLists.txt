@@ -1,4 +1,4 @@
-#[[ HW8/src: Компиляция исходников си контеста F ]]
+#[[ HW9/src: Компиляция исходников си контеста F ]]
 
 # Где искать .h
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/includes)

@@ -34,6 +34,7 @@ foreach(CPP_GUI_FILE ${SOURCES_GUI})
 
     target_link_libraries(${TARGET_NAME} PRIVATE
         fltk::fltk
+        fltk::images
         commonc
     )
 

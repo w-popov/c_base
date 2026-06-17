@@ -4,7 +4,10 @@
 extern "C" {
 #endif
 
-int test_add(int a, int b);
+/* F1 */
+void sort_array(int size, int a[]);
+
+/*  */
 
 #ifdef __cplusplus
 }
