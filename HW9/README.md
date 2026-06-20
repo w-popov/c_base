@@ -54,7 +54,7 @@ cmake --build build
     2. ```cmake --build build --target clean``` 
 
 ##### GUI (FLTK 1.4.5 с++):
-Начиная с этого ДЗ я дополнительно собираю некоторые задачи с gui библиотекой ```HW9/gui``` исполняемые файлы: ```HW9/bin/gui```. Все собирается вместе.
+Начиная с этого ДЗ я дополнительно решаю некоторые задачи с gui: ```HW9/gui```, исполняемые файлы: ```HW9/bin/gui```. Все собирается вместе.
 
 <img width="1816" height="1079" alt="hwgui" src="https://github.com/user-attachments/assets/737eafe9-48c1-4ea6-9a13-c4a4c25c2b6b" />
 
