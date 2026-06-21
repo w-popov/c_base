@@ -25,6 +25,21 @@ int fill_array_F8 (int *array, const int size);
 /* F9 */
 void swap_negmax_last(int size, int a[]);
 
+/* F11 */
+struct MinTwo
+{
+    int min1;
+    int min2;
+};
+
+struct MinTwo find_2_minimum (int *array, const int size);
+
+/* F12 */
+void change_max_min(int size, int a[]);
+
+/* F13 */
+int count_between(int from, int to, int size, int a[]);
+
 #ifdef __cplusplus
 }
 #endif
