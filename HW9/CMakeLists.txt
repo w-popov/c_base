@@ -97,7 +97,7 @@ set(SOURCES_GUI ${GUI_SRC_PATH}/gF1.cpp
                 # ${GUI_SRC_PATH}/gF5.cpp
                 # ${GUI_SRC_PATH}/gF6.cpp
                 # ${GUI_SRC_PATH}/gF7.cpp
-                # ${GUI_SRC_PATH}/gF8.cpp
+                ${GUI_SRC_PATH}/gF8.cpp
                 # ${GUI_SRC_PATH}/gF9.cpp
                 # ${GUI_SRC_PATH}/gF10.cpp
                 # ${GUI_SRC_PATH}/gF11.cpp

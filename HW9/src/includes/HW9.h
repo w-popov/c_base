@@ -21,6 +21,7 @@ int compression (int a[], int b[], int N);
 
 /* F8 */
 int fill_array_F8 (int *array, const int size);
+int missing_number (int *array, const int size);
 
 /* F9 */
 void swap_negmax_last(int size, int a[]);
