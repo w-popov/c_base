@@ -143,7 +143,7 @@ WindowF8::WindowF8(int w, int h, const char *title)
 
     this->end();
     this->resizable(main_grid);
-    this->size_range(800, 600, 800, 800);
+    this->size_range(800, 600, 900, 800);
 }
 
 void WindowF8::print_output()
@@ -288,7 +288,7 @@ void WindowF8::create_cells()
 int main (int argc, char **argv)
 {
     Fl::scheme("gtk+");
-    WindowF8 *win = new WindowF8(760, 700, "ДЗ-9: F8");
+    WindowF8 *win = new WindowF8(800, 700, "ДЗ-9: F8");
     win->show(argc, argv);
 
     Fl::check();
