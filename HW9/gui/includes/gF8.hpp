@@ -61,7 +61,7 @@ class WindowF8 : public Fl_Double_Window
     Fl_Scroll *scroll{nullptr};
     std::vector<Fl_Box*> cell_widgets;
     int missing_value{0};
-
+    bool blink_state{false};
     Fl_Input *in{nullptr};
     Fl_Output *out{nullptr};
     Fl_Button *btn{nullptr};
@@ -78,6 +78,7 @@ class WindowF8 : public Fl_Double_Window
     static void button_callback (Fl_Widget *, void *data);
     static void button_clear(Fl_Widget *, void *data);
     void print_output();
+    static void blink_callback(void *data);
 
   public:
     static constexpr const char *info = "ДЗ-9. Си базовый уровень. гр.Д01-134 Попов. В.Г\n\

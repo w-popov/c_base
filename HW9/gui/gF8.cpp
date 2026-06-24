@@ -173,8 +173,33 @@ void WindowF8::button_clear(Fl_Widget *, void *data)
     win->clear_cells();
 }
 
+void WindowF8::blink_callback(void *data)
+{
+    WindowF8 *win = static_cast<WindowF8*>(data);
+    win->blink_state = !win->blink_state;
+    if (!win->cell_widgets.empty())
+    {
+        Fl_Box *first_cell = win->cell_widgets[0];
+        first_cell->labelfont(FL_COURIER_BOLD);
+        first_cell->labelsize(15);
+        if (win->blink_state) {
+            // Зеленый
+            first_cell->color(fl_rgb_color(30, 161, 26));
+            first_cell->labelcolor(FL_WHITE);
+        } else {
+            // Белый
+            first_cell->color(fl_rgb_color(255, 255, 255));
+            first_cell->labelcolor(FL_BLACK);
+        }
+        first_cell->redraw();
+    }
+    
+    Fl::add_timeout(0.5, blink_callback, data);
+}
+
 void WindowF8::clear_cells()
 {
+    Fl::remove_timeout(blink_callback, this);
     if (cells_grid)
     {
         cells_grid->begin();
@@ -217,7 +242,6 @@ void WindowF8::create_cells()
     cells_grid->begin();
 
     int idx = 0;
-
     /* Создать ячейку пропущенного числа (если она есть) */
     if (missing > 0)
     {
@@ -257,14 +281,13 @@ void WindowF8::create_cells()
         cell->box(FL_BORDER_BOX);
         cell->labelfont(FL_COURIER_BOLD);
         cell->labelsize(14);
-
         if (val == missing - 1)
         {
             cell->color(fl_rgb_color(255, 200, 200));
         }
-        else if (val == missing + 1)
+        else if (missing && (val == missing + 1))
         {
-            cell->color(fl_rgb_color(200, 255, 200));
+            cell->color(fl_rgb_color(155, 215, 240));
         }
         else
         {
@@ -280,7 +303,11 @@ void WindowF8::create_cells()
 
     int new_height = rows * (cell_h + gap) + gap;
     cells_grid->size(cells_grid->w(), new_height);
-
+    if (missing)
+    {
+        blink_state = true;
+        Fl::add_timeout(0.1, blink_callback, this);
+    }
     scroll->redraw();
     cells_grid->redraw();
 }
