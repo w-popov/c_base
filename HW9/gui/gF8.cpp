@@ -109,6 +109,11 @@ WindowF8::WindowF8(int w, int h, const char *title)
     top_grid->widget(btn, 4, 2, 1, 1, FL_GRID_HORIZONTAL);
     top_grid->col_gap(2, 20);
 
+    btn_clear = new Fl_Button(0, 0, 200, 40, "Очистить");
+    btn_clear->callback(button_clear, this);
+    top_grid->widget(btn_clear, 4, 4, 1, 1, FL_GRID_HORIZONTAL);
+    top_grid->col_gap(2, 20);
+
     int cw[] = {20, 0, 0, 20, 20, 20};
     int rw[] = {20, 0, 0, 0, 0, 10};
     top_grid->col_weight(cw, 6);
@@ -158,6 +163,14 @@ void WindowF8::button_callback(Fl_Widget *, void *data)
         return;
     }
     win->print_output();
+}
+
+void WindowF8::button_clear(Fl_Widget *, void *data)
+{
+    WindowF8 *win = static_cast<WindowF8 *>(data);
+    win->in->value("");
+    win->out->value("");
+    win->clear_cells();
 }
 
 void WindowF8::clear_cells()

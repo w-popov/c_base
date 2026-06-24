@@ -47,7 +47,6 @@ class F8
     std::vector<int> parse_input(const char *input);
 };
 
-class Fl_Multiline_Output;
 class Fl_Scroll;
 class Fl_Input;
 class Fl_Output;
@@ -66,6 +65,7 @@ class WindowF8 : public Fl_Double_Window
     Fl_Input *in{nullptr};
     Fl_Output *out{nullptr};
     Fl_Button *btn{nullptr};
+    Fl_Button *btn_clear{nullptr};
     Fl_Grid *grid{nullptr};
     Fl_Box *ibox{nullptr};
     Fl_Box *title{nullptr};
@@ -76,6 +76,7 @@ class WindowF8 : public Fl_Double_Window
     void create_cells();
     void clear_cells();
     static void button_callback (Fl_Widget *, void *data);
+    static void button_clear(Fl_Widget *, void *data);
     void print_output();
 
   public:
