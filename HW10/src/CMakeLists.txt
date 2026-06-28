@@ -17,5 +17,8 @@ foreach(C_FILE ${SOURCES_C})
     get_filename_component(TARGET_NAME ${C_FILE} NAME_WE)
     add_executable(${TARGET_NAME} ${C_FILE})
     target_compile_options(${TARGET_NAME} PRIVATE -g -Wall -Wextra -Wpedantic)
-    target_link_libraries(${TARGET_NAME} PRIVATE m)    
+    target_link_libraries(${TARGET_NAME} PRIVATE m)
+    target_compile_definitions(${TARGET_NAME} PRIVATE 
+            CATALOG_FILES_DEF_HW10="${CMAKE_SOURCE_DIR}/src/data_files/"
+    )  
 endforeach()
