@@ -19,9 +19,9 @@
 #define CAT_PATH ""
 #endif
 
-#define FILE_INPUT CAT_PATH "input.txt"
-#define FILE_OUTPUT CAT_PATH "output.txt"
-#define MAX_LEN 1001
+#define FILE_INPUT CAT_PATH     "input.txt"
+#define FILE_OUTPUT CAT_PATH    "output.txt"
+#define MAX_LEN                 1001
 
 const char* read_file_g3 (const char *file_name, char buffer[], const unsigned size)
 {

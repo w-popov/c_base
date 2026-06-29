@@ -21,9 +21,9 @@
 #define CAT_PATH ""
 #endif
 
-#define FILE_INPUT CAT_PATH "input.txt"
-#define FILE_OUTPUT CAT_PATH "output.txt"
-#define MAX_LEN 64
+#define FILE_INPUT CAT_PATH     "input.txt"
+#define FILE_OUTPUT CAT_PATH    "output.txt"
+#define MAX_LEN                 64
 #ifndef TEST_DEF_HW10
 
 int read_file_g2 (const char *filename)
