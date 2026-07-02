@@ -117,6 +117,8 @@ set(SOURCES_C ${C_SRC_PATH}/G1.c
               ${C_SRC_PATH}/G18.c
               ${C_SRC_PATH}/G19.c
               ${C_SRC_PATH}/G20.c
+              ${C_SRC_PATH}/G21.c
+              ${C_SRC_PATH}/G22.c
               )
 
 set(SOURCES_GUI # ${GUI_SRC_PATH}/gG1.cpp
