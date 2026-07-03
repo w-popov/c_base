@@ -9,7 +9,7 @@ git clone --no-checkout https://github.com/w-popov/c_base.git
 cd c_base/
 git sparse-checkout set HW10
 git checkout
-cd HW9/
+cd HW10/
 ```
 
 ##### Задать разные компиляторы и разные сборщики:
