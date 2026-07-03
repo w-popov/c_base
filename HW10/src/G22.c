@@ -38,6 +38,9 @@ enum {
     END
 };
 
+/**
+ * Вернуть состояние по типу символа
+ */
 int what (char c)
 {
     c = tolower(c);
@@ -92,6 +95,7 @@ int what (char c)
     return STOP;
 }
 
+/* state начало */
 int begin (char *s, char *code, int *code_len)
 {
     if (s == NULL || *s == '\0')
@@ -114,6 +118,7 @@ int begin (char *s, char *code, int *code_len)
     return what(*s);
 }
 
+/* state оставить первый символ */
 int first_ch (char *s, char *code, int *code_len)
 {
     (void)code;
@@ -125,6 +130,7 @@ int first_ch (char *s, char *code, int *code_len)
     return what(*s);
 }
 
+/* state пропуск гласных */
 int vowel_sound (char *s, char *code, int *code_len)
 {
     (void)code;
@@ -137,12 +143,14 @@ int vowel_sound (char *s, char *code, int *code_len)
     return what(*s);
 }
 
+/* добавление цифры */
 int add_digit (char *s, char *code, int *code_len, char digit)
 {
     if (*s == '\0')
     {
         return END;
     }
+    /* Проверка дублирования */
     if (*code_len > 0 && code[*code_len - 1] == digit)
     {
         s++;
@@ -152,7 +160,8 @@ int add_digit (char *s, char *code, int *code_len, char digit)
             return END;
         }
         return what(*s);
-    }    
+    }
+    /* Добавление цифры */    
     if (*code_len < 4)
     {
         code[*code_len] = digit;
@@ -164,10 +173,13 @@ int add_digit (char *s, char *code, int *code_len, char digit)
     {
         return END;
     }
-    
+
     return what(*s);
 }
 
+/**
+ * state: 1: b, f, p, v 
+ */
 int conson_1 (char *s, char *code, int *code_len)
 {
     if (*s == '\0')
@@ -177,6 +189,9 @@ int conson_1 (char *s, char *code, int *code_len)
     return add_digit(s, code, code_len, '1');
 }
 
+/**
+ * state: 2: c, g, j, k, q, s, x, z
+ */
 int conson_2 (char *s, char *code, int *code_len)
 {
     if (*s == '\0')
@@ -186,6 +201,9 @@ int conson_2 (char *s, char *code, int *code_len)
     return add_digit(s, code, code_len, '2');
 }
 
+/**
+ * state: 3: d, t
+ */
 int conson_3 (char *s, char *code, int *code_len)
 {
     if (*s == '\0')
@@ -195,6 +213,9 @@ int conson_3 (char *s, char *code, int *code_len)
     return add_digit(s, code, code_len, '3');
 }
 
+/**
+ * state: 4: l
+ */
 int conson_4 (char *s, char *code, int *code_len)
 {
     if (*s == '\0')
@@ -204,6 +225,9 @@ int conson_4 (char *s, char *code, int *code_len)
     return add_digit(s, code, code_len, '4');
 }
 
+/**
+ * state: 5: m, n
+ */
 int conson_5 (char *s, char *code, int *code_len)
 {
     if (*s == '\0')
@@ -213,6 +237,9 @@ int conson_5 (char *s, char *code, int *code_len)
     return add_digit(s, code, code_len, '5');
 }
 
+/**
+ * state: 6: r
+ */
 int conson_6 (char *s, char *code, int *code_len)
 {
     if (*s == '\0')
@@ -222,6 +249,7 @@ int conson_6 (char *s, char *code, int *code_len)
     return add_digit(s, code, code_len, '6');
 }
 
+/* state: конец строки */
 int end_func (char *s, char *code, int *code_len)
 {
     (void)s;
@@ -241,6 +269,7 @@ void soundex (char str[], char code[])
     int code_len = 0;
     int state = func_state(string, code, &code_len);
 
+    /* state != STOP */
     while (state)
     {
         switch (state)
