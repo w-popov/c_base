@@ -57,9 +57,3 @@ cmake --build build
 * Очистить build (обычно нужно полная чистка build после серьезных изменений в CMakeLists.txt):
     1. ```rm -rf build/*  ``` либо
     2. ```cmake --build build --target clean``` 
-
-##### GUI (FLTK 1.4.5 с++):
-В дополнение для себя я решаю некоторые задачи с gui библиотекой FLTK 1.4.5: ```HW10/gui```, исполняемые файлы: ```HW10/bin/gui```. Алгоритм решения - код си решенной задачи из файла ```HW10/src/common.c``` обернутый классом c++. Все собирается вместе. 
-
-<img width="1816" height="1079" alt="hwgui" src="https://github.com/user-attachments/assets/737eafe9-48c1-4ea6-9a13-c4a4c25c2b6b" />
-
