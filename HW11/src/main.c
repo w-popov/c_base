@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <locale.h>
 #include "temp_api.h"
 #include "csv_parse.h"
 
@@ -7,6 +8,14 @@ struct TemperatureStats stats_array[MAX_SIZE_ARRAY];
 
 int main(void)
 {
+    #ifdef _WIN32
+        #include <windows.h>
+        SetConsoleOutputCP(CP_UTF8);
+        SetConsoleCP(CP_UTF8);
+    #else
+        setlocale(LC_ALL, "en_US.UTF-8");
+    #endif
+
     const char* filename = "temperature_small.csv";
     struct TemperatureStats* parsed_stats = parse_csv(filename, stats_array, MAX_SIZE_ARRAY);
     if (parsed_stats == NULL)
