@@ -9,7 +9,9 @@ extern "C" {
 
 // Цвета
 #define RED "\033[31m"
+#define RED_BOLD "\033[1;31m"
 #define GREEN "\033[32m"
+#define GREEN_BOLD "\033[1;32m"
 #define YELLOW "\033[33m"
 #define BLUE "\033[34m"
 #define MAGENTA "\033[35m"
@@ -17,7 +19,7 @@ extern "C" {
 #define WHITE "\033[37m"
 #define RESET "\033[0m"
 
-#define MAX_SIZE_ARRAY  100
+#define MAX_SIZE_ARRAY  1000000    // Максимальный размер массива температур
 
 struct TemperatureStats
 {
@@ -54,6 +56,8 @@ float maximum_temperature (struct TemperatureStats*, uint16_t);
 
 /* Вывод массива температур */
 void print_temperature_stats_array (struct TemperatureStats*, size_t size);
+
+void show_menu(void);
 
 #ifdef __cplusplus
 }

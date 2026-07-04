@@ -5,20 +5,11 @@
 extern "C" {
 #endif
 
-#include <stddef.h>
 #include <stdint.h>
 #include <stdio.h>
 
-#define MAX_FIELD_SIZE 64
-
-typedef enum {
-    STATE_START_FIELD,
-    STATE_READING_FIELD,
-    STATE_EXPECT_NEXT_FIELD,
-    STATE_EXPECT_NEXT_ROW,
-    STATE_END_OF_FILE,
-    STATE_ERROR
-} States;
+#define MAX_FIELD_SIZE 64   // Максимальный размер поля в CSV-файле
+#define LEN_ERR_MSG 256     // Максимальная длина сообщения об ошибке
 
 typedef enum {
     CSV_PARSE_SUCCESS = 0,
@@ -31,22 +22,33 @@ typedef enum {
     SCV_PARSE_UNKNOWN_ERROR
 } CsvParseErrors;
 
-struct CsvParseContext
+struct TemperatureStats; 
+
+struct CsvParseStatus
 {
-    const char* delimiter;          // Разделитель
-    size_t length;                  // Размер ячейки
-    size_t current_row;             // Индекс строки
-    char buffer[MAX_FIELD_SIZE];    // Буфер для хранения текущей ячейки
-    int32_t error_row;              // Номер строки ошибки
-    int32_t error_column;           // Номер колонки ошибки
-    int32_t current_column;         // Текущая колонка
-    CsvParseErrors error_code;      // Код ошибки
+    char error_message[LEN_ERR_MSG];    // Сообщение об ошибке
+    CsvParseErrors error_code;          // Код ошибки
+    size_t error_row;                   // Номер строки ошибки
+    size_t rows_parsed;                 // Количество успешно обработанных строк
+    int16_t error_column;               // Номер колонки ошибки
 };
 
-struct TemperatureStats* parse_csv (const char* filename, 
-                                    struct TemperatureStats *stats_array, 
-                                    size_t size
-                                    );
+struct CsvParseContext
+{
+    struct CsvParseStatus *status;      // Статус-массива парсинга
+    const char* delimiter;              // Разделитель
+    size_t length;                      // Размер ячейки
+    size_t current_row;                 // Индекс строки
+    char buffer[MAX_FIELD_SIZE];        // Буфер для хранения текущей ячейки
+    int16_t current_column;             // Текущая колонка
+};
+
+struct CsvParseStatus* parse_csv 
+(const char* filename, struct TemperatureStats *stats_array, size_t size);
+
+size_t errors_numbers(struct CsvParseStatus *status_array, size_t size);
+
+void print_errors(struct CsvParseStatus *status_array, size_t size);
 
 #ifdef __cplusplus
 }
