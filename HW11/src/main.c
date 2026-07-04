@@ -3,17 +3,19 @@
 #include <locale.h>
 #include "temp_api.h"
 #include "csv_parse.h"
+#ifdef _WIN32
+#include <windows.h>
+#endif
 
 struct TemperatureStats stats_array[MAX_SIZE_ARRAY];
 
 int main(void)
 {
     #ifdef _WIN32
-        #include <windows.h>
-        SetConsoleOutputCP(CP_UTF8);
-        SetConsoleCP(CP_UTF8);
+    SetConsoleOutputCP(CP_UTF8);
+    SetConsoleCP(CP_UTF8);
     #else
-        setlocale(LC_ALL, "en_US.UTF-8");
+    setlocale(LC_ALL, "en_US.UTF-8");
     #endif
 
     const char* filename = "temperature_small.csv";
