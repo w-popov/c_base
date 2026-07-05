@@ -24,36 +24,33 @@ extern "C" {
 
 struct TemperatureStats
 {
-    uint16_t year;
-    uint16_t month;
-    uint16_t day;
-    uint16_t hours;
-    uint16_t minutes;
-    float temperature;
+    uint32_t year       :11;
+    uint32_t month      :4;
+    uint32_t day        :6;
+    uint32_t hours      :5;
+    uint32_t minutes    :6;
+    int16_t temperature;
 };
-
-/* Указатель на ф-ции температур */
-typedef float (*StatsFunction)(struct TemperatureStats*, uint16_t);
 
 /* --------------------- вывод статистики по каждому месяцу: */ 
 /* Среднемесячная температура */
-float average_monthly_temperature (struct TemperatureStats*, uint16_t);
+int16_t average_monthly_temperature (struct TemperatureStats*, uint16_t);
 
 /* Минимальная температура в текущем месяце */
-float min_temperature_current_month (struct TemperatureStats*, uint16_t);
+int16_t min_temperature_current_month (struct TemperatureStats*, uint16_t);
 
 /* Максимальная температура в текущем месяце */
-float max_temperature_current_month (struct TemperatureStats*, uint16_t);
+int16_t max_temperature_current_month (struct TemperatureStats*, uint16_t);
 
 /* --------------------- вывод статистику за год: */
 /* Среднегодовая температура */
-float average_annual_temperature (struct TemperatureStats*, uint16_t);
+int16_t average_annual_temperature (struct TemperatureStats*, uint16_t);
 
 /* Минимальная температура */
-float minimum_temperature (struct TemperatureStats*, uint16_t);
+int16_t minimum_temperature (struct TemperatureStats*, uint16_t);
 
 /* Максимальная температура */
-float maximum_temperature (struct TemperatureStats*, uint16_t);
+int16_t maximum_temperature (struct TemperatureStats*, uint16_t);
 
 /* Вывод массива температур */
 void print_temperature_stats_array (struct TemperatureStats*, size_t size);

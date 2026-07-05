@@ -34,9 +34,10 @@ int main(void)
         fprintf(stderr, RED_BOLD "Количество ошибок при парсинге: %zu\n" RESET, error_count);
         print_errors(parse_status, MAX_SIZE_ARRAY);
     }
+    printf(GREEN "Парсинг CSV-файла выполнен\n" RESET);
     
-    printf(GREEN "Парсинг CSV-файла прошел успешно\n" RESET);
-    
+    print_temperature_stats_array(stats_array, 12);
+
     int mode = -1;
     
     while (mode)
@@ -56,10 +57,10 @@ int main(void)
                 uint16_t month = 0;
                 printf("Введите № месяца: ");
                 scanf("%hu", &month);
-                float result = average_monthly_temperature(stats_array, month);
-                if (!isnan(result))
+                int16_t result = average_monthly_temperature(stats_array, month);
+                if (result != INT16_MIN)
                 {
-                    printf(GREEN_BOLD"Результат: %d\n"RESET, (int)result);
+                    printf(GREEN_BOLD"Результат: %d\n"RESET, result);
                 }
                 break;
             }
@@ -68,10 +69,10 @@ int main(void)
                 uint16_t month = 0;
                 printf("Введите № месяца: ");
                 scanf("%hu", &month);
-                float result = min_temperature_current_month(stats_array, month);
-                if (!isnan(result))
+                int16_t result = min_temperature_current_month(stats_array, month);
+                if (result != INT16_MIN)
                 {
-                    printf(GREEN_BOLD"Результат: %d\n"RESET, (int)result);
+                    printf(GREEN_BOLD"Результат: %d\n"RESET, result);
                 }
                 break;
             }
@@ -80,10 +81,10 @@ int main(void)
                 uint16_t month = 0;
                 printf("Введите № месяца: ");
                 scanf("%hu", &month);
-                float result = max_temperature_current_month(stats_array, month);
-                if (!isnan(result))
+                int16_t result = max_temperature_current_month(stats_array, month);
+                if (result != INT16_MIN)
                 {
-                    printf(GREEN_BOLD"Результат: %d\n"RESET, (int)result);
+                    printf(GREEN_BOLD"Результат: %d\n"RESET, result);
                 }
                 break;
             }
@@ -92,10 +93,10 @@ int main(void)
                 uint16_t year = 0;
                 printf("Введите год: ");
                 scanf("%hu", &year);
-                float result = average_annual_temperature(stats_array, year);
-                if (!isnan(result))
+                int16_t result = average_annual_temperature(stats_array, year);
+                if (result != INT16_MIN)
                 {
-                    printf(GREEN_BOLD"Результат: %d\n"RESET, (int)result);
+                    printf(GREEN_BOLD"Результат: %d\n"RESET, result);
                 }
                 break;
             }
@@ -104,10 +105,10 @@ int main(void)
                 uint16_t year = 0;
                 printf("Введите год: ");
                 scanf("%hu", &year);
-                float result = minimum_temperature(stats_array, year);
-                if (!isnan(result))
+                int16_t result = minimum_temperature(stats_array, year);
+                if (result != INT16_MIN)
                 {
-                    printf(GREEN_BOLD"Результат: %d\n"RESET, (int)result);
+                    printf(GREEN_BOLD"Результат: %d\n"RESET, result);
                 }
                 break;
             }
@@ -116,10 +117,10 @@ int main(void)
                 uint16_t year = 0;
                 printf("Введите год: ");
                 scanf("%hu", &year);
-                float result = maximum_temperature(stats_array, year);
-                if (!isnan(result))
+                int16_t result = maximum_temperature(stats_array, year);
+                if (result != INT16_MIN)
                 {
-                    printf(GREEN_BOLD"Результат: %d\n"RESET, (int)result);
+                    printf(GREEN_BOLD"Результат: %d\n"RESET, result);
                 }
                 break;
             }
@@ -132,3 +133,4 @@ int main(void)
     free(parse_status);
     return EXIT_SUCCESS;
 }
+// temperature_small.csv

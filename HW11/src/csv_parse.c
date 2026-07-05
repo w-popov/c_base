@@ -111,7 +111,7 @@ static int write_to_stats_array
     {
         is_valid = 0;
     }
-    else if (context->current_column >= 0 && context->current_column <= 4)
+    else if (context->current_column >= 0 && context->current_column <= 5)
     {
         long value = strtol(context->buffer, &endptr, 10);
         
@@ -122,34 +122,28 @@ static int write_to_stats_array
         
         if (context->current_column == 0)
         {
-            current->year = is_valid ? (uint16_t)value : (uint16_t)9999;
+            current->year = is_valid ? (uint16_t)value : (uint16_t)0;
         }
         else if (context->current_column == 1)
         {
-            current->month = is_valid ? (uint16_t)value : (uint16_t)99;
+            current->month = is_valid ? (uint16_t)value : (uint16_t)13;
         }
         else if (context->current_column == 2)
         {
-            current->day = is_valid ? (uint16_t)value : (uint16_t)99;
+            current->day = is_valid ? (uint16_t)value : (uint16_t)33;
         }
         else if (context->current_column == 3)
         {
-            current->hours = is_valid ? (uint16_t)value : (uint16_t)99;
+            current->hours = is_valid ? (uint16_t)value : (uint16_t)25;
         }
         else if (context->current_column == 4)
         {
-            current->minutes = is_valid ? (uint16_t)value : (uint16_t)99;
+            current->minutes = is_valid ? (uint16_t)value : (uint16_t)61;
         }
-    }
-    else if (context->current_column == 5)
-    {
-        float value = strtof(context->buffer, &endptr);
-
-        if (*endptr != '\0')
+        else if (context->current_column == 5)
         {
-            is_valid = 0;
+            current->temperature = is_valid ? (int16_t)value : -999;
         }
-        current->temperature = is_valid ? value : -999.0f;
     }
     else
     {

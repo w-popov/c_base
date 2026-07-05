@@ -14,9 +14,9 @@ static int valid_year(uint16_t year)
     return year >= 1950 && year <= 2100;
 }
 
-static int valid_temperature(float temperature)
+static int valid_temperature(int16_t temperature)
 {
-    return temperature > (-99.0f + 1e-6) && temperature < (100.0f - 1e-6);
+    return temperature > -99 && temperature < 100;
 }
 
 
@@ -24,20 +24,20 @@ static int valid_temperature(float temperature)
 /**
  * Среднемесячная температура 
  */
-float average_monthly_temperature (struct TemperatureStats *tarr, uint16_t month)
+int16_t average_monthly_temperature (struct TemperatureStats *tarr, uint16_t month)
 {
     if (tarr == NULL)
     {
         perror(RED "Error! zero pointer argument average_monthly_temperature()\n" RESET);
-        return NAN;
+        return INT16_MIN;
     }
     if (month < 1 || month > 12)
     {
         perror(RED "Error! the month number must be between 1 and 12\n" RESET);
-        return NAN;
+        return INT16_MIN;
     }
-    float sum = 0.0f;
-    size_t count = 0;
+    long long int sum = 0;
+    long long int count = 0;
     for (size_t i = 0; i < MAX_SIZE_ARRAY; ++i)
     {
         if (tarr[i].month == month )
@@ -51,32 +51,32 @@ float average_monthly_temperature (struct TemperatureStats *tarr, uint16_t month
     }
     if (count == 0)
     {
-        return NAN;
+        return INT16_MIN;
     }
-    return sum / (float)count;
+    return (int16_t)(sum / count);
 }
 
 /**
  * Минимальная температура в текущем месяце 
  */
-float min_temperature_current_month (struct TemperatureStats *tarr, uint16_t month)
+int16_t min_temperature_current_month (struct TemperatureStats *tarr, uint16_t month)
 {
     if (tarr == NULL)
     {
         perror(RED "Error! zero pointer argument min_temperature_current_month()\n" RESET);
-        return NAN;
+        return INT16_MIN;
     }
     if (month < 1 || month > 12)
     {
         perror(RED "Error! the month number must be between 1 and 12\n" RESET);
-        return NAN;
+        return INT16_MIN;
     }
-    float min_temp = 100.0f;
+    int16_t min_temp = INT16_MAX;
     for (size_t i = 0; i < MAX_SIZE_ARRAY; ++i)
     {
         if (tarr[i].month == month)
         {
-            if (valid_temperature(tarr[i].temperature) && tarr[i].temperature < (min_temp + 1e-6))
+            if (valid_temperature(tarr[i].temperature) && tarr[i].temperature < min_temp)
             {
                 min_temp = tarr[i].temperature;
             }
@@ -88,24 +88,24 @@ float min_temperature_current_month (struct TemperatureStats *tarr, uint16_t mon
 /**
  *  Максимальная температура в текущем месяце 
  */
-float max_temperature_current_month (struct TemperatureStats *tarr, uint16_t month)
+int16_t max_temperature_current_month (struct TemperatureStats *tarr, uint16_t month)
 {
     if (tarr == NULL)
     {
         perror(RED "Error! zero pointer argument max_temperature_current_month()\n" RESET);
-        return NAN;
+        return INT16_MIN;
     }
     if (month < 1 || month > 12)
     {
         perror(RED "Error! the month number must be between 1 and 12\n" RESET);
-        return NAN;
+        return INT16_MIN;
     }
-    float max_temp = -100.0f;
+    int16_t max_temp = INT16_MIN;
     for (size_t i = 0; i < MAX_SIZE_ARRAY; ++i)
     {
         if (tarr[i].month == month)
         {
-            if (valid_temperature(tarr[i].temperature) && tarr[i].temperature > (max_temp + 1e-6))
+            if (valid_temperature(tarr[i].temperature) && tarr[i].temperature > max_temp)
             {
                 max_temp = tarr[i].temperature;
             }
@@ -118,20 +118,20 @@ float max_temperature_current_month (struct TemperatureStats *tarr, uint16_t mon
 /** 
  * Среднегодовая температура 
  */
-float average_annual_temperature (struct TemperatureStats *tarr, uint16_t year)
+int16_t average_annual_temperature (struct TemperatureStats *tarr, uint16_t year)
 {
     if (tarr == NULL)
     {
         perror(RED "Error! zero pointer argument average_annual_temperature()\n" RESET);
-        return NAN;
+        return INT16_MIN;
     }
     if (year < 1950 || year > 2100)
     {
         perror(RED "Error! the year number must be between 1950 and 2100\n" RESET);
-        return NAN;
+        return INT16_MIN;
     }
-    float sum = 0.0f;
-    size_t count = 0;
+    long long int sum = 0;
+    long long int count = 0;
     for (size_t i = 0; i < MAX_SIZE_ARRAY; ++i)
     {
         if (tarr[i].year == year)
@@ -145,32 +145,32 @@ float average_annual_temperature (struct TemperatureStats *tarr, uint16_t year)
     }
     if (count == 0)
     {
-        return NAN;
+        return INT16_MIN;
     }
-    return sum / (float)count;
+    return (int16_t)(sum / count);
 }
 
 /**
  *  Минимальная температура 
  */
-float minimum_temperature (struct TemperatureStats *tarr, uint16_t year)
+int16_t minimum_temperature (struct TemperatureStats *tarr, uint16_t year)
 {
     if (tarr == NULL)
     {
         perror(RED "Error! zero pointer argument minimum_temperature()\n" RESET);
-        return NAN;
+        return INT16_MIN;
     }
     if (year < 1950 || year > 2100)
     {
         perror(RED "Error! the year number must be between 1950 and 2100\n" RESET);
-        return NAN;
+        return INT16_MIN;
     }
-    float min_temp = 100.0f;
+    int16_t min_temp = INT16_MAX;
     for (size_t i = 0; i < MAX_SIZE_ARRAY; ++i)
     {
         if (tarr[i].year == year)
         {
-            if (valid_temperature(tarr[i].temperature) && tarr[i].temperature < (min_temp + 1e-6))
+            if (valid_temperature(tarr[i].temperature) && tarr[i].temperature < min_temp)
             {
                 min_temp = tarr[i].temperature;
             }
@@ -182,24 +182,24 @@ float minimum_temperature (struct TemperatureStats *tarr, uint16_t year)
 /**
  *  Максимальная температура 
  */
-float maximum_temperature (struct TemperatureStats *tarr, uint16_t year)
+int16_t maximum_temperature (struct TemperatureStats *tarr, uint16_t year)
 {
     if (tarr == NULL)
     {
         perror(RED "Error! zero pointer argument maximum_temperature()\n" RESET);
-        return NAN;
+        return INT16_MIN;
     }
     if (year < 1950 || year > 2100)
     {
         perror(RED "Error! the year number must be between 1950 and 2100\n" RESET);
-        return NAN;
+        return INT16_MIN;
     }
-    float max_temp = -100.0f;
+    int16_t max_temp = INT16_MIN;
     for (size_t i = 0; i < MAX_SIZE_ARRAY; ++i)
     {
         if (tarr[i].year == year)
         {
-            if (valid_temperature(tarr[i].temperature) && tarr[i].temperature > (max_temp + 1e-6))
+            if (valid_temperature(tarr[i].temperature) && tarr[i].temperature > max_temp)
             {
                 max_temp = tarr[i].temperature;
             }
@@ -225,7 +225,7 @@ void print_temperature_stats_array (struct TemperatureStats *tarr, size_t size)
         {
             continue;
         }
-        printf("%6zu]  Year: %4u,  Month: %2u,  Day: %2u,  Hours: %2u,  Minutes: %2u,  Temperature: %7.2f\n",
+        printf("%6zu]  Year: %4u,  Month: %2u,  Day: %2u,  Hours: %2u,  Minutes: %2u,  Temperature: %2d\n",
                i + 1,
                tarr[i].year,
                tarr[i].month,
