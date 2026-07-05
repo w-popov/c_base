@@ -61,6 +61,8 @@ void show_menu (void);
 /* Меню выбора файла */
 void show_select_file_menu (char file_name_buff[]);
 
+void print_result (int16_t);
+
 #ifdef __cplusplus
 }
 #endif

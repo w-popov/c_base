@@ -58,10 +58,7 @@ int main(void)
                 printf("Введите № месяца: ");
                 scanf("%hu", &month);
                 int16_t result = average_monthly_temperature(stats_array, month);
-                if (result != INT16_MIN)
-                {
-                    printf(GREEN_BOLD"Результат: %d\n"RESET, result);
-                }
+                print_result(result);
                 break;
             }
         case 2:
@@ -70,10 +67,7 @@ int main(void)
                 printf("Введите № месяца: ");
                 scanf("%hu", &month);
                 int16_t result = min_temperature_current_month(stats_array, month);
-                if (result != INT16_MIN)
-                {
-                    printf(GREEN_BOLD"Результат: %d\n"RESET, result);
-                }
+                print_result(result);
                 break;
             }
         case 3:
@@ -82,10 +76,7 @@ int main(void)
                 printf("Введите № месяца: ");
                 scanf("%hu", &month);
                 int16_t result = max_temperature_current_month(stats_array, month);
-                if (result != INT16_MIN)
-                {
-                    printf(GREEN_BOLD"Результат: %d\n"RESET, result);
-                }
+                print_result(result);
                 break;
             }
         case 4:
@@ -94,10 +85,7 @@ int main(void)
                 printf("Введите год: ");
                 scanf("%hu", &year);
                 int16_t result = average_annual_temperature(stats_array, year);
-                if (result != INT16_MIN)
-                {
-                    printf(GREEN_BOLD"Результат: %d\n"RESET, result);
-                }
+                print_result(result);
                 break;
             }
         case 5:
@@ -106,10 +94,7 @@ int main(void)
                 printf("Введите год: ");
                 scanf("%hu", &year);
                 int16_t result = minimum_temperature(stats_array, year);
-                if (result != INT16_MIN)
-                {
-                    printf(GREEN_BOLD"Результат: %d\n"RESET, result);
-                }
+                print_result(result);
                 break;
             }
         case 6:
@@ -118,10 +103,7 @@ int main(void)
                 printf("Введите год: ");
                 scanf("%hu", &year);
                 int16_t result = maximum_temperature(stats_array, year);
-                if (result != INT16_MIN)
-                {
-                    printf(GREEN_BOLD"Результат: %d\n"RESET, result);
-                }
+                print_result(result);
                 break;
             }
         
@@ -133,4 +115,4 @@ int main(void)
     free(parse_status);
     return EXIT_SUCCESS;
 }
-// temperature_small.csv
+// temperature_big.csv

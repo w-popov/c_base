@@ -40,11 +40,11 @@ int16_t average_monthly_temperature (struct TemperatureStats *tarr, uint16_t mon
     long long int count = 0;
     for (size_t i = 0; i < MAX_SIZE_ARRAY; ++i)
     {
-        if (tarr[i].month == month )
+        if ((uint16_t)tarr[i].month == month )
         {
-            if (valid_month(tarr[i].month) && valid_temperature(tarr[i].temperature))
+            if (valid_month((uint16_t)tarr[i].month) && valid_temperature((int16_t)tarr[i].temperature))
             {
-                sum += tarr[i].temperature;
+                sum += (int16_t)tarr[i].temperature;
                 count++;
             }
         }
@@ -74,9 +74,9 @@ int16_t min_temperature_current_month (struct TemperatureStats *tarr, uint16_t m
     int16_t min_temp = INT16_MAX;
     for (size_t i = 0; i < MAX_SIZE_ARRAY; ++i)
     {
-        if (tarr[i].month == month)
+        if ((uint16_t)tarr[i].month == month)
         {
-            if (valid_temperature(tarr[i].temperature) && tarr[i].temperature < min_temp)
+            if (valid_temperature((int16_t)tarr[i].temperature) && (int16_t)tarr[i].temperature < min_temp)
             {
                 min_temp = tarr[i].temperature;
             }
@@ -103,11 +103,11 @@ int16_t max_temperature_current_month (struct TemperatureStats *tarr, uint16_t m
     int16_t max_temp = INT16_MIN;
     for (size_t i = 0; i < MAX_SIZE_ARRAY; ++i)
     {
-        if (tarr[i].month == month)
+        if ((uint16_t)tarr[i].month == month)
         {
-            if (valid_temperature(tarr[i].temperature) && tarr[i].temperature > max_temp)
+            if (valid_temperature((int16_t)tarr[i].temperature) && (int16_t)tarr[i].temperature > max_temp)
             {
-                max_temp = tarr[i].temperature;
+                max_temp = (int16_t)tarr[i].temperature;
             }
         }
     }
@@ -134,11 +134,11 @@ int16_t average_annual_temperature (struct TemperatureStats *tarr, uint16_t year
     long long int count = 0;
     for (size_t i = 0; i < MAX_SIZE_ARRAY; ++i)
     {
-        if (tarr[i].year == year)
+        if ((uint16_t)tarr[i].year == year)
         {
-            if (valid_year(tarr[i].year) && valid_temperature(tarr[i].temperature))
+            if (valid_year((int16_t)tarr[i].year) && valid_temperature((int16_t)tarr[i].temperature))
             {
-                sum += tarr[i].temperature;
+                sum += (int16_t)tarr[i].temperature;
                 count++;
             }
         }
@@ -168,11 +168,11 @@ int16_t minimum_temperature (struct TemperatureStats *tarr, uint16_t year)
     int16_t min_temp = INT16_MAX;
     for (size_t i = 0; i < MAX_SIZE_ARRAY; ++i)
     {
-        if (tarr[i].year == year)
+        if ((uint16_t)tarr[i].year == year)
         {
-            if (valid_temperature(tarr[i].temperature) && tarr[i].temperature < min_temp)
+            if (valid_temperature((int16_t)tarr[i].temperature) && (int16_t)tarr[i].temperature < min_temp)
             {
-                min_temp = tarr[i].temperature;
+                min_temp = (int16_t)tarr[i].temperature;
             }
         }
     }
@@ -197,11 +197,11 @@ int16_t maximum_temperature (struct TemperatureStats *tarr, uint16_t year)
     int16_t max_temp = INT16_MIN;
     for (size_t i = 0; i < MAX_SIZE_ARRAY; ++i)
     {
-        if (tarr[i].year == year)
+        if ((uint16_t)tarr[i].year == year)
         {
-            if (valid_temperature(tarr[i].temperature) && tarr[i].temperature > max_temp)
+            if (valid_temperature((int16_t)tarr[i].temperature) && (int16_t)tarr[i].temperature > max_temp)
             {
-                max_temp = tarr[i].temperature;
+                max_temp = (int16_t)tarr[i].temperature;
             }
         }
     }
@@ -221,18 +221,18 @@ void print_temperature_stats_array (struct TemperatureStats *tarr, size_t size)
 
     for (size_t i = 0; i < size; ++i)
     {
-        if (tarr[i].year == 0 && tarr[i].month == 0 && tarr[i].day == 0)
+        if ((uint16_t)tarr[i].year == 0 && (uint16_t)tarr[i].month == 0 && (uint16_t)tarr[i].day == 0)
         {
             continue;
         }
         printf("%6zu]  Year: %4u,  Month: %2u,  Day: %2u,  Hours: %2u,  Minutes: %2u,  Temperature: %2d\n",
                i + 1,
-               tarr[i].year,
-               tarr[i].month,
-               tarr[i].day,
-               tarr[i].hours,
-               tarr[i].minutes,
-               tarr[i].temperature
+               (uint16_t)tarr[i].year,
+               (uint16_t)tarr[i].month,
+               (uint16_t)tarr[i].day,
+               (uint16_t)tarr[i].hours,
+               (uint16_t)tarr[i].minutes,
+               (int16_t)tarr[i].temperature
             );
     }
 }
@@ -258,5 +258,16 @@ void show_select_file_menu (char file_name_buff[])
     scanf("%[^\n]", file_name_buff);
     printf(RESET"Файл: %s\n", file_name_buff);
     printf("==============================================================\n\n");
+}
 
+void print_result (int16_t result)
+{
+    if (result == INT16_MIN || result == INT16_MAX)
+    {
+        printf(RED"Не верные данные!\n"RESET);
+    }
+    else
+    {
+        printf(GREEN_BOLD"Результат: %d\n"RESET, result);
+    }
 }
