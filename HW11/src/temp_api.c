@@ -250,3 +250,13 @@ void show_menu(void)
     printf("==============================================================\n"RESET);
 
 }
+
+/* Меню выбора файла */
+void show_select_file_menu (char file_name_buff[])
+{
+    printf("================== Введите имя файла .csv: ===================\n"MAGENTA);
+    scanf("%[^\n]", file_name_buff);
+    printf(RESET"Файл: %s\n", file_name_buff);
+    printf("==============================================================\n\n");
+
+}

@@ -10,6 +10,7 @@
 #endif
 
 struct TemperatureStats stats_array[MAX_SIZE_ARRAY];
+char filename[FILE_NAME_PATH] = {'\0'};
 
 int main(void)
 {
@@ -20,7 +21,8 @@ int main(void)
     setlocale(LC_ALL, "en_US.UTF-8");
     #endif
 
-    const char* filename = "temperature_big.csv";
+    show_select_file_menu(filename);
+    
     struct CsvParseStatus* parse_status = parse_csv(filename, stats_array, MAX_SIZE_ARRAY);
     if (parse_status == NULL)
     {
@@ -45,7 +47,7 @@ int main(void)
             break;
         }
 
-        switch ((int)mode)
+        switch (mode)
         {
         case 0:
             break;
@@ -127,7 +129,6 @@ int main(void)
         }
     }
     
-
     free(parse_status);
     return EXIT_SUCCESS;
 }

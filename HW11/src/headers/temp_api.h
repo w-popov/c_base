@@ -20,6 +20,7 @@ extern "C" {
 #define RESET "\033[0m"
 
 #define MAX_SIZE_ARRAY  1000000    // Максимальный размер массива температур
+#define FILE_NAME_PATH  2000        // Макс. размер пути/имени файла
 
 struct TemperatureStats
 {
@@ -57,7 +58,11 @@ float maximum_temperature (struct TemperatureStats*, uint16_t);
 /* Вывод массива температур */
 void print_temperature_stats_array (struct TemperatureStats*, size_t size);
 
-void show_menu(void);
+/* Меню вывода статистики */
+void show_menu (void);
+
+/* Меню выбора файла */
+void show_select_file_menu (char file_name_buff[]);
 
 #ifdef __cplusplus
 }

@@ -188,16 +188,9 @@ static struct CsvParseStatus *_parse
     }
 
     int character;
-    size_t char_counter = 0;
-    
+        
     while ((character = fgetc(file)) != EOF)
     {
-        if (++char_counter >= 1024)
-        {
-            print_progress_bar(ftell(file), file_size);
-            char_counter = 0;
-        }
-
         if (context->current_row >= size)
         {
             write_error_msg(&pstatus[size - 1], 
@@ -231,6 +224,10 @@ static struct CsvParseStatus *_parse
         {
             write_to_stats_array(context, stats_array, size);
             except_newline(context);
+            if (context->current_row % 10000 == 0) 
+            {
+                print_progress_bar(ftell(file), file_size);
+            }
         }
         else
         {
@@ -316,6 +313,8 @@ struct CsvParseStatus *parse_csv
         free(status_array);
         return NULL;
     }
+    // буфер для оптимизации ввода-вывода
+    setvbuf(file, NULL, _IOFBF, 65536);
 
     // Размер файла
     fseek(file, 0, SEEK_END);
@@ -329,11 +328,7 @@ struct CsvParseStatus *parse_csv
                                         .current_row = 0,
                                         .current_column = 0,
                                     };
-
-    // буфер для оптимизации ввода-вывода (64 КБ)
-    char c_buffer[65536];
-    setvbuf(file, c_buffer, _IOFBF, sizeof(c_buffer));
-    
+                                    
     _parse(file, stats_array, size, &context, file_size);
     fclose(file);
 
