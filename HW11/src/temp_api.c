@@ -16,7 +16,7 @@ static int valid_year(uint16_t year)
 
 static int valid_temperature(int16_t temperature)
 {
-    return temperature > -99 && temperature < 100;
+    return temperature >= -99 && temperature < 100;
 }
 
 

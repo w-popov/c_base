@@ -6,6 +6,59 @@
 #include <ctype.h>
 
 /**
+ * Валидатор
+ */
+static int is_valid_number(char buffer[], int is_signed)
+{
+    if (buffer == NULL)
+    {
+        return 0;
+    }
+
+    size_t i = 0;
+
+    while (buffer[i] != '\0' && isspace((unsigned char)buffer[i]))
+    {
+        i++;
+    }
+    if (buffer[i] == '\0')
+    {
+        return 0;
+    }
+    if (buffer[i] == '-' || buffer[i] == '+')
+    {
+        if (!is_signed)
+        {
+            return 0;
+        }
+
+        i++;
+        
+        if (buffer[i] == '\0' || isspace((unsigned char)buffer[i]))
+        {
+            return 0;
+        }
+    }
+    if (!isdigit((unsigned char)buffer[i]))
+    {
+        return 0;
+    }
+    while (buffer[i] != '\0' && isdigit((unsigned char)buffer[i]))
+    {
+        i++;
+    }
+    while (buffer[i] != '\0' && isspace((unsigned char)buffer[i]))
+    {
+        i++;
+    }
+
+    return (buffer[i] == '\0');
+}
+
+
+
+
+/**
  * private функция для записи сообщения об ошибке в структуру CsvParseStatus
  * @param status Указатель на структуру CsvParseStatus, в которую будет записано сообщение об ошибке
  * @param error_msg Сообщение об ошибке
@@ -122,27 +175,75 @@ static int write_to_stats_array
         
         if (context->current_column == 0)
         {
-            current->year = is_valid ? (uint16_t)value : (uint16_t)0;
+            if (is_valid_number(context->buffer, 0) && (uint16_t)value > 1950 && (uint16_t)value < 2040)
+            {
+                current->year = (uint16_t)value;
+            }
+            else
+            {
+                current->year = 0;
+                is_valid = 0;
+            }
         }
         else if (context->current_column == 1)
         {
-            current->month = is_valid ? (uint16_t)value : (uint16_t)13;
+            if (is_valid_number(context->buffer, 0) && (uint16_t)value > 0 && (uint16_t)value < 13)
+            {
+                current->month = (uint16_t)value;
+            }
+            else
+            {
+                current->month = 13;
+                is_valid = 0;
+            }
         }
         else if (context->current_column == 2)
         {
-            current->day = is_valid ? (uint16_t)value : (uint16_t)33;
+            if (is_valid_number(context->buffer, 0) && (uint16_t)value > 0 && (uint16_t)value < 32)
+            {
+                current->day = (uint16_t)value;
+            }
+            else
+            {
+                current->day = 33;
+                is_valid = 0;
+            }
         }
         else if (context->current_column == 3)
         {
-            current->hours = is_valid ? (uint16_t)value : (uint16_t)25;
+            if (is_valid_number(context->buffer, 0) && (uint16_t)value < 24)
+            {
+                current->hours = (uint16_t)value;
+            }
+            else
+            {
+                current->hours = 25;
+                is_valid = 0;
+            }
         }
         else if (context->current_column == 4)
         {
-            current->minutes = is_valid ? (uint16_t)value : (uint16_t)61;
+            if (is_valid_number(context->buffer, 0) && (uint16_t)value < 60)
+            {
+                current->minutes = (uint16_t)value;
+            }
+            else
+            {
+                current->minutes = 61;
+                is_valid = 0;
+            }
         }
         else if (context->current_column == 5)
         {
-            current->temperature = is_valid ? (int16_t)value : -999;
+            if (is_valid_number(context->buffer, 1) && (int16_t)value > -99 && (int16_t)value < 100)
+            {
+                current->temperature = (int16_t)value;
+            }
+            else
+            {
+                current->temperature = -999;
+                is_valid = 0;
+            }
         }
     }
     else
