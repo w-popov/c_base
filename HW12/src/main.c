@@ -37,7 +37,8 @@ int main(int argc, char *argv[])
 
     // Переменные для сохранения аргументов командной строки
     char *filename_arg = NULL;
-    uint16_t month_arg = 0; // 0 означает вывод за весь год
+    uint16_t month_arg = 0;     // 0 означает вывод за весь год
+    int is_print = 0;           // вывод на экран?
 
     struct SVector t_array, err_array;
     struct SVector *array = svector_init(&t_array, sizeof(struct TemperatureStats), 0);
@@ -61,14 +62,19 @@ int main(int argc, char *argv[])
 
     // разбор флагов и сохранение в параметры
     opterr = 0; 
-    while ((key = getopt(argc, argv, "f:m:h")) != -1)
+    while ((key = getopt(argc, argv, "f:m:hp")) != -1)
     {
         switch (key)
         {
         case 'f':
             filename_arg = optarg;
             break;
+        case 'p':
+            
+            is_print = 1;
+            break;
         case 'm':
+            
             month_arg = (uint16_t)atoi(optarg);
             if (month_arg < 1 || month_arg > 12)
             {
@@ -122,6 +128,7 @@ int main(int argc, char *argv[])
     
     cntx.file_size = filesize;
 
+    // парсить из файла
     struct ParseSource file_source = {
         .stream = file,
         .get_char = get_char_from_file,
@@ -141,7 +148,14 @@ int main(int argc, char *argv[])
     }
 
     show_errors(result->errors_parse, result->array->size);
-    show_statistics((struct TemperatureStats*)array->data, array->size, month_arg);
+    if (!is_print)
+    {
+        show_statistics((struct TemperatureStats*)array->data, array->size, month_arg);
+    }
+    else
+    {
+        print_temperature_stats_array((struct TemperatureStats*)array->data, array->size);
+    }
     
     // Освобождение памяти
     svector_free(&t_array);
@@ -150,4 +164,4 @@ int main(int argc, char *argv[])
 }
 
 // temperature_big.csv
-// valgrind --leak-check=full --track-origins=yes ./main -f temperature_big.csv
+// valgrind --leak-check=full --track-origins=yes ./main -f temperature_small.csv

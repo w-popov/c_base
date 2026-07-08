@@ -291,6 +291,7 @@ void show_help (void)
     printf("  -h                Вызов этой справки\n");
     printf("  -f <filename.csv> Указать имя файла для парсинга (обязательно)\n");
     printf("  -m <номер месяца> Вывод статистики только за конкретный месяц (1-12)\n");
+    printf("  -p                Вывод данных с файла на экран\n");
     printf("─────────────────────────────────────────────────────────────\n\n");
 }
 
@@ -323,10 +324,47 @@ FILE *show_open_file_status (const char *file_name, int64_t *filesize)
     }
 
     *filesize = fsize;
-    double mb_size = (double)fsize / (1024 * 1024);
+
+    double display_size = (double)fsize;
+    const char *unit = "b";
+    const int64_t KB = 1024;
+    const int64_t MB = 1024 * 1024;
+    const int64_t GB = 1024 * 1024 * 1024;
+
+    if (fsize >= GB)
+    {
+        display_size = (double)fsize / GB;
+        unit = "Gb";
+    }
+    else if (fsize >= MB)
+    {
+        display_size = (double)fsize / MB;
+        unit = "Mb";
+    }
+    else if (fsize >= KB)
+    {
+        display_size = (double)fsize / KB;
+        unit = "Kb";
+    }
+    else
+    {
+        display_size = (double)fsize;
+        unit = "b";
+    }
+
     printf("══════════════════ Открытие файла .csv: ═══════════════════\n");
     printf("\tфайл:   %s\n", file_name);
-    printf("\tразмер: %.2f Mb\n", mb_size);
+    
+    if (fsize < KB)
+    {
+        printf("\tразмер: %.0f %s\n", display_size, unit);
+    }
+    else
+    {
+        printf("\tразмер: %.2f %s\n", display_size, unit);
+    }
     printf("═══════════════════════════════════════════════════════════\n");
+    
     return file;
 }
+

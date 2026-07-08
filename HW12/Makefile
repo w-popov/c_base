@@ -3,6 +3,13 @@
 # # debug режим. команда:   make
 # # realese режим. команда: make DEBUG=0
 
+# Определение операционной системы
+ifeq ($(OS),Windows_NT)
+    IS_WINDOWS = 1
+else
+    IS_WINDOWS = 0
+endif
+
 # Имена исполняемых файлов
 TARGET = main
 TEST_TARGET = test
@@ -17,10 +24,19 @@ TEST_DIR = tests
 TEST_HEAD_DIR = $(TEST_DIR)/headers
 LIBS_DIR = libs
 
+ifneq ($(IS_WINDOWS), 0)
+    RES_DIR = $(SRC_DIR)/includes/res
+endif
+
 CC = gcc
 CXX = g++
 CSTANDARD = -std=gnu99
 CXXSTANDARD = -std=c++20
+
+# Компилятор ресурсов Windows
+ifneq ($(IS_WINDOWS), 0)
+    WINDRES = windres
+endif
 
 # Режим сборки по умолчанию (1 - Debug, 0 - Release)
 DEBUG ?= 1
@@ -39,6 +55,9 @@ ifeq ($(DEBUG), 1)
     OBJ_DIR     = $(BUILD_DIR)/obj
     EXECUTE_DIR = $(BUILD_DIR)/bin
     LIB_OBJ_DIR = $(BUILD_DIR)/$(LIBS_DIR)
+    ifneq ($(IS_WINDOWS), 0)
+        RES_OBJ_DIR = $(BUILD_DIR)/res
+    endif
 else
     CFLAGS = $(COMMON_FLAGS) -O3 -flto -DNDEBUG
     CXXFLAGS = $(CXXSTANDARD) -Wall -Wextra -Wpedantic -O3 -flto -I$(TEST_HEAD_DIR) -I$(HEAD_DIR) -DNDEBUG
@@ -49,6 +68,15 @@ else
     OBJ_DIR     = $(BUILD_DIR)/obj
     EXECUTE_DIR = $(BUILD_DIR)/bin
     LIB_OBJ_DIR = $(BUILD_DIR)/$(LIBS_DIR)
+    ifneq ($(IS_WINDOWS), 0)
+        RES_OBJ_DIR = $(BUILD_DIR)/res
+    endif
+endif
+
+# Файл ресурсов (только для Windows)
+ifneq ($(IS_WINDOWS), 0)
+    RES_FILE = $(RES_DIR)/icon.rc
+    RES_OBJ = $(RES_OBJ_DIR)/icon.o
 endif
 
 # Поиск исходников проекта (.c) и генерация путей для объектных файлов (.o)
@@ -73,9 +101,15 @@ EXEC_TEST_TARGET = $(EXECUTE_DIR)/$(TEST_TARGET)
 all: $(EXEC_TARGET) $(EXEC_TEST_TARGET)
 
 # Линковка основного исполняемого файла проекта
+ifeq ($(IS_WINDOWS), 1)
+$(EXEC_TARGET): $(OBJS) $(RES_OBJ) | $(EXECUTE_DIR)
+	$(CC) $(CFLAGS) $(OBJS) $(RES_OBJ) -o $(EXEC_TARGET) $(LDFLAGS)
+	cp $(EXEC_TARGET) ./$(TARGET)$(TARGET_EXT)
+else
 $(EXEC_TARGET): $(OBJS) | $(EXECUTE_DIR)
 	$(CC) $(CFLAGS) $(OBJS) -o $(EXEC_TARGET) $(LDFLAGS)
 	cp $(EXEC_TARGET) ./$(TARGET)
+endif
 
 # Линковка исполняемого файла тестов
 # Собирает воедино библиотеку из каталога libs и все .o тестов
@@ -89,6 +123,11 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
 # Компиляция файлов .cpp тестов в файлы .o внутри каталога obj
 $(OBJ_DIR)/%.o: $(TEST_DIR)/%.cpp | $(OBJ_DIR)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+ifneq ($(IS_WINDOWS), 0)
+$(RES_OBJ): $(RES_FILE) | $(RES_OBJ_DIR)
+	$(WINDRES) $< -o $@
+endif
 
 # Сборка Catch в виде статической библиотеки в каталог libs
 $(CATCH_MODULE_OBJ): $(TEST_DIR)/catch_module.cpp $(TEST_HEAD_DIR)/catch.hpp | $(LIB_OBJ_DIR)
@@ -106,6 +145,12 @@ $(LIB_OBJ_DIR):
 # Создание каталога для бинарных файлов
 $(EXECUTE_DIR):
 	mkdir -p $(EXECUTE_DIR)
+
+# Создание каталога для объектных файлов ресурсов
+ifneq ($(IS_WINDOWS), 0)
+$(RES_OBJ_DIR):
+	mkdir -p $(RES_OBJ_DIR)
+endif
 
 # Полная очистка
 clean:
