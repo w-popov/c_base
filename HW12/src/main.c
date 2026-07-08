@@ -9,7 +9,6 @@
 #if defined(_WIN32) || defined(_WIN64)
 #include <windows.h>
 #include <getopt.h>
-#include <conio.h>
 #else
 #include <unistd.h>
 #endif
@@ -164,7 +163,7 @@ int main(int argc, char *argv[])
 
     #if defined(_WIN32) || defined(_WIN64)
     printf("\nНажмите Enter для выхода...\n");
-    _getch();
+    system("pause");
     #endif 
 
     return EXIT_SUCCESS;
