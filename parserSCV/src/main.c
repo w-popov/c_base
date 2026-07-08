@@ -317,8 +317,6 @@ int main(void)
         printf("%6zu]  Year: %4u,  Month: %2u,  Day: %2u,  Hours: %2u,  Minutes: %2u,  Temperature: %2d\n",
             i + 1, tarr[i].year, tarr[i].month, tarr[i].day, tarr[i].hours, tarr[i].minutes, tarr[i].temperature);
     }
-
-    // Принудительно сбрасываем остатки буфера на экран в самом конце
     fflush(stdout);
     
     return EXIT_SUCCESS;
