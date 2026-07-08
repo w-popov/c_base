@@ -27,6 +27,10 @@ int main(int argc, char *argv[])
 
     if (argc == 1)
     {
+        #if defined(_WIN32) || defined(_WIN64)
+        printf("\nНажмите Enter для выхода...\n");
+        system("pause");
+        #endif 
         show_help();
         return EXIT_SUCCESS;
     }
