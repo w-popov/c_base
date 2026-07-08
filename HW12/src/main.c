@@ -160,6 +160,11 @@ int main(int argc, char *argv[])
     // Освобождение памяти
     svector_free(&t_array);
     svector_free(&err_array);
+
+    printf("\nНажмите Enter для выхода...\n");
+    fflush(stdout); 
+    getchar(); 
+
     return EXIT_SUCCESS;
 }
 
