@@ -69,7 +69,7 @@ struct ContextParser;
 /**
  * @brief Указатель на callback-функцию индикатора выполнения
  */
-typedef void (*CallbackProgressBar)(long current, long total);
+typedef void (*CallbackProgressBar)(int64_t current, int64_t total);
 
 /**
  * @brief Указатель на callback-функцию записи в массив данных

@@ -25,7 +25,7 @@ TEST_HEAD_DIR = $(TEST_DIR)/headers
 LIBS_DIR = libs
 
 ifneq ($(IS_WINDOWS), 0)
-    RES_DIR = $(SRC_DIR)/includes/res
+    RES_DIR = $(SRC_DIR)/headers/res
 endif
 
 CC = gcc
