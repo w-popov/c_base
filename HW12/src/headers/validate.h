@@ -38,8 +38,6 @@ void print_progress_bar(int64_t current, int64_t total);
 int write_to_array (struct ContextParser *context);
 
 
-
-
 #ifdef __cplusplus
 }
 #endif

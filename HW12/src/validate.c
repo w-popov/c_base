@@ -249,3 +249,31 @@ int write_to_array (struct ContextParser *context)
     
     return is_field_valid;
 }
+
+// Компараторы qsort --------------------------------------------------------
+
+int compare_by_month_and_temp_asc(const void *a, const void *b) 
+{
+    const struct TemperatureStats *ia = (const struct TemperatureStats *)a;
+    const struct TemperatureStats *ib = (const struct TemperatureStats *)b;
+    
+    if (ia->month != ib->month) 
+    {
+        return (ia->month > ib->month) - (ia->month < ib->month);
+    }
+    
+    return (ia->temperature > ib->temperature) - (ia->temperature < ib->temperature);
+}
+
+int compare_by_month_and_temp_desc(const void *a, const void *b) 
+{
+    const struct TemperatureStats *ia = (const struct TemperatureStats *)a;
+    const struct TemperatureStats *ib = (const struct TemperatureStats *)b;
+    
+    if (ia->month != ib->month) 
+    {
+        return (ia->month < ib->month) - (ia->month > ib->month);
+    }
+    
+    return (ia->temperature < ib->temperature) - (ia->temperature > ib->temperature);
+}

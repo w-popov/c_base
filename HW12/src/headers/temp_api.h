@@ -87,6 +87,26 @@ void print_temperature_stats_array (struct TemperatureStats*, size_t size);
 struct Statistics calculate_statistics (struct TemperatureStats *tarr, size_t size);
 
 /**
+ * @brief Компаратор ф-ции сортировки
+ */
+typedef int (*Comparator)(const void *a, const void *b);
+
+/**
+ * @brief Компаратор qsort. Сравнение месяцы и температура по возрастанию
+ */
+int compare_by_month_and_temp_asc(const void *a, const void *b);
+
+/**
+ * @brief Компаратор qsort. Сравнение месяцы и температура по убыванию
+ */
+int compare_by_month_and_temp_desc(const void *a, const void *b);
+
+/**
+ * @brief Функция сортировки массива температур по месяцу и температуре 
+ */
+void sort_by_month_and_temp(struct TemperatureStats *tarr, size_t size, int sort_to);
+
+/**
  * @brief вывод статистики на экран
  * @param *tarr массив структур температур
  * @param size размер массива

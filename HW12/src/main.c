@@ -43,6 +43,8 @@ int main(int argc, char *argv[])
     char *filename_arg = NULL;
     uint16_t month_arg = 0;     // 0 означает вывод за весь год
     int is_print = 0;           // вывод на экран?
+    int is_sort = 0;            // сортировать?
+    int how_sort = 0;           // сортировка по убыванию, возрастанию
 
     struct SVector t_array, err_array;
     struct SVector *array = svector_init(&t_array, sizeof(struct TemperatureStats), 0);
@@ -66,7 +68,7 @@ int main(int argc, char *argv[])
 
     // разбор флагов и сохранение в параметры
     opterr = 0; 
-    while ((key = getopt(argc, argv, "f:m:hp")) != -1)
+    while ((key = getopt(argc, argv, "f:m:s:hp")) != -1)
     {
         switch (key)
         {
@@ -74,7 +76,6 @@ int main(int argc, char *argv[])
             filename_arg = optarg;
             break;
         case 'p':
-            
             is_print = 1;
             break;
         case 'm':
@@ -93,8 +94,12 @@ int main(int argc, char *argv[])
             svector_free(&t_array);
             svector_free(&err_array);
             return EXIT_SUCCESS;
+        case 's':
+            how_sort = atoi(optarg);
+            is_sort = 1;
+            break;
         case '?':
-            if (optopt == 'f' || optopt == 'm')
+            if (optopt == 'f' || optopt == 'm' || optopt == 's')
             {
                 fprintf(stderr, RED_BOLD "Ошибка: Флаг -%c требует указания значения.\n" RESET, optopt);
             }
@@ -158,7 +163,15 @@ int main(int argc, char *argv[])
     }
     else
     {
-        print_temperature_stats_array((struct TemperatureStats*)array->data, array->size);
+        if (!is_sort)
+        {
+            print_temperature_stats_array((struct TemperatureStats*)array->data, array->size);
+        }
+        else
+        {
+            sort_by_month_and_temp((struct TemperatureStats*)array->data, array->size, how_sort);
+            print_temperature_stats_array((struct TemperatureStats*)array->data, array->size);
+        }
     }
     
     // Освобождение памяти

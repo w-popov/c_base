@@ -284,14 +284,34 @@ void print_temperature_stats_array (struct TemperatureStats *tarr, size_t size)
     fflush(stdout);
 }
 
+
+/**
+ * Функция сортировки массива температур по месяцу и температуре
+ */
+void sort_by_month_and_temp(struct TemperatureStats *tarr, size_t size, int sort_to)
+{
+    if (tarr == NULL || size == 0) 
+    {
+        return;
+    }
+    Comparator cmp = sort_to ? compare_by_month_and_temp_asc : compare_by_month_and_temp_desc;
+    qsort(tarr, size, sizeof(struct TemperatureStats), cmp);
+}
+
+
 void show_help (void)
 {
     printf("\n────────────────────────────────────────────────────────────\n");
-    printf("Справка по использованию программы:\n");
+    printf("Справка по использованию программы.\n");
+    printf("Аргументы командной строки:\n");
     printf("  -h                Вызов этой справки\n");
     printf("  -f <filename.csv> Указать имя файла для парсинга (обязательно)\n");
     printf("  -m <номер месяца> Вывод статистики только за конкретный месяц (1-12)\n");
     printf("  -p                Вывод данных с файла на экран\n");
+    printf("  -s <N>            Сортировка по месяцу и температуре.\n");
+    printf("                    Где N = 1 по возрастанию, N = 0 по убыванию.\n");
+    printf("                    Cортирует прочитанный из файла массив.\n");
+    printf("                    Для вывода введите: <program> -f <file name> -p -s N");
     printf("─────────────────────────────────────────────────────────────\n\n");
 }
 
