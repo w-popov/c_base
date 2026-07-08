@@ -5,9 +5,9 @@
 git clone --no-checkout https://github.com/w-popov/c_base.git
 
 cd c_base/
-git sparse-checkout set HW11
+git sparse-checkout set HW12
 git checkout
-cd HW11/
+cd HW12/
 ```
 
 ##### Сборка:
