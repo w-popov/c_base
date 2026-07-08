@@ -83,7 +83,7 @@ int get_char_from_string(void *stream)
 }
 
 
-FILE *open_file (const char *filename, long *fsize)
+FILE *open_file (const char *filename, int64_t *fsize)
 {
     FILE *file = fopen(filename, "r");
     if (file == NULL || fsize == NULL)

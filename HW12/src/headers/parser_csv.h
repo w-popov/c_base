@@ -149,7 +149,7 @@ void svector_free (struct SVector *vec);
  * @param *fsize передача по указателю размера файла
  * @return Дескриптор открытого файла
  */
-FILE* open_file (const char *filename, long *fsize);
+FILE* open_file (const char *filename, int64_t *fsize);
 
 /**
  * @brief Запуск парсинга .csv файла
