@@ -9,6 +9,7 @@
 #if defined(_WIN32) || defined(_WIN64)
 #include <windows.h>
 #include <getopt.h>
+#include <conio.h>
 #else
 #include <unistd.h>
 #endif
@@ -161,9 +162,10 @@ int main(int argc, char *argv[])
     svector_free(&t_array);
     svector_free(&err_array);
 
+    #if defined(_WIN32) || defined(_WIN64)
     printf("\nНажмите Enter для выхода...\n");
-    fflush(stdout); 
-    getchar(); 
+    _getch();
+    #endif 
 
     return EXIT_SUCCESS;
 }
