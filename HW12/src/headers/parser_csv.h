@@ -37,6 +37,21 @@ struct SVector
 };
 
 /**
+ * Коды ошибок парсинга
+ */
+typedef enum {
+    ERR_VALIDATE = 8888,
+    ERR_VALIDATE_MAX_FIELD_SIZE,
+    ERR_STRUCT_EXTRA_FIELD,
+    ERR_STRUCT_LESS_FIELDS,
+    ERR_STRUCT_MORE_FIELDS,
+    ERR_STRUCT_FINAL_STR_LESS_FIELD,
+    ERR_FINAL_MORE_FIELD,
+    ERR_FIND_LESS_FIELD,
+    ERR_FIND_MORE_FIELD
+} ErrorInfo;
+
+/**
  * Ошибки
  */
 struct ErrorParse
@@ -76,20 +91,38 @@ typedef void (*CallbackProgressBar)(int64_t current, int64_t total);
  */
 typedef int (*CallbackWriteToArray)(struct ContextParser *ctx);
 
-
-struct ContextParser
+/**
+ * Контекст для работы c csv
+*/
+struct Csv
 {
-    struct SVector *errors_parse;           // Указатель на массив структур ошибок
-    struct SVector *array;                  // Указатель на массив данных 
-    const char* delimiter;                  // Разделитель
-    CallbackProgressBar clb_progress;       // Указатель на ф-цию прогрессбара
-    CallbackWriteToArray clb_write_to_arr;  // Указатель на ф-цию записи в массив данных
-    size_t file_size;                       // Размер файла
-    size_t current_row;                     // Индекс строки
     char buffer[MAX_FIELD_SIZE];            // Буфер для хранения текущей ячейки   
+    const char* delimiter;                  // Разделитель
+    size_t current_row;                     // Индекс строки
     int16_t current_column;                 // Текущая колонка
     uint16_t length_field;                  // Размер ячейки (столбца)
     uint16_t nums_field;                    // Количество столбцов (счет с нуля)
+};
+
+/**
+ * Обратные вызовы
+ */
+struct Callbacks
+{
+    CallbackProgressBar clb_progress;       // Указатель на ф-цию прогрессбара
+    CallbackWriteToArray clb_write_to_arr;  // Указатель на ф-цию записи в массив данных
+};
+
+/**
+ * Контексе парсера
+ */
+struct ContextParser
+{
+    struct Csv csv;                         // Контекст для работы парсера
+    struct Callbacks clbs;                  // Обратные вызовы
+    struct SVector *array;                  // Указатель на массив данных 
+    struct SVector *errors_parse;           // Указатель на массив структур ошибок
+    size_t file_size;                       // Размер файла
 };
 
 
@@ -158,6 +191,13 @@ FILE* open_file (const char *filename, int64_t *fsize);
  * @return Указатель на контекст или NULL
  */
 struct ContextParser *parse_csv (struct ContextParser *ctx, struct ParseSource *source);
+
+
+/**
+ * Добавить текст ошибки в массив
+ */
+void push_error(struct ContextParser *context, ErrorInfo err);
+
 
 /**
  * @brief Вывод ошибок

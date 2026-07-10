@@ -113,27 +113,27 @@ void print_progress_bar(int64_t current, int64_t total)
 
 int write_to_array (struct ContextParser *context)
 {
-    context->buffer[context->length_field] = '\0';
+    context->csv.buffer[context->csv.length_field] = '\0';
     
     static struct TemperatureStats current;
     static int is_row_valid = 1; // Флаг валидности всей текущей строки
 
-    if (context->current_column == 0)
+    if (context->csv.current_column == 0)
     {
         current = (struct TemperatureStats){0};
         is_row_valid = 1;
     }
-    context->buffer[context->length_field] = '\0';
+    context->csv.buffer[context->csv.length_field] = '\0';
     int is_field_valid = 1;
     char *endptr;
     
-    if (context->length_field == 0)
+    if (context->csv.length_field == 0)
     {
         is_field_valid = 0;
     }
-    else if (context->current_column >= 0 && context->current_column <= context->nums_field)
+    else if (context->csv.current_column >= 0 && context->csv.current_column <= context->csv.nums_field)
     {
-        long value = strtol(context->buffer, &endptr, 10);
+        long value = strtol(context->csv.buffer, &endptr, 10);
         
         if (*endptr != '\0' && !isspace((unsigned char)*endptr))
         {
@@ -141,10 +141,10 @@ int write_to_array (struct ContextParser *context)
         }
         
         // Валидация конкретной колонки
-        if (context->current_column == 0)
+        if (context->csv.current_column == 0)
         {
-            if (is_field_valid && is_valid_number(context->buffer, 0) && 
-                validator_fields(value, context->current_column))
+            if (is_field_valid && is_valid_number(context->csv.buffer, 0) && 
+                validator_fields(value, context->csv.current_column))
             {
                 current.year = value;
             }
@@ -153,10 +153,10 @@ int write_to_array (struct ContextParser *context)
                 is_field_valid = 0;
             }
         }
-        else if (context->current_column == 1)
+        else if (context->csv.current_column == 1)
         {
-            if (is_field_valid && is_valid_number(context->buffer, 0) && 
-                validator_fields(value, context->current_column))
+            if (is_field_valid && is_valid_number(context->csv.buffer, 0) && 
+                validator_fields(value, context->csv.current_column))
             {
                 current.month = value;
             }
@@ -165,10 +165,10 @@ int write_to_array (struct ContextParser *context)
                 is_field_valid = 0;
             }
         }
-        else if (context->current_column == 2)
+        else if (context->csv.current_column == 2)
         {
-            if (is_field_valid && is_valid_number(context->buffer, 0) && 
-                validator_fields(value, context->current_column))
+            if (is_field_valid && is_valid_number(context->csv.buffer, 0) && 
+                validator_fields(value, context->csv.current_column))
             {
                 current.day = value;
             }
@@ -177,10 +177,10 @@ int write_to_array (struct ContextParser *context)
                 is_field_valid = 0;
             }
         }
-        else if (context->current_column == 3)
+        else if (context->csv.current_column == 3)
         {
-            if (is_field_valid && is_valid_number(context->buffer, 0) && 
-                validator_fields(value, context->current_column))
+            if (is_field_valid && is_valid_number(context->csv.buffer, 0) && 
+                validator_fields(value, context->csv.current_column))
             {
                 current.hours = value;
             }
@@ -189,10 +189,10 @@ int write_to_array (struct ContextParser *context)
                 is_field_valid = 0;
             }
         }
-        else if (context->current_column == 4)
+        else if (context->csv.current_column == 4)
         {
-            if (is_field_valid && is_valid_number(context->buffer, 0) && 
-                validator_fields(value, context->current_column))
+            if (is_field_valid && is_valid_number(context->csv.buffer, 0) && 
+                validator_fields(value, context->csv.current_column))
             {
                 current.minutes = value;
             }
@@ -201,10 +201,10 @@ int write_to_array (struct ContextParser *context)
                 is_field_valid = 0;
             }
         }
-        else if (context->current_column == 5)
+        else if (context->csv.current_column == 5)
         {
-            if (is_field_valid && is_valid_number(context->buffer, 1) && 
-                validator_fields(value, context->current_column))
+            if (is_field_valid && is_valid_number(context->csv.buffer, 1) && 
+                validator_fields(value, context->csv.current_column))
             {
                 current.temperature = (int16_t)value;
             }
@@ -217,25 +217,13 @@ int write_to_array (struct ContextParser *context)
     else
     {
         is_field_valid = 0;
-    }    
+    } 
     if (!is_field_valid)
     {
         is_row_valid = 0;
-        
-        struct ErrorParse error;
-        snprintf(
-            error.error_message, 
-            LEN_ERR_MSG, 
-            "Ошибка валидации: Строка %zu, Колонка %d. Неверный формат данных: \"%s\"\n", 
-            context->current_row + 1, 
-            context->current_column + 1,
-            context->buffer
-        );
-        error.error_column = context->current_column + 1;
-        error.error_row = context->current_row + 1;
-        svector_push(context->errors_parse, &error);
+        push_error(context, ERR_VALIDATE);
     }
-    if (context->current_column == context->nums_field)
+    if (context->csv.current_column == context->csv.nums_field)
     {
         if (is_row_valid)
         {

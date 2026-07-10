@@ -54,17 +54,34 @@ int main(int argc, char *argv[])
     struct ContextParser *result = NULL;
 
     struct ContextParser cntx = {
+        .csv = {
+            .delimiter = ";",
+            .current_row = 0,
+            .current_column = 0,
+            .length_field = 0,
+            .nums_field = 5,
+        },
+        .clbs = {
+            .clb_progress = progressbar,
+            .clb_write_to_arr = write
+        },
         .array = array,
-        .delimiter = ";",
-        .file_size = filesize,
         .errors_parse = errors_array,
-        .length_field = 0,
-        .current_column = 0,
-        .current_row = 0,
-        .nums_field = 5,
-        .clb_progress = progressbar,
-        .clb_write_to_arr = write
+        .file_size = filesize
     };
+
+    // struct ContextParser cntx = {
+    //     .array = array,
+    //     .delimiter = ";",
+    //     .file_size = filesize,
+    //     .errors_parse = errors_array,
+    //     .length_field = 0,
+    //     .current_column = 0,
+    //     .current_row = 0,
+    //     .nums_field = 5,
+    //     .clb_progress = progressbar,
+    //     .clb_write_to_arr = write
+    // };
 
     // разбор флагов и сохранение в параметры
     opterr = 0; 
