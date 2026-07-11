@@ -32,6 +32,7 @@ typedef void*   (*StoragePush)(struct IStorage *self, void *item);
 typedef void*   (*StorageGet)(struct IStorage *self, size_t index);
 typedef void    (*StorageFree)(struct IStorage *self);
 typedef size_t  (*StorageSize)(struct IStorage *self);
+typedef void* (*StorageData)(struct IStorage *self);
 
 
 /**
@@ -43,6 +44,7 @@ struct IStorage
     StorageGet get;             // Получить элемент по индексу
     StorageFree free;           // Полностью освободить память
     StorageSize size;           // Кол-во элементов в хранилище
+    StorageData raw_data;       // Указатель массив данных
 };
 
 
@@ -78,6 +80,7 @@ typedef enum {
  */
 struct ErrorParse
 {
+    struct IStorage storage;            // Источник хранения
     char error_message[LEN_ERR_MSG];    // Сообщение об ошибке
     size_t error_row;                   // Номер строки ошибки
     int16_t error_column;               // Номер колонки ошибки
@@ -190,6 +193,11 @@ void* svector_push (struct IStorage *storage, void *item);
  */
 void* svector_get (struct IStorage *storage, size_t index);
 
+/**
+ * @brief Вернуть массив данных
+ * @param *storage указатель на хранилище
+ */
+void* svector_data (struct IStorage *storage);
 
 /**
  * @brief Освободить память

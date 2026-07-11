@@ -121,7 +121,8 @@ void push_error(struct ContextParser *context, ErrorInfo err)
     }
     error.error_column = context->csv.current_column + 1;
     error.error_row = context->csv.current_row + 1;
-    svector_push(context->errors_parse, &error);
+    //svector_push(context->errors_parse, &error);
+    context->errors_parse->push(context->errors_parse, &error);
 }
 
 
@@ -144,6 +145,7 @@ struct IStorage* svector_init(struct IStorage *storage, size_t size_item, size_t
     storage->get  = svector_get;
     storage->free = svector_free;
     storage->size = svector_size;
+    storage->raw_data = svector_data;
     
     // Приведение типа
     struct SVector *vec = (struct SVector*)storage;
@@ -217,6 +219,19 @@ void* svector_get (struct IStorage *storage, size_t index)
     }
 
     return (char*)vec->data + (index * vec->size_item);
+}
+
+/**
+ * @brief Вернуть массив данных
+ * @param *storage указатель на хранилище
+ */
+void* svector_data (struct IStorage *storage)
+{
+    if (!storage)
+    {
+        return NULL;
+    } 
+    return ((struct SVector*)storage)->data;
 }
 
 

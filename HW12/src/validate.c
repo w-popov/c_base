@@ -227,7 +227,8 @@ int write_to_array (struct ContextParser *context)
     {
         if (is_row_valid)
         {
-            svector_push(context->array, &current);
+            context->array->push(context->array, &current);
+            //svector_push(context->array, &current);
         }
         
         // сброс для след. строки

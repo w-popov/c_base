@@ -18,7 +18,7 @@ extern int optind, opterr, optopt;
 
 int main(int argc, char *argv[])
 {
-    #ifdef _WIN32
+    #if defined(_WIN32) || defined(_WIN64)
     SetConsoleOutputCP(CP_UTF8);
     SetConsoleCP(CP_UTF8);
     #else
@@ -164,23 +164,22 @@ int main(int argc, char *argv[])
         return EXIT_FAILURE;
     }
 
-    struct SVector *vec_data = (struct SVector*)result->array;
-    show_errors(result->errors_parse, vec_data->size);
+    show_errors(errors_array, errors_array->size(errors_array));
 
     if (!is_print)
     {
-        show_statistics((struct TemperatureStats*)vec_data->data, vec_data->size, month_arg);
+        show_statistics((struct TemperatureStats*)array->raw_data(array), array->size(array), month_arg);
     }
     else
     {
         if (!is_sort)
         {
-            print_temperature_stats_array((struct TemperatureStats*)vec_data->data, vec_data->size);
+            print_temperature_stats_array((struct TemperatureStats*)array->raw_data(array), array->size(array));
         }
         else
         {
-            sort_by_month_and_temp((struct TemperatureStats*)vec_data->data, vec_data->size, how_sort);
-            print_temperature_stats_array((struct TemperatureStats*)vec_data->data, vec_data->size);
+            sort_by_month_and_temp((struct TemperatureStats*)array->raw_data(array), array->size(array), how_sort);
+            print_temperature_stats_array((struct TemperatureStats*)array->raw_data(array), array->size(array));
         }
     }
     
