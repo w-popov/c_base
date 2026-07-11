@@ -46,9 +46,13 @@ int main(int argc, char *argv[])
     int is_sort = 0;            // сортировать?
     int how_sort = 0;           // сортировка по убыванию, возрастанию
 
-    struct SVector t_array, err_array;
-    struct SVector *array = svector_init(&t_array, sizeof(struct TemperatureStats), 0);
-    struct SVector *errors_array = svector_init(&err_array, sizeof(struct ErrorParse), 0);
+    struct SVector t_array_vec;
+    struct SVector err_array_vec;
+
+    // Хранилища
+    struct IStorage *array = svector_init((struct IStorage*)&t_array_vec, sizeof(struct TemperatureStats), 0);
+    struct IStorage *errors_array = svector_init((struct IStorage*)&err_array_vec, sizeof(struct ErrorParse), 0);
+    
     CallbackProgressBar progressbar = print_progress_bar;
     CallbackWriteToArray write = write_to_array;
     struct ContextParser *result = NULL;
@@ -70,19 +74,6 @@ int main(int argc, char *argv[])
         .file_size = filesize
     };
 
-    // struct ContextParser cntx = {
-    //     .array = array,
-    //     .delimiter = ";",
-    //     .file_size = filesize,
-    //     .errors_parse = errors_array,
-    //     .length_field = 0,
-    //     .current_column = 0,
-    //     .current_row = 0,
-    //     .nums_field = 5,
-    //     .clb_progress = progressbar,
-    //     .clb_write_to_arr = write
-    // };
-
     // разбор флагов и сохранение в параметры
     opterr = 0; 
     while ((key = getopt(argc, argv, "f:m:s:hp")) != -1)
@@ -101,15 +92,15 @@ int main(int argc, char *argv[])
             if (month_arg < 1 || month_arg > 12)
             {
                 fprintf(stderr, RED_BOLD "Ошибка: Неверный номер месяца '%s'. Ожидается от 1 до 12.\n" RESET, optarg);
-                svector_free(&t_array);
-                svector_free(&err_array);
+                array->free(array);
+                errors_array->free(errors_array);
                 return EXIT_FAILURE;
             }
             break;
         case 'h':
             show_help();
-            svector_free(&t_array);
-            svector_free(&err_array);
+            array->free(array);
+            errors_array->free(errors_array);
             return EXIT_SUCCESS;
         case 's':
             how_sort = atoi(optarg);
@@ -125,8 +116,8 @@ int main(int argc, char *argv[])
                 fprintf(stderr, RED_BOLD "Ошибка: Неизвестный флаг -%c.\n" RESET, optopt);
             }
             show_help();
-            svector_free(&t_array);
-            svector_free(&err_array);
+            array->free(array);
+            errors_array->free(errors_array);
             return EXIT_FAILURE;
         default:
             break;
@@ -138,8 +129,8 @@ int main(int argc, char *argv[])
     {
         fprintf(stderr, RED_BOLD "Ошибка: Не указан обязательный флаг -f (путь к CSV-файлу).\n" RESET);
         show_help();
-        svector_free(&t_array);
-        svector_free(&err_array);
+        array->free(array);
+        errors_array->free(errors_array);
         return EXIT_FAILURE;
     }
 
@@ -147,8 +138,8 @@ int main(int argc, char *argv[])
     file = show_open_file_status(filename_arg, &filesize);
     if (file == NULL)
     {
-        svector_free(&t_array);
-        svector_free(&err_array);
+        array->free(array);
+        errors_array->free(errors_array);
         return EXIT_FAILURE;
     }
     
@@ -168,35 +159,49 @@ int main(int argc, char *argv[])
     if (result == NULL)
     {
         fprintf(stderr, RED_BOLD "Ошибка парсинга!\n" RESET);
-        svector_free(&t_array);
-        svector_free(&err_array);
+        array->free(array);
+        errors_array->free(errors_array);
         return EXIT_FAILURE;
     }
 
-    show_errors(result->errors_parse, result->array->size);
+    struct SVector *vec_data = (struct SVector*)result->array;
+    show_errors(result->errors_parse, vec_data->size);
+
     if (!is_print)
     {
-        show_statistics((struct TemperatureStats*)array->data, array->size, month_arg);
+        show_statistics((struct TemperatureStats*)vec_data->data, vec_data->size, month_arg);
     }
     else
     {
         if (!is_sort)
         {
-            print_temperature_stats_array((struct TemperatureStats*)array->data, array->size);
+            print_temperature_stats_array((struct TemperatureStats*)vec_data->data, vec_data->size);
         }
         else
         {
-            sort_by_month_and_temp((struct TemperatureStats*)array->data, array->size, how_sort);
-            print_temperature_stats_array((struct TemperatureStats*)array->data, array->size);
+            sort_by_month_and_temp((struct TemperatureStats*)vec_data->data, vec_data->size, how_sort);
+            print_temperature_stats_array((struct TemperatureStats*)vec_data->data, vec_data->size);
         }
     }
     
     // Освобождение памяти
-    svector_free(&t_array);
-    svector_free(&err_array);
+    array->free(array);
+    errors_array->free(errors_array);
 
     return EXIT_SUCCESS;
 }
 
-// temperature_big.csv
-// valgrind --leak-check=full --track-origins=yes ./main -f temperature_small.csv
+/*
+
+temperature_big.csv
+valgrind --leak-check=full --track-origins=yes ./main -f temperature_small.csv
+
+Запуск с дополнительными проверками
+
+valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose ./main -f temperature_small.csv
+
+Поиск потенциальных проблем
+
+valgrind --tool=memcheck --leak-check=full --show-reachable=yes --track-fds=yes ./main -f temperature_small.csv
+
+*/

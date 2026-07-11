@@ -9,7 +9,7 @@
  */
 void push_error(struct ContextParser *context, ErrorInfo err)
 {
-    struct ErrorParse error;
+    struct ErrorParse error = {0};
     switch (err)
     {
     case ERR_VALIDATE:
@@ -128,80 +128,135 @@ void push_error(struct ContextParser *context, ErrorInfo err)
 
 /**
  * @brief Инициализация.
- * @param *vec указатель на вектор
+ * @param *storage хранилище
  * @param size_item размер элемента вектора
  * @param cap задать ёмкость, если передано 0, то ёмкость по умолчанию
- * @return указатель на вектор, или NULL 
+ * @return указатель на хранилище, или NULL 
  */
-struct SVector* svector_init (struct SVector *vec, size_t size_item, size_t cap)
+struct IStorage* svector_init(struct IStorage *storage, size_t size_item, size_t cap)
 {
+    if (!storage || !size_item)
+    {
+        return NULL;
+    }
+    // Назначение интерфейсных функций для вектора
+    storage->push = svector_push;
+    storage->get  = svector_get;
+    storage->free = svector_free;
+    storage->size = svector_size;
+    
+    // Приведение типа
+    struct SVector *vec = (struct SVector*)storage;
     vec->size = 0;
-    vec->capacity = cap > 0 ? cap : INITIAL_CAPACITY_SVECTOR;
+    vec->capacity = (cap > 0) ? cap : INITIAL_CAPACITY_SVECTOR;
     vec->size_item = size_item;
+    
     vec->data = malloc(vec->capacity * vec->size_item);
     if (vec->data == NULL)
     {
         vec->capacity = 0;
         return NULL;
     }
-    return vec;
+    
+    return storage;
 }
 
 
 /**
  * @brief Добавить один элемент.
- * @param *vec указатель на вектор
+ * @param *storage указатель на хранилище
  * @param *item указатель на добавляемый элемент
  * @return *void указатель на массив data, или NULL
  */
-void* svector_push (struct SVector *vec, void *item)
+void* svector_push (struct IStorage *storage, void *item)
 {
+    if (!storage || !item)
+    {
+        return NULL;
+    }
+
+    struct SVector *vec = (struct SVector*)storage;
+
     if (vec->size >= vec->capacity)
     {
-        vec->capacity *= REALLOC_CAPACITY_SVECTOR;
-        void *new_data = realloc(vec->data, vec->capacity * vec->size_item);
+        size_t new_capacity = vec->capacity * REALLOC_CAPACITY_SVECTOR;
+        void *new_data = realloc(vec->data, new_capacity * vec->size_item);
         if (new_data == NULL)
         {
             return NULL;
         }
         vec->data = new_data;
+        vec->capacity = new_capacity;
     }
-    char *t = (char*)vec->data + (vec->size * vec->size_item);
-    memcpy(t, item, vec->size_item);
+    char *target = (char*)vec->data + (vec->size * vec->size_item);
+    memcpy(target, item, vec->size_item);
     vec->size++;
+
     return vec->data;
 }
 
 
 /**
  * @brief Получить элемент по индексу.
- * @param *vec указатель на вектор
+ * @param *storage указатель на хранилище
  * @param index индекс
- * @return *void указатель на элемент в векторе
+ * @return *void указатель на элемент, или NULL
  */
-void* svector_get (struct SVector *vec, size_t index)
+void* svector_get (struct IStorage *storage, size_t index)
 {
+    if (!storage)
+    {
+        return NULL;
+    }
+
+    struct SVector *vec = (struct SVector*)storage;
+
     if (index >= vec->size)
     {
         return NULL;
     }
+
     return (char*)vec->data + (index * vec->size_item);
 }
 
 
 /**
  * @brief Освободить память
- * @param *vec указатель на вектор
+ * @param *storage указатель на хранилище
  * @return void
  */
-void svector_free (struct SVector *vec)
+void svector_free (struct IStorage *storage)
 {
-    free(vec->data);
-    vec->data = NULL;
+    if (!storage)
+    {
+        return;
+    }
+
+    struct SVector *vec = (struct SVector*)storage;
+
+    if (vec->data)
+    {
+        free(vec->data);
+        vec->data = NULL;
+    }
+    
     vec->size = 0;
     vec->capacity = 0;
     vec->size_item = 0;
 }
+
+
+/**
+ * @brief Количество элементов в массиве
+ * @param *storage указатель на хранилище
+ * @return Количество элементов в массиве
+ */
+size_t svector_size (struct IStorage *storage)
+{
+    if (!storage) return 0;
+    return ((struct SVector*)storage)->size;
+}
+
 
 /**
  * @brief Посимвольное чтение из файла
@@ -424,19 +479,19 @@ struct ContextParser *parse_csv (struct ContextParser *context, struct ParseSour
 
 /**
  * @brief Вывод ошибок
- * @param *errors вектор структур ошибок
+ * @param *storage указатель на хранилище ошибок
  * @param rows кол-во строк для информативности
  */
-void show_errors(struct SVector *errors, size_t rows)
+void show_errors(struct IStorage *storage, size_t rows)
 {
-    size_t errnums = errors->size;
+    size_t errnums = storage->size(storage);
     printf("Валидных строк:...%zu\n", rows);
     if (errnums > 0)
     {
         printf("Ошибок:...........%s%zu%s\n",RED, errnums, RESET);
         for (size_t i = 0; i < errnums; ++i)
         {
-            struct ErrorParse *item_err = (struct ErrorParse*)svector_get(errors, i);
+            struct ErrorParse *item_err = (struct ErrorParse*)storage->get(storage, i);
             printf(RED"%s"RESET, item_err->error_message);
         }
     }

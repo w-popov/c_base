@@ -25,15 +25,37 @@ extern "C" {
 #define MAX_FIELD_SIZE 64                   // Максимальный размер поля в CSV-файле
 #define LEN_ERR_MSG 255                     // Максимальная длина сообщения об ошибке
 
+struct IStorage;
+
+// Указатели на интерфейсные ф-ции
+typedef void*   (*StoragePush)(struct IStorage *self, void *item);
+typedef void*   (*StorageGet)(struct IStorage *self, size_t index);
+typedef void    (*StorageFree)(struct IStorage *self);
+typedef size_t  (*StorageSize)(struct IStorage *self);
+
+
+/**
+ * @brief Интерфейс хранилища
+ */
+struct IStorage 
+{
+    StoragePush push;           // Добавить элемент
+    StorageGet get;             // Получить элемент по индексу
+    StorageFree free;           // Полностью освободить память
+    StorageSize size;           // Кол-во элементов в хранилище
+};
+
+
 /**
  * Динамический массив.
  */
 struct SVector
 {
-    void *data;             // Указатель на массив
-    size_t capacity;        // Ёмкость (кол-во элементов)
-    size_t size;            // Текущее кол-во элементов
-    size_t size_item;       // Размер одного элемента sizeof(item)
+    struct IStorage storage;    // Источник хранения
+    void *data;                 // Указатель на массив
+    size_t capacity;            // Ёмкость (кол-во элементов)
+    size_t size;                // Текущее кол-во элементов
+    size_t size_item;           // Размер одного элемента sizeof(item)
 };
 
 /**
@@ -114,14 +136,14 @@ struct Callbacks
 };
 
 /**
- * Контексе парсера
+ * Контекст парсера
  */
 struct ContextParser
 {
     struct Csv csv;                         // Контекст для работы парсера
     struct Callbacks clbs;                  // Обратные вызовы
-    struct SVector *array;                  // Указатель на массив данных 
-    struct SVector *errors_parse;           // Указатель на массив структур ошибок
+    struct IStorage *array;                 // Указатель на массив данных 
+    struct IStorage *errors_parse;          // Указатель на массив структур ошибок
     size_t file_size;                       // Размер файла
 };
 
@@ -143,38 +165,45 @@ int64_t get_pos_from_file(void *stream);
 
 /**
  * @brief Инициализация.
- * @param *vec указатель на вектор
+ * @param *storage хранилище
  * @param size_item размер элемента вектора
  * @param cap задать ёмкость, если передано 0, то ёмкость по умолчанию
- * @return указатель на вектор, или NULL 
+ * @return указатель на хранилище, или NULL 
  */
-struct SVector* svector_init (struct SVector *vec, size_t size_item, size_t cap);
+struct IStorage* svector_init (struct IStorage *storage, size_t size_item, size_t cap);
 
 
 /**
  * @brief Добавить один элемент.
- * @param *vec указатель на вектор
+ * @param *storage указатель на хранилище
  * @param *item указатель на добавляемый элемент
  * @return *void указатель на массив data, или NULL
  */
-void* svector_push (struct SVector *vec, void *item);
+void* svector_push (struct IStorage *storage, void *item);
 
 
 /**
  * @brief Получить элемент по индексу.
- * @param *vec указатель на вектор
+ * @param *storage указатель на хранилище
  * @param index индекс
- * @return *void указатель на элемент в векторе
+ * @return *void указатель на элемент, или NULL
  */
-void* svector_get (struct SVector *vec, size_t index);
+void* svector_get (struct IStorage *storage, size_t index);
 
 
 /**
  * @brief Освободить память
- * @param *vec указатель на вектор
+ * @param *storage указатель на хранилище
  * @return void
  */
-void svector_free (struct SVector *vec);
+void svector_free (struct IStorage *storage);
+
+/**
+ * @brief Количество элементов в массиве
+ * @param *storage указатель на хранилище
+ * @return Количество элементов в массиве
+ */
+size_t svector_size (struct IStorage *storage);
 
 /**
  * @brief Открыть файл
@@ -201,10 +230,10 @@ void push_error(struct ContextParser *context, ErrorInfo err);
 
 /**
  * @brief Вывод ошибок
- * @param *errors вектор структур ошибок
+ * @param *storage указатель на хранилище ошибок
  * @param rows кол-во строк для информативности
  */
-void show_errors(struct SVector *errors, size_t rows);
+void show_errors(struct IStorage *storage, size_t rows);
 
 
 #ifdef __cplusplus
