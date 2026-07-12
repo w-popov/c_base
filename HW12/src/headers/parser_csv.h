@@ -145,7 +145,7 @@ struct ContextParser
 {
     struct Csv csv;                         // Контекст для работы парсера
     struct Callbacks clbs;                  // Обратные вызовы
-    struct IStorage *array;                 // Указатель на массив данных 
+    struct IStorage *array;                 // Указатель на массив структук данных 
     struct IStorage *errors_parse;          // Указатель на массив структур ошибок
     size_t file_size;                       // Размер файла
 };

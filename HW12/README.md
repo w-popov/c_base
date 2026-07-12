@@ -230,6 +230,17 @@ struct Csv
     uint16_t nums_field;          // Ожидаемое количество полей (cчет с 0)
 };
 ```
+#### Структура хранения ошибки
+```C
+struct ErrorParse
+{
+    struct IStorage storage;            // Источник хранения
+    char error_message[LEN_ERR_MSG];    // Сообщение об ошибке
+    size_t error_row;                   // Номер строки ошибки
+    int16_t error_column;               // Номер колонки ошибки
+};
+```
+
 #### Обратные вызовы
 
 ```C
@@ -246,7 +257,7 @@ struct ContextParser
 {
     struct Csv csv;                         // Контекст для работы парсера
     struct Callbacks clbs;                  // Обратные вызовы
-    struct IStorage *array;                 // Указатель на массив данных 
+    struct IStorage *array;                 // Указатель на массив структур данных 
     struct IStorage *errors_parse;          // Указатель на массив структур ошибок
     size_t file_size;                       // Размер файла
 };
