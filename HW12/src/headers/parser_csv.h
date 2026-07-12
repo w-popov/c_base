@@ -32,7 +32,7 @@ typedef void*   (*StoragePush)(struct IStorage *self, void *item);
 typedef void*   (*StorageGet)(struct IStorage *self, size_t index);
 typedef void    (*StorageFree)(struct IStorage *self);
 typedef size_t  (*StorageSize)(struct IStorage *self);
-typedef void* (*StorageData)(struct IStorage *self);
+typedef void*   (*StorageData)(struct IStorage *self);
 
 
 /**
