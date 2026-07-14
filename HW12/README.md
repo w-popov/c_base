@@ -46,8 +46,8 @@ graph TD
     --> ParseSrc["Создание источника данных
     struct ParseSource
     (файл или строка) - файл"]
-    --> IStorage["Создание хранилищ
-    struct IStorage
+    --> IStorage_t["Создание хранилищ
+    struct IStorage_t
     для хранений данных и ошибок
     "]
     --> ContextParser["Создание контекста парсинга
@@ -71,7 +71,7 @@ graph TD
     " --> Write["write_to_array
     (запись данных)"]
     Write --> Validation
-    Write --> Storage["IStorage
+    Write --> Storage["IStorage_t
     (Запись в массив структур TemperatureStats)"]
     Main["возврат в main()"]
     Parser -- "конец файла" --> Main
@@ -87,19 +87,19 @@ graph TD
 ```
 ## 3. Основные компоненты
 
-#### IStorage
+#### IStorage_t
 Абстрактный интерфейс для работы с коллекциями данных parcer_csv.h:
 ```C
-struct IStorage;
+struct IStorage_t;
 
 // Указатели на интерфейсные ф-ции
-typedef void*   (*StoragePush)(struct IStorage *self, void *item);
-typedef void*   (*StorageGet)(struct IStorage *self, size_t index);
-typedef void    (*StorageFree)(struct IStorage *self);
-typedef size_t  (*StorageSize)(struct IStorage *self);
-typedef void*   (*StorageData)(struct IStorage *self);
+typedef void*   (*StoragePush)(struct IStorage_t *self, void *item);
+typedef void*   (*StorageGet)(struct IStorage_t *self, size_t index);
+typedef void    (*StorageFree)(struct IStorage_t *self);
+typedef size_t  (*StorageSize)(struct IStorage_t *self);
+typedef void*   (*StorageData)(struct IStorage_t *self);
 
-struct IStorage 
+struct IStorage_t 
 {
     StoragePush push;           // Добавить элемент
     StorageGet get;             // Получить элемент по индексу
@@ -113,7 +113,7 @@ SVector — Динамический массив. SVector уже реализо
 ```C
 struct SVector
 {
-    struct IStorage storage;  // Интерфейс
+    struct IStorage_t storage;  // Интерфейс
     void *data;               // Указатель на данные
     size_t capacity;          // Ёмкость (выделено памяти)
     size_t size;              // Текущее количество элементов
@@ -135,7 +135,7 @@ struct SVector
  * @param cap задать ёмкость, если передано 0, то ёмкость по умолчанию
  * @return указатель на хранилище, или NULL 
  */
-struct IStorage* svector_init(struct IStorage *storage, size_t size_item, size_t cap)
+struct IStorage_t* svector_init(struct IStorage_t *storage, size_t size_item, size_t cap)
 {
     if (!storage || !size_item)
     {
@@ -172,7 +172,7 @@ struct IStorage* svector_init(struct IStorage *storage, size_t size_item, size_t
  * @param *item указатель на добавляемый элемент
  * @return *void указатель на массив data, или NULL
  */
-void* svector_push (struct IStorage *storage, void *item);
+void* svector_push (struct IStorage_t *storage, void *item);
 
 
 /**
@@ -181,14 +181,14 @@ void* svector_push (struct IStorage *storage, void *item);
  * @param index индекс
  * @return *void указатель на элемент, или NULL
  */
-void* svector_get (struct IStorage *storage, size_t index);
+void* svector_get (struct IStorage_t *storage, size_t index);
 
 
 /**
  * @brief Вернуть массив данных
  * @param *storage указатель на хранилище
  */
-void* svector_data (struct IStorage *storage);
+void* svector_data (struct IStorage_t *storage);
 
 
 /**
@@ -196,7 +196,7 @@ void* svector_data (struct IStorage *storage);
  * @param *storage указатель на хранилище
  * @return void
  */
-void svector_free (struct IStorage *storage);
+void svector_free (struct IStorage_t *storage);
 
 
 /**
@@ -204,13 +204,13 @@ void svector_free (struct IStorage *storage);
  * @param *storage указатель на хранилище
  * @return Количество элементов в массиве
  */
-size_t svector_size (struct IStorage *storage);
+size_t svector_size (struct IStorage_t *storage);
 ```
 
 ##### Пример
 ```C
 struct SVector t_array_vec;
-struct IStorage *array = svector_init((struct IStorage*)&t_array_vec, sizeof(struct TemperatureStats), 0);
+struct IStorage_t *array = svector_init((struct IStorage_t*)&t_array_vec, sizeof(struct TemperatureStats), 0);
 // Получить массив структур:
 struct TemperatureStats* temp_arr = (struct TemperatureStats*)array->raw_data(array);
 // Освобождение памяти
@@ -234,10 +234,10 @@ struct Csv
 ```C
 struct ErrorParse
 {
-    struct IStorage storage;            // Источник хранения
-    char error_message[LEN_ERR_MSG];    // Сообщение об ошибке
-    size_t error_row;                   // Номер строки ошибки
-    int16_t error_column;               // Номер колонки ошибки
+    struct IStorage_t storage;            // Источник хранения
+    char error_message[LEN_ERR_MSG];      // Сообщение об ошибке
+    size_t error_row;                     // Номер строки ошибки
+    int16_t error_column;                 // Номер колонки ошибки
 };
 ```
 
@@ -255,11 +255,11 @@ struct Callbacks
 ```C
 struct ContextParser
 {
-    struct Csv csv;                         // Контекст для работы парсера
-    struct Callbacks clbs;                  // Обратные вызовы
-    struct IStorage *array;                 // Указатель на массив структур данных 
-    struct IStorage *errors_parse;          // Указатель на массив структур ошибок
-    size_t file_size;                       // Размер файла
+    struct Csv csv;                           // Контекст для работы парсера
+    struct Callbacks clbs;                    // Обратные вызовы
+    struct IStorage_t *array;                 // Указатель на массив структур данных 
+    struct IStorage_t *errors_parse;          // Указатель на массив структур ошибок
+    size_t file_size;                         // Размер файла
 };
 ```
 #### Callback функции
@@ -281,8 +281,8 @@ int main()
 {
     // Инициализация хранилищ
     struct SVector data_vec, err_vec;
-    struct IStorage *data = svector_init(&data_vec.storage, sizeof(struct TemperatureStats), 0);
-    struct IStorage *errors = svector_init(&err_vec.storage, sizeof(struct ErrorParse), 0);
+    struct IStorage_t *data = svector_init(&data_vec.storage, sizeof(struct TemperatureStats), 0);
+    struct IStorage_t *errors = svector_init(&err_vec.storage, sizeof(struct ErrorParse), 0);
     
     // Контекст парсера
     struct ContextParser ctx = {
