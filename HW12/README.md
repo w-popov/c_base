@@ -281,8 +281,11 @@ int main()
 {
     // Инициализация хранилищ
     struct SVector data_vec, err_vec;
-    struct IStorage_t *data = svector_init(&data_vec.storage, sizeof(struct TemperatureStats), 0);
-    struct IStorage_t *errors = svector_init(&err_vec.storage, sizeof(struct ErrorParse), 0);
+    struct IStorage_t *data = svector_init((struct IStorage_t*)&data_vec, 
+                                            sizeof(struct TemperatureStats), 0);
+
+    struct IStorage_t *errors = svector_init((struct IStorage_t*)&err_vec, 
+                                            sizeof(struct ErrorParse), 0);
     
     // Контекст парсера
     struct ContextParser ctx = {
