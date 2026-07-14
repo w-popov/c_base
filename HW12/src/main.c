@@ -164,7 +164,7 @@ int main(int argc, char *argv[])
         return EXIT_FAILURE;
     }
 
-    show_errors(errors_array, errors_array->size(errors_array));
+    show_errors(errors_array, array->size(array));
 
     if (!is_print)
     {
