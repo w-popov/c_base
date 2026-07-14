@@ -50,8 +50,8 @@ int main(int argc, char *argv[])
     struct SVector err_array_vec;
 
     // Хранилища
-    struct IStorage *array = svector_init((struct IStorage*)&t_array_vec, sizeof(struct TemperatureStats), 0);
-    struct IStorage *errors_array = svector_init((struct IStorage*)&err_array_vec, sizeof(struct ErrorParse), 0);
+    struct IStorage_t *array = svector_init((struct IStorage_t*)&t_array_vec, sizeof(struct TemperatureStats), 0);
+    struct IStorage_t *errors_array = svector_init((struct IStorage_t*)&err_array_vec, sizeof(struct ErrorParse), 0);
     
     CallbackProgressBar progressbar = print_progress_bar;
     CallbackWriteToArray write = write_to_array;
